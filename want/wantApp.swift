@@ -391,7 +391,7 @@ struct AppSettingsView: View {
     
     private var subscriptionStatusIcon: String {
         switch subscriptionManager.subscriptionStatus {
-        case .none:
+        case .unknown:
             return "xmark.circle.fill"
         case .trial:
             return "clock.fill"
@@ -404,7 +404,7 @@ struct AppSettingsView: View {
     
     private var subscriptionStatusColor: Color {
         switch subscriptionManager.subscriptionStatus {
-        case .none:
+        case .unknown:
             return .red
         case .trial:
             return .orange

@@ -12,8 +12,8 @@ struct AISettingsView: View {
                 Toggle(isOn: $aiConfigManager.currentConfig.isAIEnabled) {
                     Text("AIを有効にする")
                 }
-                .onChange(of: aiConfigManager.currentConfig.isAIEnabled) { enabled in
-                    if enabled {
+                .onChange(of: aiConfigManager.currentConfig.isAIEnabled) { _, newValue in
+                    if newValue {
                         aiConfigManager.enableAI()
                     } else {
                         aiConfigManager.disableAI()
@@ -22,7 +22,7 @@ struct AISettingsView: View {
             }
             
             Section(header: Text("サブスクリプション")) {
-                if subscriptionManager.isSubscribed {
+                if subscriptionManager.canUseAI() {
                     Text("サブスクリプション: 有効")
                         .foregroundColor(.green)
                 } else {

@@ -1,37 +1,27 @@
 import SwiftUI
+import StoreKit
 
 struct SubscriptionView: View {
     @StateObject private var subscriptionManager = SubscriptionManager.shared
     @Environment(\.dismiss) private var dismiss
-    
-    @State private var showingPurchaseAlert = false
-    @State private var showingRestoreAlert = false
     
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 32) {
                     // ヘッダー
-                    VStack(spacing: 16) {
-                        Image(systemName: "crown.fill")
-                            .font(.system(size: 60))
-                            .foregroundColor(.yellow)
-                        
-                        Text("AI機能を有効にする")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                        
-                        Text("サブスクリプションでAI機能を\n無制限にご利用いただけます")
-                            .font(.body)
-                            .foregroundColor(.secondary)
-                            .multilineTextAlignment(.center)
-                    }
+                    headerView
                     
                     // 現在の状況
                     currentStatusView
                     
                     // プラン詳細
-                    planDetailsView
+                    if let product = subscriptionManager.monthlyProduct {
+                        planDetailsView(for: product)
+                    } else {
+                        ProgressView()
+                            .padding()
+                    }
                     
                     // 機能一覧
                     featuresView
@@ -48,44 +38,37 @@ struct SubscriptionView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("完了") {
+                    Button("閉じる") {
                         dismiss()
                     }
                 }
             }
-        }
-        .alert("購入確認", isPresented: $showingPurchaseAlert) {
-            Button("キャンセル", role: .cancel) {}
-            Button("購入する") {
-                Task {
-                    await subscriptionManager.purchaseSubscription()
-                }
-            }
-        } message: {
-            Text("月額980円（税込）でAI機能を無制限にご利用いただけます。\n\n• 2日間の無料トライアル付き\n• 2日目以降は自動的に課金されます\n• いつでもキャンセル可能\n• キャンセル後も期間終了まで利用可能")
-        }
-        .alert("復元確認", isPresented: $showingRestoreAlert) {
-            Button("キャンセル", role: .cancel) {}
-            Button("復元する") {
-                Task {
-                    await subscriptionManager.restorePurchases()
-                }
-            }
-        } message: {
-            Text("以前に購入したサブスクリプションを復元しますか？")
-        }
-        .alert("エラー", isPresented: .constant(subscriptionManager.errorMessage != nil)) {
-            Button("OK") {
-                subscriptionManager.errorMessage = nil
-            }
-        } message: {
-            if let errorMessage = subscriptionManager.errorMessage {
-                Text(errorMessage)
-            }
+            .alert("エラー", isPresented: .constant(subscriptionManager.errorMessage != nil), actions: {
+                Button("OK") { subscriptionManager.errorMessage = nil }
+            }, message: {
+                Text(subscriptionManager.errorMessage ?? "不明なエラーが発生しました。")
+            })
         }
     }
     
     // MARK: - View Components
+    
+    private var headerView: some View {
+        VStack(spacing: 16) {
+            Image(systemName: "crown.fill")
+                .font(.system(size: 60))
+                .foregroundColor(.yellow)
+            
+            Text("AI機能を有効にする")
+                .font(.title2)
+                .fontWeight(.bold)
+            
+            Text("サブスクリプションでAI機能を\n無制限にご利用いただけます")
+                .font(.body)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+        }
+    }
     
     private var currentStatusView: some View {
         VStack(spacing: 16) {
@@ -94,9 +77,9 @@ struct SubscriptionView: View {
                 .fontWeight(.semibold)
             
             HStack {
-                Image(systemName: statusIcon)
+                Image(systemName: subscriptionManager.subscriptionStatus.iconName)
                     .font(.title2)
-                    .foregroundColor(statusColor)
+                    .foregroundColor(subscriptionManager.subscriptionStatus.iconColor)
                 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(subscriptionManager.subscriptionStatus.displayName)
@@ -123,7 +106,7 @@ struct SubscriptionView: View {
         }
     }
     
-    private var planDetailsView: some View {
+    private func planDetailsView(for product: Product) -> some View {
         VStack(spacing: 16) {
             Text("プラン詳細")
                 .font(.headline)
@@ -132,11 +115,11 @@ struct SubscriptionView: View {
             VStack(spacing: 12) {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("月額プラン")
+                        Text(product.displayName)
                             .font(.headline)
                             .fontWeight(.semibold)
                         
-                        Text("AI機能無制限利用")
+                        Text(product.description)
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -144,33 +127,25 @@ struct SubscriptionView: View {
                     Spacer()
                     
                     VStack(alignment: .trailing, spacing: 4) {
-                        Text("¥980")
+                        Text(product.displayPrice)
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundColor(.blue)
                         
-                        Text("月額")
+                        Text("/ 月")
                             .font(.caption)
-                            .foregroundColor(.secondary)
-                        
-                        Text("（税込）")
-                            .font(.caption2)
                             .foregroundColor(.secondary)
                     }
                 }
                 
-                Divider()
-                
-                HStack {
-                    Text("2日間無料トライアル")
-                        .font(.subheadline)
-                        .foregroundColor(.green)
-                    
-                    Spacer()
-                    
-                    Text("その後自動課金")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                if let introductoryOffer = product.subscription?.introductoryOffer {
+                    Divider()
+                    HStack {
+                        Text("\(introductoryOffer.paymentMode.localizedDescription) \(introductoryOffer.period.localizedDescription)")
+                            .font(.subheadline)
+                            .foregroundColor(.green)
+                        Spacer()
+                    }
                 }
             }
             .padding()
@@ -224,144 +199,54 @@ struct SubscriptionView: View {
     
     private var actionButtonsView: some View {
         VStack(spacing: 16) {
-            if subscriptionManager.subscriptionStatus == .trial || subscriptionManager.subscriptionStatus == .expired {
-                Button(action: {
-                    showingPurchaseAlert = true
-                }) {
-                    HStack {
-                        if subscriptionManager.isLoading {
-                            ProgressView()
-                                .scaleEffect(0.8)
-                                .foregroundColor(.white)
-                        } else {
-                            Text("サブスクリプションを開始")
-                                .fontWeight(.semibold)
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.accentColor)
-                    .foregroundColor(.white)
-                    .cornerRadius(12)
-                }
-                .disabled(subscriptionManager.isLoading)
-            }
-            
             Button(action: {
-                showingRestoreAlert = true
+                Task {
+                    await subscriptionManager.purchaseSubscription()
+                }
             }) {
-                Text("購入を復元")
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color(.systemGray5))
-                    .foregroundColor(.primary)
-                    .cornerRadius(12)
+                HStack {
+                    if subscriptionManager.isLoading {
+                        ProgressView()
+                    } else {
+                        Text("サブスクリプションを開始")
+                            .fontWeight(.semibold)
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(subscriptionManager.subscriptionStatus == .active ? Color.gray : Color.accentColor)
+                .foregroundColor(.white)
+                .cornerRadius(12)
             }
-            .disabled(subscriptionManager.isLoading)
+            .disabled(subscriptionManager.subscriptionStatus == .active || subscriptionManager.isLoading)
             
-            if subscriptionManager.subscriptionStatus == .active {
-                Button(action: {
-                    dismiss()
-                }) {
-                    Text("完了")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.accentColor)
-                        .foregroundColor(.white)
-                        .cornerRadius(12)
+            Button("購入を復元") {
+                Task {
+                    await subscriptionManager.restorePurchases()
                 }
             }
+            .tint(.secondary)
         }
     }
     
     private var termsView: some View {
-        VStack(spacing: 16) {
-            Text("注意事項・キャンセルポリシー")
-                .font(.headline)
-                .fontWeight(.semibold)
+        VStack(spacing: 8) {
+            Text("2日間の無料トライアル終了後、自動的に月額料金が課金されます。お支払いはApple IDアカウントに請求されます。サブスクリプションは、現在の期間が終了する少なくとも24時間前にキャンセルされない限り、自動的に更新されます。")
+                .font(.caption2)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
             
-            VStack(alignment: .leading, spacing: 12) {
-                // 基本注意事項
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("基本事項")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.primary)
-                    
-                    Text("• 2日間の無料トライアル後、自動的に課金されます")
-                    Text("• サブスクリプションはいつでもキャンセルできます")
-                    Text("• キャンセル後も期間終了まで機能をご利用いただけます")
-                    Text("• プライバシーポリシーと利用規約に同意したものとみなします")
+            HStack {
+                if let url = URL(string: "https://tegujupe222.github.io/privacy-policy/") {
+                    Link("プライバシーポリシー", destination: url)
                 }
-                .font(.caption)
-                .foregroundColor(.secondary)
-                
-                Divider()
-                
-                // キャンセルポリシー
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("キャンセル方法")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.primary)
-                    
-                    Text("1. iPhoneの「設定」アプリを開く")
-                    Text("2. 画面最上部のApple IDをタップ")
-                    Text("3. 「サブスクリプション」を選択")
-                    Text("4. 「want」を選択して「キャンセル」をタップ")
-                    Text("5. または「App Store」→「アカウント」→「サブスクリプション」からも可能")
+                Spacer()
+                if let url = URL(string: "https://tegujupe222.github.io/privacy-policy/terms.html") {
+                    Link("利用規約", destination: url)
                 }
-                .font(.caption)
-                .foregroundColor(.secondary)
-                
-                Divider()
-                
-                // 返金ポリシー
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("返金について")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.primary)
-                    
-                    Text("• 期間終了後の自動更新分のみ返金対象となります")
-                    Text("• 返金はApp Storeの返金ポリシーに従います")
-                    Text("• 返金申請は購入後90日以内に限ります")
-                    Text("• 詳細はApp Storeのサポートにお問い合わせください")
-                }
-                .font(.caption)
-                .foregroundColor(.secondary)
             }
-            .padding()
-            .background(Color(.systemGray6))
-            .cornerRadius(12)
-        }
-    }
-    
-    // MARK: - Computed Properties
-    
-    private var statusIcon: String {
-        switch subscriptionManager.subscriptionStatus {
-        case .none:
-            return "xmark.circle.fill"
-        case .trial:
-            return "clock.fill"
-        case .active:
-            return "checkmark.circle.fill"
-        case .expired:
-            return "exclamationmark.triangle.fill"
-        }
-    }
-    
-    private var statusColor: Color {
-        switch subscriptionManager.subscriptionStatus {
-        case .none:
-            return .red
-        case .trial:
-            return .orange
-        case .active:
-            return .green
-        case .expired:
-            return .red
+            .font(.caption)
+            .padding(.top, 8)
         }
     }
 }
@@ -395,6 +280,55 @@ struct FeatureRow: View {
     }
 }
 
-#Preview {
-    SubscriptionView()
+// MARK: - Helper Extensions
+
+extension SubscriptionStatus {
+    var iconName: String {
+        switch self {
+        case .unknown: return "questionmark.circle.fill"
+        case .trial: return "hourglass.circle.fill"
+        case .active: return "checkmark.circle.fill"
+        case .expired: return "xmark.circle.fill"
+        }
+    }
+    
+    var iconColor: Color {
+        switch self {
+        case .unknown: return .gray
+        case .trial: return .orange
+        case .active: return .green
+        case .expired: return .red
+        }
+    }
+}
+
+@available(iOS 15.0, *)
+extension StoreKit.Product.SubscriptionOffer.PaymentMode {
+    var localizedDescription: String {
+        switch self {
+        case .payAsYouGo: return "都度払い"
+        case .payUpFront: return "前払い"
+        case .freeTrial: return "無料トライアル"
+        default: return ""
+        }
+    }
+}
+
+extension StoreKit.Product.SubscriptionPeriod {
+    var localizedDescription: String {
+        let format = "%d%@"
+        switch self.unit {
+        case .day: return String(format: format, self.value, "日間")
+        case .week: return String(format: format, self.value, "週間")
+        case .month: return String(format: format, self.value, "ヶ月間")
+        case .year: return String(format: format, self.value, "年間")
+        @unknown default: return ""
+        }
+    }
+}
+
+struct SubscriptionView_Previews: PreviewProvider {
+    static var previews: some View {
+        SubscriptionView()
+    }
 } 

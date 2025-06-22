@@ -182,8 +182,8 @@ class ChatViewModel: ObservableObject {
         }
         
         // サブスクリプション状態をチェック
-        let subscriptionManager = await SubscriptionManager.shared
-        guard await subscriptionManager.canUseAI() else {
+        let subscriptionManager = SubscriptionManager.shared
+        guard subscriptionManager.canUseAI() else {
             throw AIChatError.subscriptionRequired
         }
         
