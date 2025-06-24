@@ -19,7 +19,7 @@ class AIConfigManager: ObservableObject {
         } else {
             // デフォルト設定
             self.currentConfig = AIConfig(
-                isAIEnabled: false,
+                isAIEnabled: true,
                 provider: .gemini,
                 cloudFunctionURL: "https://asia-northeast1-gen-lang-client-0344989001.cloudfunctions.net/geminiProxy"
             )
@@ -47,7 +47,7 @@ class AIConfigManager: ObservableObject {
     
     func resetToDefaults() {
         currentConfig = AIConfig(
-            isAIEnabled: false,
+            isAIEnabled: true,
             provider: .gemini,
             cloudFunctionURL: "https://asia-northeast1-gen-lang-client-0344989001.cloudfunctions.net/geminiProxy"
         )

@@ -5,9 +5,27 @@ struct WantApp: App {
     @StateObject private var chatViewModel = ChatViewModel()
     @StateObject private var personaLoader = PersonaLoader.shared
     @StateObject private var chatRoomManager = ChatRoomManager()
+    @StateObject private var subscriptionManager = SubscriptionManager.shared
     
     // ✅ アプリのライフサイクル監視
     @Environment(\.scenePhase) private var scenePhase
+    
+    init() {
+        print("🚀 wantApp初期化開始")
+        
+        // 審査用の設定（本番環境でも審査員が機能をテストできるように）
+        #if DEBUG
+        // デバッグビルドでは審査モードを自動的に有効にする
+        UserDefaults.standard.set(true, forKey: "review_mode_enabled")
+        print("🔍 デバッグビルド: 審査モードを自動的に有効にしました")
+        #else
+        // 本番ビルドでも審査モードを有効にする（審査用）
+        UserDefaults.standard.set(true, forKey: "review_mode_enabled")
+        print("🔍 本番ビルド: 審査モードを有効にしました（審査用）")
+        #endif
+        
+        print("🚀 wantApp初期化完了")
+    }
     
     var body: some Scene {
         WindowGroup {
@@ -66,6 +84,7 @@ struct MainAppWithSplashView: View {
     @EnvironmentObject var chatViewModel: ChatViewModel
     @EnvironmentObject var personaLoader: PersonaLoader
     @EnvironmentObject var chatRoomManager: ChatRoomManager
+    @StateObject private var subscriptionManager = SubscriptionManager.shared
     
     var body: some View {
         Group {
@@ -82,6 +101,17 @@ struct MainAppWithSplashView: View {
                     .environmentObject(chatViewModel)
                     .environmentObject(personaLoader)
                     .environmentObject(chatRoomManager)
+                    .onAppear {
+                        print("📱 ContentView表示開始")
+                        
+                        // サブスクリプション状態を確認
+                        Task {
+                            await subscriptionManager.updateSubscriptionStatus()
+                            print("📱 サブスクリプション状態: \(subscriptionManager.subscriptionStatus)")
+                            print("📱 審査モード: \(subscriptionManager.isReviewModeEnabled)")
+                            print("📱 AI利用可能: \(subscriptionManager.canUseAI())")
+                        }
+                    }
             }
         }
     }
@@ -199,6 +229,7 @@ struct AppContentView: View {
     @EnvironmentObject var chatViewModel: ChatViewModel
     @EnvironmentObject var personaLoader: PersonaLoader
     @EnvironmentObject var chatRoomManager: ChatRoomManager
+    @StateObject private var subscriptionManager = SubscriptionManager.shared
     
     @State private var selectedTab: Int = 0
     @State private var isAppReady = false
@@ -285,6 +316,34 @@ struct AppContentView: View {
                 
                 print("📋 3. ChatViewModel初期化...")
                 chatViewModel.printDebugInfo()
+                
+                // サブスクリプション状態確認と初期化
+                print("📋 4. サブスクリプション状態確認...")
+                
+                // サブスクリプション状態を強制的に更新
+                await subscriptionManager.updateSubscriptionStatus()
+                
+                print("💳 サブスクリプション状態: \(subscriptionManager.subscriptionStatus.displayName)")
+                print("💳 AI使用可能: \(subscriptionManager.canUseAI())")
+                
+                // AI機能の状態確認
+                print("📋 5. AI機能状態確認...")
+                let aiConfig = AIConfigManager.shared.currentConfig
+                print("🤖 AI有効: \(aiConfig.isAIEnabled)")
+                print("🤖 AIプロバイダー: \(aiConfig.provider.displayName)")
+                print("🤖 Cloud Function URL: \(aiConfig.cloudFunctionURL)")
+                
+                // AI機能の接続テスト（バックグラウンドで実行）
+                print("📋 6. AI機能接続テスト開始...")
+                Task.detached(priority: .background) {
+                    do {
+                        let aiService = AIChatService()
+                        let testResult = try await aiService.testConnection()
+                        print("✅ AI接続テスト成功: \(testResult)")
+                    } catch {
+                        print("⚠️ AI接続テスト失敗: \(error)")
+                    }
+                }
                 
                 // 初期化完了
                 withAnimation(.easeInOut(duration: 0.5)) {

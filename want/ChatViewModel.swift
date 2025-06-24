@@ -175,24 +175,36 @@ class ChatViewModel: ObservableObject {
     // MARK: - ✅ シンプル化された応答生成
     
     private func generateResponse(for userMessage: String, persona: UserPersona) async throws -> String {
+        print("🤖 AI応答生成開始: \(userMessage)")
+        
         let config = AIConfigManager.shared.currentConfig
+        print("🤖 AI設定確認: 有効=\(config.isAIEnabled), プロバイダー=\(config.provider.displayName)")
         
         guard config.isAIEnabled else {
+            print("❌ AI機能が無効")
             throw AIChatError.aiNotEnabled
         }
         
         // サブスクリプション状態をチェック
-        let subscriptionManager = SubscriptionManager.shared
-        guard subscriptionManager.canUseAI() else {
+        let subscriptionManager = await SubscriptionManager.shared
+        let canUseAI = await subscriptionManager.canUseAI()
+        print("🤖 サブスクリプション確認: 状態=\(subscriptionManager.subscriptionStatus.displayName), 使用可能=\(canUseAI)")
+        
+        guard canUseAI else {
+            print("❌ サブスクリプションが必要")
             throw AIChatError.subscriptionRequired
         }
         
-        return try await aiChatService.generateResponse(
+        print("🤖 AI応答生成実行中...")
+        let response = try await aiChatService.generateResponse(
             persona: persona,
             conversationHistory: messages,
             userMessage: userMessage,
             emotionContext: nil
         )
+        
+        print("✅ AI応答生成成功: \(response.prefix(50))...")
+        return response
     }
     
     // MARK: - ✅ シンプルな状態管理
@@ -383,6 +395,66 @@ class ChatViewModel: ObservableObject {
         print("  - 送信中: \(isSending)")
         print("  - タイピング中: \(isTyping)")
         print("  - サブスクリプション: \(subscriptionManager.subscriptionStatus.displayName)")
+    }
+    
+    func sendMessage(_ text: String) async {
+        guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+        
+        let userMessage = ChatMessage(
+            id: UUID(),
+            content: text,
+            isFromUser: true,
+            timestamp: Date()
+        )
+        
+        await MainActor.run {
+            messages.append(userMessage)
+            isLoading = true
+        }
+        
+        do {
+            // サブスクリプション状態を確認
+            let subscriptionManager = SubscriptionManager.shared
+            let canUseAI = subscriptionManager.canUseAI()
+            
+            print("💬 メッセージ送信: \(text)")
+            print("💬 サブスクリプション状態: \(subscriptionManager.subscriptionStatus)")
+            print("💬 審査モード: \(subscriptionManager.isReviewModeEnabled)")
+            print("💬 AI利用可能: \(canUseAI)")
+            
+            guard canUseAI else {
+                throw AIChatError.subscriptionRequired
+            }
+            
+            guard let persona = selectedPersona else {
+                throw ChatError.invalidPersona
+            }
+            
+            let response = try await aiChatService.generateResponse(
+                persona: persona,
+                conversationHistory: messages,
+                userMessage: text
+            )
+            
+            let aiMessage = ChatMessage(
+                id: UUID(),
+                content: response,
+                isFromUser: false,
+                timestamp: Date()
+            )
+            
+            await MainActor.run {
+                messages.append(aiMessage)
+                isLoading = false
+            }
+            
+        } catch {
+            await MainActor.run {
+                isLoading = false
+                // エラーメッセージは別途処理
+            }
+            print("❌ メッセージ送信エラー: \(error)")
+        }
     }
 }
 

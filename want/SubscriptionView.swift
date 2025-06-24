@@ -1,252 +1,250 @@
 import SwiftUI
 import StoreKit
+import WebKit
 
 struct SubscriptionView: View {
     @StateObject private var subscriptionManager = SubscriptionManager.shared
-    @Environment(\.dismiss) private var dismiss
+    @State private var showingTerms = false
+    @State private var showingPrivacyPolicy = false
+    @State private var showingRestoreAlert = false
+    @State private var showingReviewModeAlert = false
     
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(spacing: 32) {
+                VStack(spacing: 20) {
                     // ヘッダー
-                    headerView
+                    VStack(spacing: 10) {
+                        Image(systemName: "crown.fill")
+                            .font(.system(size: 50))
+                            .foregroundColor(.yellow)
+                        
+                        Text("プレミアム機能")
+                            .font(.title)
+                            .fontWeight(.bold)
+                        
+                        Text("AIチャット機能を無制限でお楽しみください")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                    }
+                    .padding(.top, 20)
                     
-                    // 現在の状況
-                    currentStatusView
+                    // 現在の状態表示
+                    VStack(spacing: 8) {
+                        Text("現在の状態")
+                            .font(.headline)
+                        
+                        HStack {
+                            Circle()
+                                .fill(statusColor)
+                                .frame(width: 12, height: 12)
+                            
+                            Text(subscriptionManager.subscriptionStatus.displayName)
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                        }
+                        
+                        Text(subscriptionManager.subscriptionStatus.description)
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(12)
                     
-                    // プラン詳細
+                    // 審査モード切り替え（デバッグビルドのみ）
+                    #if DEBUG
+                    VStack(spacing: 8) {
+                        Text("開発者向け設定")
+                            .font(.headline)
+                        
+                        Button(action: {
+                            showingReviewModeAlert = true
+                        }) {
+                            HStack {
+                                Image(systemName: subscriptionManager.isReviewModeEnabled ? "eye.slash" : "eye")
+                                Text(subscriptionManager.isReviewModeEnabled ? "審査モードを無効にする" : "審査モードを有効にする")
+                            }
+                            .foregroundColor(.blue)
+                        }
+                        .buttonStyle(.bordered)
+                        
+                        if subscriptionManager.isReviewModeEnabled {
+                            Text("審査モードが有効です - AI機能が利用可能")
+                                .font(.caption)
+                                .foregroundColor(.green)
+                        }
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(12)
+                    #endif
+                    
+                    // サブスクリプション情報
                     if let product = subscriptionManager.monthlyProduct {
-                        planDetailsView(for: product)
-                    } else {
-                        ProgressView()
-                            .padding()
+                        VStack(spacing: 12) {
+                            Text("月額プラン")
+                                .font(.headline)
+                            
+                            HStack {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("無制限AIチャット")
+                                        .font(.subheadline)
+                                        .fontWeight(.medium)
+                                    
+                                    Text("• 2日間の無料トライアル")
+                                    Text("• 月額自動更新")
+                                    Text("• いつでもキャンセル可能")
+                                }
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                
+                                Spacer()
+                                
+                                VStack(alignment: .trailing, spacing: 4) {
+                                    Text(product.displayPrice)
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                    
+                                    Text("月額")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                            
+                            Button(action: {
+                                Task {
+                                    await subscriptionManager.purchaseSubscription()
+                                }
+                            }) {
+                                HStack {
+                                    if subscriptionManager.isLoading {
+                                        ProgressView()
+                                            .scaleEffect(0.8)
+                                    } else {
+                                        Image(systemName: "crown.fill")
+                                    }
+                                    Text("プレミアムにアップグレード")
+                                        .fontWeight(.semibold)
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.yellow)
+                                .foregroundColor(.black)
+                                .cornerRadius(12)
+                            }
+                            .disabled(subscriptionManager.isLoading)
+                        }
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(12)
                     }
                     
-                    // 機能一覧
-                    featuresView
+                    // 復元ボタン
+                    Button(action: {
+                        Task {
+                            await subscriptionManager.restorePurchases()
+                        }
+                    }) {
+                        HStack {
+                            Image(systemName: "arrow.clockwise")
+                            Text("購入を復元")
+                        }
+                        .foregroundColor(.blue)
+                    }
+                    .disabled(subscriptionManager.isLoading)
                     
-                    // アクションボタン
-                    actionButtonsView
+                    // 利用規約とプライバシーポリシー
+                    VStack(spacing: 12) {
+                        Text("法的情報")
+                            .font(.headline)
+                        
+                        VStack(spacing: 8) {
+                            Button("利用規約") {
+                                showingTerms = true
+                            }
+                            .foregroundColor(.blue)
+                            
+                            Button("プライバシーポリシー") {
+                                showingPrivacyPolicy = true
+                            }
+                            .foregroundColor(.blue)
+                        }
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(12)
                     
-                    // 注意事項
-                    termsView
+                    // エラーメッセージ
+                    if let errorMessage = subscriptionManager.errorMessage {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                            .font(.caption)
+                            .padding()
+                            .background(Color.red.opacity(0.1))
+                            .cornerRadius(8)
+                    }
+                    
+                    Spacer(minLength: 20)
                 }
-                .padding()
+                .padding(.horizontal)
             }
             .navigationTitle("サブスクリプション")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("閉じる") {
-                        dismiss()
+        }
+        .sheet(isPresented: $showingTerms) {
+            NavigationView {
+                WebView(url: URL(string: "https://tegujupe222.github.io/privacy-policy/terms.html")!)
+                    .navigationTitle("利用規約")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button("閉じる") {
+                                showingTerms = false
+                            }
+                        }
                     }
-                }
             }
-            .alert("エラー", isPresented: .constant(subscriptionManager.errorMessage != nil), actions: {
-                Button("OK") { subscriptionManager.errorMessage = nil }
-            }, message: {
-                Text(subscriptionManager.errorMessage ?? "不明なエラーが発生しました。")
-            })
+        }
+        .sheet(isPresented: $showingPrivacyPolicy) {
+            NavigationView {
+                WebView(url: URL(string: "https://tegujupe222.github.io/privacy-policy/")!)
+                    .navigationTitle("プライバシーポリシー")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button("閉じる") {
+                                showingPrivacyPolicy = false
+                            }
+                        }
+                    }
+            }
+        }
+        .alert("審査モード切り替え", isPresented: $showingReviewModeAlert) {
+            Button("有効にする") {
+                subscriptionManager.enableReviewMode()
+            }
+            Button("無効にする") {
+                subscriptionManager.disableReviewMode()
+            }
+            Button("キャンセル", role: .cancel) { }
+        } message: {
+            Text("審査モードを切り替えますか？\n有効にすると、サブスクリプションなしでもAI機能が利用可能になります。")
         }
     }
     
-    // MARK: - View Components
-    
-    private var headerView: some View {
-        VStack(spacing: 16) {
-            Image(systemName: "crown.fill")
-                .font(.system(size: 60))
-                .foregroundColor(.yellow)
-            
-            Text("AI機能を有効にする")
-                .font(.title2)
-                .fontWeight(.bold)
-            
-            Text("サブスクリプションでAI機能を\n無制限にご利用いただけます")
-                .font(.body)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-        }
-    }
-    
-    private var currentStatusView: some View {
-        VStack(spacing: 16) {
-            Text("現在の状況")
-                .font(.headline)
-                .fontWeight(.semibold)
-            
-            HStack {
-                Image(systemName: subscriptionManager.subscriptionStatus.iconName)
-                    .font(.title2)
-                    .foregroundColor(subscriptionManager.subscriptionStatus.iconColor)
-                
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(subscriptionManager.subscriptionStatus.displayName)
-                        .font(.headline)
-                        .fontWeight(.semibold)
-                    
-                    Text(subscriptionManager.subscriptionStatus.description)
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    
-                    if subscriptionManager.subscriptionStatus == .trial {
-                        Text("残り \(subscriptionManager.getRemainingTrialDays()) 日")
-                            .font(.caption)
-                            .foregroundColor(.orange)
-                            .fontWeight(.semibold)
-                    }
-                }
-                
-                Spacer()
-            }
-            .padding()
-            .background(Color(.systemGray6))
-            .cornerRadius(12)
-        }
-    }
-    
-    private func planDetailsView(for product: Product) -> some View {
-        VStack(spacing: 16) {
-            Text("プラン詳細")
-                .font(.headline)
-                .fontWeight(.semibold)
-            
-            VStack(spacing: 12) {
-                HStack {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(product.displayName)
-                            .font(.headline)
-                            .fontWeight(.semibold)
-                        
-                        Text(product.description)
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                    
-                    Spacer()
-                    
-                    VStack(alignment: .trailing, spacing: 4) {
-                        Text(product.displayPrice)
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .foregroundColor(.blue)
-                        
-                        Text("/ 月")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                }
-                
-                if let introductoryOffer = product.subscription?.introductoryOffer {
-                    Divider()
-                    HStack {
-                        Text("\(introductoryOffer.paymentMode.localizedDescription) \(introductoryOffer.period.localizedDescription)")
-                            .font(.subheadline)
-                            .foregroundColor(.green)
-                        Spacer()
-                    }
-                }
-            }
-            .padding()
-            .background(Color.blue.opacity(0.1))
-            .cornerRadius(12)
-        }
-    }
-    
-    private var featuresView: some View {
-        VStack(spacing: 16) {
-            Text("含まれる機能")
-                .font(.headline)
-                .fontWeight(.semibold)
-            
-            VStack(spacing: 12) {
-                FeatureRow(
-                    icon: "brain.head.profile",
-                    title: "AI会話",
-                    description: "自然で人間らしい対話"
-                )
-                
-                FeatureRow(
-                    icon: "heart.fill",
-                    title: "感情分析",
-                    description: "豊かな感情の交流"
-                )
-                
-                FeatureRow(
-                    icon: "memorychip",
-                    title: "会話の記憶",
-                    description: "過去の会話を覚えています"
-                )
-                
-                FeatureRow(
-                    icon: "person.crop.circle.badge.plus",
-                    title: "無制限のペルソナ",
-                    description: "好きなだけキャラクターを作成"
-                )
-                
-                FeatureRow(
-                    icon: "infinity",
-                    title: "無制限の会話",
-                    description: "回数制限なしで会話を楽しめます"
-                )
-            }
-            .padding()
-            .background(Color(.systemGray6))
-            .cornerRadius(12)
-        }
-    }
-    
-    private var actionButtonsView: some View {
-        VStack(spacing: 16) {
-            Button(action: {
-                Task {
-                    await subscriptionManager.purchaseSubscription()
-                }
-            }) {
-                HStack {
-                    if subscriptionManager.isLoading {
-                        ProgressView()
-                    } else {
-                        Text("サブスクリプションを開始")
-                            .fontWeight(.semibold)
-                    }
-                }
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(subscriptionManager.subscriptionStatus == .active ? Color.gray : Color.accentColor)
-                .foregroundColor(.white)
-                .cornerRadius(12)
-            }
-            .disabled(subscriptionManager.subscriptionStatus == .active || subscriptionManager.isLoading)
-            
-            Button("購入を復元") {
-                Task {
-                    await subscriptionManager.restorePurchases()
-                }
-            }
-            .tint(.secondary)
-        }
-    }
-    
-    private var termsView: some View {
-        VStack(spacing: 8) {
-            Text("2日間の無料トライアル終了後、自動的に月額料金が課金されます。お支払いはApple IDアカウントに請求されます。サブスクリプションは、現在の期間が終了する少なくとも24時間前にキャンセルされない限り、自動的に更新されます。")
-                .font(.caption2)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-            
-            HStack {
-                if let url = URL(string: "https://tegujupe222.github.io/privacy-policy/") {
-                    Link("プライバシーポリシー", destination: url)
-                }
-                Spacer()
-                if let url = URL(string: "https://tegujupe222.github.io/privacy-policy/terms.html") {
-                    Link("利用規約", destination: url)
-                }
-            }
-            .font(.caption)
-            .padding(.top, 8)
+    private var statusColor: Color {
+        switch subscriptionManager.subscriptionStatus {
+        case .unknown:
+            return .gray
+        case .trial:
+            return .green
+        case .active:
+            return .blue
+        case .expired:
+            return .red
         }
     }
 }
@@ -330,5 +328,20 @@ extension StoreKit.Product.SubscriptionPeriod {
 struct SubscriptionView_Previews: PreviewProvider {
     static var previews: some View {
         SubscriptionView()
+    }
+}
+
+// MARK: - WebView for Terms and Privacy Policy
+struct WebView: UIViewRepresentable {
+    let url: URL
+    
+    func makeUIView(context: Context) -> WKWebView {
+        let webView = WKWebView()
+        webView.load(URLRequest(url: url))
+        return webView
+    }
+    
+    func updateUIView(_ uiView: WKWebView, context: Context) {
+        // No updates needed
     }
 } 
