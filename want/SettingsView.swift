@@ -6,6 +6,7 @@ struct SettingsView: View {
     @State private var showingAISettings = false
     @State private var showingAbout = false
     @State private var showingDataExport = false
+    @State private var showingLegalView = false
     
     var body: some View {
         NavigationView {
@@ -141,7 +142,20 @@ struct SettingsView: View {
                     }
                     
                     Button(action: {
-                        // プライバシーポリシーを開く
+                        showingLegalView = true
+                    }) {
+                        HStack {
+                            Image(systemName: "doc.plaintext")
+                                .foregroundColor(.orange)
+                                .frame(width: 24)
+                            
+                            Text("利用規約")
+                                .foregroundColor(.primary)
+                        }
+                    }
+                    
+                    Button(action: {
+                        // プライバシーポリシーを外部URLで開く
                         if let url = URL(string: "https://tegujupe222.github.io/privacy-policy/") {
                             UIApplication.shared.open(url)
                         }
@@ -155,28 +169,15 @@ struct SettingsView: View {
                                 .foregroundColor(.primary)
                         }
                     }
-                    
-                    Button(action: {
-                        // 利用規約を開く
-                        if let url = URL(string: "https://tegujupe222.github.io/privacy-policy/terms.html") {
-                            UIApplication.shared.open(url)
-                        }
-                    }) {
-                        HStack {
-                            Image(systemName: "doc.plaintext")
-                                .foregroundColor(.orange)
-                                .frame(width: 24)
-                            
-                            Text("利用規約")
-                                .foregroundColor(.primary)
-                        }
-                    }
                 }
             }
             .navigationTitle("設定")
         }
         .sheet(isPresented: $showingAbout) {
             AboutView()
+        }
+        .sheet(isPresented: $showingLegalView) {
+            LegalView()
         }
         .actionSheet(isPresented: $showingDataExport) {
             ActionSheet(
