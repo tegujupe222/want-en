@@ -120,17 +120,17 @@ struct ChatView: View {
     
     private var mainContent: some View {
         GeometryReader { geometry in
-            VStack(spacing: 0) {
-                // ヘッダー
-                headerView
-                
-                // メッセージリスト
-                messagesScrollView
+        VStack(spacing: 0) {
+            // ヘッダー
+            headerView
+            
+            // メッセージリスト
+            messagesScrollView
                     .frame(maxWidth: geometry.size.width > 768 ? 600 : nil) // iPadで最大幅を制限
                     .frame(maxWidth: .infinity)
-                
-                // 入力エリア
-                messageInputView
+            
+            // 入力エリア
+            messageInputView
                     .frame(maxWidth: geometry.size.width > 768 ? 600 : nil) // iPadで最大幅を制限
                     .frame(maxWidth: .infinity)
             }

@@ -203,7 +203,7 @@ class SubscriptionManager: ObservableObject {
                 print("🔄 手動トライアル確認: 開始日=\(trialStartDate), 終了日=\(trialEndDate), 有効=\(isTrialActive)")
                 
                 if isTrialActive {
-                    newStatus = .trial
+                newStatus = .trial
                     print("🔄 手動トライアル中")
                 } else {
                     newStatus = .expired

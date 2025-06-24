@@ -15,44 +15,44 @@ struct SubscriptionView: View {
                 VStack(spacing: 20) {
                     // ヘッダー
                     VStack(spacing: 10) {
-                        Image(systemName: "crown.fill")
+            Image(systemName: "crown.fill")
                             .font(.system(size: 50))
-                            .foregroundColor(.yellow)
-                        
+                .foregroundColor(.yellow)
+            
                         Text("プレミアム機能")
                             .font(.title)
-                            .fontWeight(.bold)
-                        
+                .fontWeight(.bold)
+            
                         Text("AIチャット機能を無制限でお楽しみください")
                             .font(.subheadline)
-                            .foregroundColor(.secondary)
-                            .multilineTextAlignment(.center)
-                    }
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+        }
                     .padding(.top, 20)
                     
                     // 現在の状態表示
                     VStack(spacing: 8) {
                         Text("現在の状態")
-                            .font(.headline)
-                        
-                        HStack {
+                .font(.headline)
+            
+            HStack {
                             Circle()
                                 .fill(statusColor)
                                 .frame(width: 12, height: 12)
                             
-                            Text(subscriptionManager.subscriptionStatus.displayName)
+                    Text(subscriptionManager.subscriptionStatus.displayName)
                                 .font(.subheadline)
                                 .fontWeight(.medium)
                         }
-                        
-                        Text(subscriptionManager.subscriptionStatus.description)
-                            .font(.caption)
-                            .foregroundColor(.secondary)
+                    
+                    Text(subscriptionManager.subscriptionStatus.description)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
-                    }
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(12)
+            }
+            .padding()
+            .background(Color(.systemGray6))
+            .cornerRadius(12)
                     
                     // 審査モード切り替え（デバッグビルドのみ）
                     #if DEBUG
@@ -73,7 +73,7 @@ struct SubscriptionView: View {
                         
                         if subscriptionManager.isReviewModeEnabled {
                             Text("審査モードが有効です - AI機能が利用可能")
-                                .font(.caption)
+                            .font(.caption)
                                 .foregroundColor(.green)
                         }
                     }
@@ -99,38 +99,38 @@ struct SubscriptionView: View {
                                     Text("• いつでもキャンセル可能")
                                 }
                                 .font(.caption)
-                                .foregroundColor(.secondary)
-                                
-                                Spacer()
-                                
-                                VStack(alignment: .trailing, spacing: 4) {
-                                    Text(product.displayPrice)
-                                        .font(.title2)
-                                        .fontWeight(.bold)
-                                    
+                            .foregroundColor(.secondary)
+                    
+                    Spacer()
+                    
+                    VStack(alignment: .trailing, spacing: 4) {
+                        Text(product.displayPrice)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                        
                                     Text("月額")
-                                        .font(.caption)
-                                        .foregroundColor(.secondary)
-                                }
-                            }
-                            
-                            Button(action: {
-                                Task {
-                                    await subscriptionManager.purchaseSubscription()
-                                }
-                            }) {
-                                HStack {
-                                    if subscriptionManager.isLoading {
-                                        ProgressView()
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                }
+                
+            Button(action: {
+                Task {
+                    await subscriptionManager.purchaseSubscription()
+                }
+            }) {
+                HStack {
+                    if subscriptionManager.isLoading {
+                        ProgressView()
                                             .scaleEffect(0.8)
-                                    } else {
+                    } else {
                                         Image(systemName: "crown.fill")
                                     }
                                     Text("プレミアムにアップグレード")
-                                        .fontWeight(.semibold)
-                                }
-                                .frame(maxWidth: .infinity)
-                                .padding()
+                            .fontWeight(.semibold)
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
                                 .background(Color.yellow)
                                 .foregroundColor(.black)
                                 .cornerRadius(12)
@@ -139,21 +139,21 @@ struct SubscriptionView: View {
                         }
                         .padding()
                         .background(Color(.systemGray6))
-                        .cornerRadius(12)
-                    }
-                    
+                .cornerRadius(12)
+            }
+            
                     // 復元ボタン
                     Button(action: {
-                        Task {
-                            await subscriptionManager.restorePurchases()
-                        }
+                Task {
+                    await subscriptionManager.restorePurchases()
+                }
                     }) {
                         HStack {
                             Image(systemName: "arrow.clockwise")
                             Text("購入を復元")
                         }
                         .foregroundColor(.blue)
-                    }
+        }
                     .disabled(subscriptionManager.isLoading)
                     
                     // 利用規約とプライバシーポリシー
@@ -225,7 +225,7 @@ struct SubscriptionView: View {
         .alert("審査モード切り替え", isPresented: $showingReviewModeAlert) {
             Button("有効にする") {
                 subscriptionManager.enableReviewMode()
-            }
+                }
             Button("無効にする") {
                 subscriptionManager.disableReviewMode()
             }
