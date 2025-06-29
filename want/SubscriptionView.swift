@@ -92,14 +92,14 @@ struct SubscriptionView: View {
                     
                     VStack(spacing: 12) {
                         // サブスクリプション名
-                        InfoRow(
+                        SubscriptionInfoRow(
                             icon: "crown.fill",
                             title: "サブスクリプション名",
                             value: "月額プラン"
                         )
                         
                         // 期間
-                        InfoRow(
+                        SubscriptionInfoRow(
                             icon: "calendar",
                             title: "期間",
                             value: "月額サブスクリプション"
@@ -107,13 +107,13 @@ struct SubscriptionView: View {
                         
                         // 価格
                         if let product = products.first {
-                            InfoRow(
+                            SubscriptionInfoRow(
                                 icon: "yensign.circle",
                                 title: "価格",
                                 value: "\(product.displayPrice) / 月"
                             )
                         } else {
-                            InfoRow(
+                            SubscriptionInfoRow(
                                 icon: "yensign.circle",
                                 title: "価格",
                                 value: "800円 / 月"
@@ -121,7 +121,7 @@ struct SubscriptionView: View {
                         }
                         
                         // 無料トライアル
-                        InfoRow(
+                        SubscriptionInfoRow(
                             icon: "gift",
                             title: "無料トライアル",
                             value: "3日間"
@@ -415,7 +415,7 @@ struct FeatureRow: View {
     }
 }
 
-struct InfoRow: View {
+struct SubscriptionInfoRow: View {
     let icon: String
     let title: String
     let value: String
