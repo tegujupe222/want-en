@@ -15,6 +15,8 @@ igafactory（以下「当社」）は、「want」アプリケーション（以
 - AIとの会話内容
 - 設定情報（ペルソナ設定、感情設定等）
 - サブスクリプション情報（App Storeを通じて）
+- サブスクリプションID: jp.co.want.monthly
+- バンドルID: com.igafactory2025.want
 
 ## 2. 情報の利用目的
 

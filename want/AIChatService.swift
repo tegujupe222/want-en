@@ -51,11 +51,11 @@ class AIChatService {
         let geminiService = GeminiAPIService(cloudFunctionURL: cloudFunctionURL)
         
         return try await geminiService.generateResponse(
-            persona: persona,
-            conversationHistory: conversationHistory,
-            userMessage: userMessage,
-            emotionContext: emotionContext
-        )
+                persona: persona,
+                conversationHistory: conversationHistory,
+                userMessage: userMessage,
+                emotionContext: emotionContext
+            )
     }
     
     // MARK: - Configuration Updates

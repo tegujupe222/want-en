@@ -12,18 +12,6 @@ struct WantApp: App {
     
     init() {
         print("🚀 wantApp初期化開始")
-        
-        // 審査用の設定（本番環境でも審査員が機能をテストできるように）
-        #if DEBUG
-        // デバッグビルドでは審査モードを自動的に有効にする
-        UserDefaults.standard.set(true, forKey: "review_mode_enabled")
-        print("🔍 デバッグビルド: 審査モードを自動的に有効にしました")
-        #else
-        // 本番ビルドでも審査モードを有効にする（審査用）
-        UserDefaults.standard.set(true, forKey: "review_mode_enabled")
-        print("🔍 本番ビルド: 審査モードを有効にしました（審査用）")
-        #endif
-        
         print("🚀 wantApp初期化完了")
     }
     
@@ -108,7 +96,6 @@ struct MainAppWithSplashView: View {
                         Task {
                             await subscriptionManager.updateSubscriptionStatus()
                             print("📱 サブスクリプション状態: \(subscriptionManager.subscriptionStatus)")
-                            print("📱 審査モード: \(subscriptionManager.isReviewModeEnabled)")
                             print("📱 AI利用可能: \(subscriptionManager.canUseAI())")
                         }
                     }
@@ -372,73 +359,85 @@ struct AppSettingsView: View {
     
     var body: some View {
         NavigationView {
-            List {
-                Section("AI機能") {
-                    HStack {
-                        Image(systemName: "crown.fill")
-                            .foregroundColor(.yellow)
-                            .font(.title2)
-                        
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("サブスクリプション")
-                                .font(.headline)
-                            Text("AI機能の利用状況を管理")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                        
-                        Spacer()
-                        
-                        Button("管理") {
-                            showingSubscriptionView = true
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .controlSize(.small)
-                    }
-                    .padding(.vertical, 4)
-                    
-                    NavigationLink(destination: AISettingsView()) {
+            Form {
+                Section {
+                    VStack(spacing: 0) {
                         HStack {
-                            Image(systemName: "slider.horizontal.3")
-                                .foregroundColor(.blue)
-                            Text("詳細設定")
+                            Image(systemName: "crown.fill")
+                                .foregroundColor(.yellow)
+                                .font(.title2)
+                            
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("サブスクリプション")
+                                    .font(.headline)
+                                Text("AI機能の利用状況を管理")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                            
+                            Spacer()
+                            
+                            Button("管理") {
+                                showingSubscriptionView = true
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .controlSize(.small)
+                        }
+                        .padding(.vertical, 4)
+                        
+                        NavigationLink(destination: AISettingsView()) {
+                            HStack {
+                                Image(systemName: "slider.horizontal.3")
+                                    .foregroundColor(.blue)
+                                Text("詳細設定")
+                            }
                         }
                     }
+                } header: {
+                    Text("AI機能")
                 }
                 
-                Section("サブスクリプション状況") {
-                    HStack {
-                        Image(systemName: subscriptionStatusIcon)
-                            .foregroundColor(subscriptionStatusColor)
-                        Text("現在の状況")
-                        Spacer()
-                        Text(subscriptionManager.subscriptionStatus.displayName)
-                            .foregroundColor(subscriptionStatusColor)
-                            .fontWeight(.semibold)
-                    }
-                    
-                    if subscriptionManager.subscriptionStatus == .trial {
+                Section {
+                    VStack(spacing: 0) {
                         HStack {
-                            Image(systemName: "clock.fill")
-                                .foregroundColor(.orange)
-                            Text("トライアル期間")
+                            Image(systemName: subscriptionStatusIcon)
+                                .foregroundColor(subscriptionStatusColor)
+                            Text("現在の状況")
                             Spacer()
-                            Text("残り \(subscriptionManager.getRemainingTrialDays()) 日")
-                                .foregroundColor(.orange)
+                            Text(subscriptionManager.subscriptionStatus.displayName)
+                                .foregroundColor(subscriptionStatusColor)
                                 .fontWeight(.semibold)
                         }
+                        
+                        if subscriptionManager.subscriptionStatus == .trial {
+                            HStack {
+                                Image(systemName: "clock.fill")
+                                    .foregroundColor(.orange)
+                                Text("トライアル期間")
+                                Spacer()
+                                Text("残り \(SubscriptionManager.shared.trialDaysLeft) 日")
+                                    .foregroundColor(.orange)
+                                    .fontWeight(.semibold)
+                            }
+                        }
                     }
+                } header: {
+                    Text("サブスクリプション状況")
                 }
                 
-                Section("アプリ情報") {
-                    HStack {
-                        Image(systemName: "info.circle")
-                            .foregroundColor(.blue)
-                        Text("バージョン")
-                        Spacer()
-                        Text("1.0.1")
-                            .foregroundColor(.secondary)
+                Section {
+                    VStack(spacing: 0) {
+                        HStack {
+                            Image(systemName: "info.circle")
+                                .foregroundColor(.blue)
+                            Text("バージョン")
+                            Spacer()
+                            Text("1.0.2")
+                                .foregroundColor(.secondary)
+                        }
                     }
+                } header: {
+                    Text("アプリ情報")
                 }
             }
             .navigationTitle("設定")

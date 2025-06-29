@@ -180,14 +180,22 @@ class ChatViewModel: ObservableObject {
         let config = AIConfigManager.shared.currentConfig
         print("🤖 AI設定確認: 有効=\(config.isAIEnabled), プロバイダー=\(config.provider.displayName)")
         
-        guard config.isAIEnabled else {
-            print("❌ AI機能が無効")
-            throw AIChatError.aiNotEnabled
+        if !config.isAIEnabled {
+            // AI無効時は定型文からランダム返答
+            let fallbackResponses = [
+                "そうなんだね", "なるほど", "わかるよ", "面白いね", "ありがとう",
+                "それは大変だったね", "すごい！", "いいね！", "そう思うよ", "うんうん",
+                "元気だった？", "最近どう？", "また教えてね", "気をつけてね", "頑張ってるね",
+                "応援してるよ", "ゆっくり休んでね", "何かあった？", "楽しかった？", "また話そうね"
+            ]
+            let randomResponse = fallbackResponses.randomElement() ?? "そうなんだね"
+            print("🤖 AI無効: 定型文返答 → \(randomResponse)")
+            return randomResponse
         }
         
         // サブスクリプション状態をチェック
-        let subscriptionManager = await SubscriptionManager.shared
-        let canUseAI = await subscriptionManager.canUseAI()
+        let subscriptionManager = SubscriptionManager.shared
+        let canUseAI = subscriptionManager.canUseAI()
         print("🤖 サブスクリプション確認: 状態=\(subscriptionManager.subscriptionStatus.displayName), 使用可能=\(canUseAI)")
         
         guard canUseAI else {
@@ -419,8 +427,7 @@ class ChatViewModel: ObservableObject {
             
             print("💬 メッセージ送信: \(text)")
             print("💬 サブスクリプション状態: \(subscriptionManager.subscriptionStatus)")
-            print("💬 審査モード: \(subscriptionManager.isReviewModeEnabled)")
-            print("💬 AI利用可能: \(canUseAI)")
+            print("💬 AI利用可否: \(canUseAI)")
             
             guard canUseAI else {
                 throw AIChatError.subscriptionRequired

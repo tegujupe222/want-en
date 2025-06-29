@@ -1,6 +1,6 @@
 {
   "name": "gemini-proxy",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Gemini API Proxy",
   "main": "index.js",
   "dependencies": {

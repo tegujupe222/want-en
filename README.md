@@ -9,7 +9,7 @@ AI Chat Personaは、ユーザーが独自のペルソナ（キャラクター�
 - **自然な会話**: Google Gemini APIを使用した自然で人間らしい対話
 - **感情分析**: メッセージの感情を分析し、適切な応答を生成
 - **会話の記憶**: 過去の会話を覚えて、文脈を理解した応答
-- **自動トライアル**: 初回起動時に2日間の無料トライアルが自動開始
+- **自動トライアル**: 初回起動時に3日間の無料トライアルが自動開始
 
 ### ペルソナ機能
 - **カスタムペルソナ**: 家族、友人、恋人など様々な関係性のキャラクターを作成
@@ -17,11 +17,12 @@ AI Chat Personaは、ユーザーが独自のペルソナ（キャラクター�
 - **アバター**: 各ペルソナに独自のアバターを設定
 
 ### サブスクリプション機能
-- **2日間無料トライアル**: 初回利用時に2日間の無料トライアル
+- **3日間無料トライアル**: 初回利用時に3日間の無料トライアル
 - **月額サブスクリプション**: 月額800円でAI機能を無制限利用
-- **自動課金**: 2日目以降は自動的に課金が開始
+- **自動課金**: 3日目以降は自動的に課金が開始
 - **購入復元**: 以前の購入を復元可能
 - **明確な情報表示**: 価格、期間、利用規約へのリンクを明示
+- **サーバーサイド検証**: Production/Sandbox環境の自動判定による安全なレシート検証
 
 ## 📱 画面構成
 
@@ -35,6 +36,7 @@ AI Chat Personaは、ユーザーが独自のペルソナ（キャラクター�
 - **AI詳細設定**: 応答品質、創造性、安全性の設定
 - **アプリ情報**: バージョン情報など
 - **法的文書**: 利用規約・プライバシーポリシー
+- **開発者設定**: サーバーサイド検証の制御（デバッグ時）
 
 ## 🔧 技術仕様
 
@@ -43,11 +45,13 @@ AI Chat Personaは、ユーザーが独自のペルソナ（キャラクター�
 - **StoreKit 2**: 最新の課金システム
 - **Google Gemini API**: AI応答生成
 - **UserDefaults**: ローカルデータ保存
+- **サーバーサイドレシート検証**: Appleの公式APIを使用した安全な検証
 
 ### アーキテクチャ
 - **MVVM**: Model-View-ViewModelパターン
 - **Singleton**: 設定管理、サブスクリプション管理
 - **ObservableObject**: SwiftUIとの連携
+- **非同期処理**: async/awaitを使用したモダンな非同期処理
 
 ## 📦 ファイル構成
 
@@ -59,13 +63,16 @@ want/
 ├── ChatViewModel.swift       # チャットのビジネスロジック
 ├── SubscriptionManager.swift # サブスクリプション管理
 ├── SubscriptionView.swift    # サブスクリプション画面
+├── ReceiptValidator.swift    # サーバーサイドレシート検証
 ├── AIConfigManager.swift     # AI設定管理
 ├── AIChatService.swift       # AI API通信
 ├── AISettingsView.swift      # AI設定画面
 ├── PersonaManager.swift      # ペルソナ管理
 ├── PersonaListView.swift     # ペルソナ一覧
 ├── SetupPersonaView.swift    # ペルソナ設定
+├── SettingsView.swift        # 設定画面
 ├── LegalView.swift           # 利用規約・プライバシーポリシー表示
+├── ReceiptValidationGuide.md # レシート検証ガイド
 ├── EULA.md                   # 利用規約（Markdown）
 ├── PrivacyPolicy.md          # プライバシーポリシー（Markdown）
 └── その他のユーティリティファイル
@@ -77,6 +84,7 @@ want/
 1. **管理者APIキー**: `AIConfigManager.swift`の`adminAPIKey`を実際のAPIキーに変更
 2. **StoreKit設定**: App Store Connectでサブスクリプション商品を設定
 3. **Bundle ID**: プロジェクトのBundle IDを適切に設定
+4. **Shared Secret**: App Store Connectで取得したShared Secretを`ReceiptValidator.swift`に設定
 
 ### 開発環境
 - Xcode 15.0以上
@@ -86,14 +94,21 @@ want/
 ## 💰 課金システム
 
 ### サブスクリプション商品
-- **商品ID**: `igafactory.want.premium.monthly`
+- **商品ID**: `jp.co.want.monthly`
+- **商品名**: 月額プラン
 - **価格**: 月額800円
 - **機能**: AI機能の無制限利用
 
 ### トライアル期間
-- **期間**: 2日間
+- **期間**: 3日間
 - **自動課金**: トライアル終了後に自動開始
 - **キャンセル**: いつでもキャンセル可能
+
+### レシート検証
+- **クライアントサイド**: StoreKit 2による自動検証
+- **サーバーサイド**: Apple公式APIによる追加検証
+- **環境自動判定**: Production/Sandbox環境の自動切り替え
+- **セキュリティ**: Shared Secretによる認証
 
 ## 🔒 セキュリティ
 
@@ -102,10 +117,62 @@ want/
 - ユーザーの個別APIキー設定は不要
 - 実際の運用では環境変数や安全な方法で管理を推奨
 
+### レシート検証
+- **二重検証**: クライアントサイド + サーバーサイド
+- **環境自動判定**: Production/Sandbox環境の適切な処理
+- **エラーハンドリング**: 各エラーコードに応じた適切な対応
+- **Shared Secret**: App Store Connectで取得した秘密鍵による認証
+
 ### データ保護
 - 会話履歴はローカルに保存
 - 外部サーバーへの送信は最小限
 - プライバシーを重視した設計
+
+## 🔍 サーバーサイドレシート検証
+
+### 実装の特徴
+
+#### App Store Connectガイドライン準拠
+```swift
+// まず本番用 App Store に対して検証を行う
+let result = try await validator.validateReceipt(receiptData)
+
+// 「Sandbox receipt used in production」というエラーが返ってきた場合のみ、サンドボックス環境で再検証
+// エラーコード21007の場合のみ再検証を実行
+```
+
+#### エラーハンドリング
+- **21007**: Sandbox receipt used in production → Sandbox環境で再検証
+- **21008**: Production receipt used in sandbox → Production環境で再検証
+- **21002**: 無効なレシート → エラーとして処理
+- **21003**: 認証失敗 → Shared Secretを確認
+- **21006**: サブスクリプション期限切れ → 期限切れとして処理
+
+#### セキュリティ機能
+- **バンドルID検証**: アプリのBundle IDと一致することを確認
+- **購入情報解析**: 商品ID、トランザクションID、期限などの詳細情報を取得
+- **環境情報**: Production/Sandbox環境の判定結果を提供
+
+### 設定方法
+
+1. **Shared Secretの取得**:
+   - App Store Connect → アプリ → App内課金 → App-Specific Shared Secret
+
+2. **コード設定**:
+   ```swift
+   let validator = ReceiptValidator(
+       bundleIdentifier: "com.igafactory2025.want",
+       sharedSecret: "YOUR_SHARED_SECRET_HERE"  // ← 実際のShared Secretに変更してください
+   )
+   ```
+
+3. **統合**:
+   ```swift
+   // SubscriptionManagerで自動的に実行
+   await subscriptionManager.updateSubscriptionStatus()
+   ```
+
+詳細な実装方法については、`ReceiptValidationGuide.md`を参照してください。
 
 ## 📋 App Store Connect設定要件
 
@@ -113,10 +180,11 @@ want/
 - **利用規約（EULA）**: カスタムEULAを使用（App Store Connectにアップロード）
 - **プライバシーポリシー**: カスタムプライバシーポリシーを使用（App Store Connectにアップロード）
 - **サブスクリプション情報**: アプリ内で明確に表示
+- **Shared Secret**: サーバーサイド検証用の秘密鍵
 
 ### 法的文書の内容
 #### 利用規約（EULA）
-- 2日間の無料トライアル期間
+- 3日間の無料トライアル期間
 - 月額サブスクリプション（800円）
 - Google Gemini APIの利用に関する注意事項
 - 禁止事項（逆コンパイル、著作権侵害等）
@@ -130,6 +198,13 @@ want/
 - 情報の保存期間
 - 利用者の権利
 - 未成年者の情報保護
+
+#### ユーザープライバシー選択ページ
+- データ収集の選択肢（必須データ・オプショナルデータ）
+- データ管理機能（エクスポート・削除・設定リセット）
+- 外部サービスの説明
+- プライバシー設定のカスタマイズ
+- お問い合わせ情報
 
 ### メタデータ設定
 1. **利用規約フィールド**: App Store ConnectでカスタムEULAをアップロード
@@ -149,6 +224,7 @@ want/
 - [ ] 画像生成機能
 - [ ] グループチャット機能
 - [ ] クラウド同期機能
+- [ ] 高度なレシート検証機能の強化
 
 ## 📄 ライセンス
 
@@ -160,4 +236,6 @@ want/
 
 ---
 
-**注意**: このアプリは開発・学習目的で作成されています。商用利用の際は、適切なライセンスとAPIキーの管理を行ってください。 
+**注意**: このアプリは開発・学習目的で作成されています。商用利用の際は、適切なライセンスとAPIキーの管理を行ってください。
+
+**重要**: 本番環境での使用前に、必ずShared Secretを実際の値に変更してください。 

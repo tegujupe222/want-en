@@ -22,10 +22,14 @@ struct AISettingsView: View {
             }
             
             Section(header: Text("サブスクリプション")) {
-                if subscriptionManager.canUseAI() {
+                switch subscriptionManager.subscriptionStatus {
+                case .active:
                     Text("サブスクリプション: 有効")
                         .foregroundColor(.green)
-                } else {
+                case .trial:
+                    Text("サブスクリプション: トライアル中（残り\(subscriptionManager.trialDaysLeft)日）")
+                        .foregroundColor(.orange)
+                case .expired, .unknown:
                     Text("サブスクリプション: 未加入")
                         .foregroundColor(.red)
                 }
@@ -36,7 +40,7 @@ struct AISettingsView: View {
             
             Section("デバッグ") {
                 Button("設定をリセット") {
-                    aiConfigManager.resetToDefaults()
+                aiConfigManager.resetToDefaults()
                 }
                 .foregroundColor(.red)
             }
@@ -47,6 +51,6 @@ struct AISettingsView: View {
 
 struct AISettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        AISettingsView()
+    AISettingsView()
     }
 }

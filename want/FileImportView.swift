@@ -233,20 +233,20 @@ struct FileImportView: View {
     }
     
     private func importSuccessButton(_ result: AnalysisResult) -> some View {
-        Button(action: {
-            onAnalysisComplete(result)
-            isPresented = false
-        }) {
-            Text("この設定を適用")
+                Button(action: {
+                    onAnalysisComplete(result)
+                    isPresented = false
+                }) {
+                        Text("この設定を適用")
                 .font(.headline)
-                .fontWeight(.semibold)
+                            .fontWeight(.semibold)
                 .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding()
+                    .frame(maxWidth: .infinity)
+                    .padding()
                 .background(Color.accentColor)
-                .cornerRadius(12)
-        }
-        .padding(.top)
+                    .cornerRadius(12)
+                }
+                .padding(.top)
     }
     
     private func handleFileImport(_ result: Result<[URL], Error>) {

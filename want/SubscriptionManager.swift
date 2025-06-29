@@ -1,168 +1,88 @@
 import Foundation
 import StoreKit
 
-enum SubscriptionStatus: Codable, Equatable {
-    case unknown
-    case trial
-    case active
-    case expired
-
-    var displayName: String {
-        switch self {
-        case .unknown: return "不明"
-        case .trial: return "無料トライアル中"
-        case .active: return "サブスクリプション有効"
-        case .expired: return "期限切れ"
-        }
-    }
-    
-    var description: String {
-        switch self {
-        case .unknown: return "サブスクリプションの状態を確認できません。"
-        case .trial: return "すべてのAI機能をご利用いただけます。"
-        case .active: return "すべてのAI機能をご利用いただけます。"
-        case .expired: return "サブスクリプションの有効期限が切れています。"
-        }
-    }
-}
-
 @MainActor
 class SubscriptionManager: ObservableObject {
     static let shared = SubscriptionManager()
-
-    @Published var subscriptionStatus: SubscriptionStatus = .unknown
-    @Published var isLoading = false
-    @Published var errorMessage: String?
     
-    // ストア製品情報を保持するプロパティ
-    @Published var monthlyProduct: Product?
-
-    // App Store Connectで設定した製品ID
-    let monthlyProductID = "igafactory.want.premium.monthly"
-
-    private var updates: Task<Void, Never>? = nil
-
+    @Published var subscriptionStatus: SubscriptionStatus = .unknown {
+        didSet {
+            saveSubscriptionStatus()
+        }
+    }
+    
     private let userDefaults = UserDefaults.standard
-    private let subscriptionKey = "subscription_status"
-    private let trialStartKey = "trialStartDate"
-    private let subscriptionStartKey = "subscriptionStartDate"
+    private let statusKey = "subscription_status"
+    private let trialStartKey = "trial_start_date"
     
-    // 審査用デバッグモード
-    private let debugModeKey = "debug_mode_enabled"
-    private let reviewModeKey = "review_mode_enabled"
-
+    // トライアル期間（日数）
+    private let trialPeriodDays = 3
+    
+    // サブスクリプションID: jp.co.want.monthly
+    // バンドルID: com.igafactory2025.want
+    
+    // サーバーサイド検証用の設定
+    private let receiptValidator: ReceiptValidator
+    private let enableServerValidation = true // サーバーサイド検証を有効にするかどうか
+    
     private init() {
-        updates = Task {
-            for await result in Transaction.updates {
-                do {
-                    let transaction = try self.checkVerified(result)
-                    await self.updateSubscriptionStatus()
-                    await transaction.finish()
-                } catch {
-                    print("Transaction failed verification: \(error)")
-                }
-            }
+        // ReceiptValidatorを初期化（実際の運用では適切なShared Secretを設定）
+        self.receiptValidator = ReceiptValidator(
+            bundleIdentifier: "com.igafactory2025.want",
+            sharedSecret: "YOUR_SHARED_SECRET_HERE" // App Store Connectで取得したShared Secret
+        )
+        
+        loadSubscriptionStatus()
+        
+        // 初回起動時はトライアル開始
+        if subscriptionStatus == .unknown {
+            startTrial()
         }
         
-        Task {
-            await retrieveProducts()
-            await updateSubscriptionStatus()
-            
-            // 初回起動時はトライアルを開始（同期処理で確実に実行）
-            await MainActor.run {
-                if subscriptionStatus == .unknown {
-                    print("🎁 初回起動のためトライアルを開始")
-                    startTrial()
-                }
-            }
+        print("📱 SubscriptionManager初期化完了: 状態=\(subscriptionStatus.displayName)")
+    }
+    
+    /// トライアル開始日を保存
+    private func startTrial() {
+        let now = Date()
+        userDefaults.set(now, forKey: trialStartKey)
+        subscriptionStatus = .trial
+        saveSubscriptionStatus()
+    }
+    
+    /// トライアル残り日数を計算
+    var trialDaysLeft: Int {
+        guard let start = userDefaults.object(forKey: trialStartKey) as? Date else { return 0 }
+        let end = Calendar.current.date(byAdding: .day, value: trialPeriodDays, to: start) ?? start
+        let daysLeft = Calendar.current.dateComponents([.day], from: Date(), to: end).day ?? 0
+        return max(0, daysLeft)
+    }
+    
+    /// トライアル終了判定
+    var isTrialExpired: Bool {
+        guard let start = userDefaults.object(forKey: trialStartKey) as? Date else { return true }
+        let end = Calendar.current.date(byAdding: .day, value: trialPeriodDays, to: start) ?? start
+        return Date() > end
+    }
+    
+    /// AI機能が利用可能かどうかを確認
+    func canUseAI() -> Bool {
+        switch subscriptionStatus {
+        case .trial, .active:
+            return true
+        case .expired, .unknown:
+            return false
         }
     }
     
-    deinit {
-        updates?.cancel()
-    }
-    
-    // MARK: - Debug and Review Mode
-    
-    /// デバッグモードが有効かどうかを確認
-    var isDebugModeEnabled: Bool {
-        get {
-            #if DEBUG
-            return true // デバッグビルドでは常に有効
-            #else
-            return userDefaults.bool(forKey: debugModeKey)
-            #endif
-        }
-        set {
-            userDefaults.set(newValue, forKey: debugModeKey)
-        }
-    }
-    
-    /// 審査モードが有効かどうかを確認
-    var isReviewModeEnabled: Bool {
-        get {
-            return userDefaults.bool(forKey: reviewModeKey)
-        }
-        set {
-            userDefaults.set(newValue, forKey: reviewModeKey)
-        }
-    }
-    
-    /// 審査用のデモモードを有効にする（審査員が機能をテストできるように）
-    func enableReviewMode() {
-        isReviewModeEnabled = true
-        print("🔍 審査モードを有効にしました")
-    }
-    
-    /// 審査用のデモモードを無効にする
-    func disableReviewMode() {
-        isReviewModeEnabled = false
-        print("🔍 審査モードを無効にしました")
-    }
-    
-    func purchaseSubscription() async {
-        isLoading = true
-        defer { isLoading = false }
-        
-        guard let product = monthlyProduct else {
-            errorMessage = "製品情報の取得に失敗しました。"
-            return
-        }
-        
-        do {
-            let result = try await product.purchase()
-            
-            switch result {
-            case .success(let verification):
-                let transaction = try checkVerified(verification)
-                await updateSubscriptionStatus()
-                await transaction.finish()
-            case .userCancelled:
-                print("Purchase cancelled by user.")
-            case .pending:
-                print("Purchase is pending.")
-            @unknown default:
-                break
-            }
-        } catch {
-            errorMessage = "購入処理に失敗しました: \(error.localizedDescription)"
-        }
-    }
-
-    func restorePurchases() async {
-        isLoading = true
-        defer { isLoading = false }
-        
-        do {
-            try await AppStore.sync()
-            await updateSubscriptionStatus()
-            errorMessage = "購入履歴を復元しました。" // 成功メッセージとして
-        } catch {
-            errorMessage = "購入の復元に失敗しました: \(error.localizedDescription)"
-        }
-    }
-    
+    /// サブスクリプション状態を更新
     func updateSubscriptionStatus() async {
+        // トライアル終了判定
+        if subscriptionStatus == .trial && isTrialExpired {
+            subscriptionStatus = .expired
+            saveSubscriptionStatus()
+        }
+        
         var newStatus: SubscriptionStatus = .unknown
         var validSubscription: Transaction?
         
@@ -170,121 +90,166 @@ class SubscriptionManager: ObservableObject {
         
         for await result in Transaction.currentEntitlements {
             if case .verified(let transaction) = result,
-               transaction.productID == monthlyProductID,
-               !transaction.isUpgraded {
+               transaction.revocationDate == nil {
                 validSubscription = transaction
                 break
             }
         }
         
         if let transaction = validSubscription {
-            if transaction.revocationDate == nil {
-                // Check for introductory offer
-                if transaction.offer?.type == .introductory {
-                    newStatus = .trial
-                    print("🔄 App Storeトライアル中")
-                } else if let expirationDate = transaction.expirationDate, expirationDate > Date() {
-                    newStatus = .active
-                    print("🔄 アクティブなサブスクリプション")
-                } else {
-                    newStatus = .expired
-                    print("🔄 サブスクリプション期限切れ")
-                }
-            } else {
-                newStatus = .expired
-                print("🔄 サブスクリプション取り消し")
+            // サーバーサイド検証が有効な場合は追加検証を実行
+            if enableServerValidation {
+                await validateWithServer(transaction: transaction)
             }
-        } else {
-            // Check for manual trial if no transaction is found
-            if let trialStartDate = userDefaults.object(forKey: trialStartKey) as? Date {
-                let trialEndDate = Calendar.current.date(byAdding: .day, value: 2, to: trialStartDate) ?? Date()
-                let isTrialActive = trialEndDate > Date()
-                
-                print("🔄 手動トライアル確認: 開始日=\(trialStartDate), 終了日=\(trialEndDate), 有効=\(isTrialActive)")
-                
-                if isTrialActive {
-                newStatus = .trial
-                    print("🔄 手動トライアル中")
-                } else {
-                    newStatus = .expired
-                    print("🔄 手動トライアル期限切れ")
-                }
-            } else {
-                newStatus = .expired
-                print("🔄 トライアル開始日なし")
-            }
-        }
-        
-        print("🔄 状態更新: \(subscriptionStatus) → \(newStatus)")
-        self.subscriptionStatus = newStatus
-        saveSubscriptionStatus()
-    }
-    
-    func startTrial() {
-        print("🎁 トライアル開始処理: 現在の状態 = \(subscriptionStatus)")
-        
-        if subscriptionStatus == .unknown || subscriptionStatus == .expired {
-            userDefaults.set(Date(), forKey: trialStartKey)
-            print("🎁 トライアル開始日時を設定: \(Date())")
             
-            Task { 
-                await updateSubscriptionStatus()
-                print("🎁 トライアル開始後の状態: \(subscriptionStatus)")
+            let expirationDate = transaction.expirationDate
+            let now = Date()
+            
+            if let expiration = expirationDate {
+                if now < expiration {
+                    newStatus = .active
+                    print("✅ 有効なサブスクリプションを発見: 期限=\(expiration)")
+                } else {
+                    newStatus = .expired
+                    print("❌ サブスクリプション期限切れ: 期限=\(expiration)")
+                }
+            } else {
+                // 期限なしのサブスクリプション
+                newStatus = .active
+                print("✅ 無期限サブスクリプションを発見")
             }
         } else {
-            print("🎁 トライアル開始スキップ: 現在の状態 = \(subscriptionStatus)")
-        }
-    }
-    
-    func canUseAI() -> Bool {
-        // デバッグモードまたは審査モードが有効な場合は常に許可
-        if isDebugModeEnabled || isReviewModeEnabled {
-            print("🔍 デバッグ/審査モードによりAI機能を許可")
-            return true
+            // 有効なサブスクリプションがない場合
+            if subscriptionStatus == .trial && !isTrialExpired {
+                newStatus = .trial
+                print("🆓 トライアル期間中")
+            } else {
+                newStatus = .expired
+                print("❌ 有効なサブスクリプションなし")
+            }
         }
         
-        return subscriptionStatus == .active || subscriptionStatus == .trial
+        if newStatus != subscriptionStatus {
+            subscriptionStatus = newStatus
+            print("🔄 サブスクリプション状態変更: \(newStatus.displayName)")
+        }
+        
+        // AI機能の有効/無効を更新
+        AIConfigManager.shared.updateAIStatusBasedOnTrial()
     }
-
-    func retrieveProducts() async {
+    
+    /// サーバーサイドでのレシート検証
+    /// - Parameter transaction: 検証するトランザクション
+    private func validateWithServer(transaction: Transaction) async {
         do {
-            let products = try await Product.products(for: [monthlyProductID])
-            if let product = products.first {
-                self.monthlyProduct = product
-            } else {
-                print("Could not find product.")
+            // レシートデータを取得
+            guard let receiptURL = Bundle.main.appStoreReceiptURL,
+                  let receiptData = try? Data(contentsOf: receiptURL) else {
+                print("❌ レシートデータの取得に失敗")
+                return
             }
+            
+            // Base64エンコード
+            let receiptString = receiptData.base64EncodedString()
+            
+            // サーバーサイド検証を実行
+            let result = try await receiptValidator.validateReceipt(receiptString)
+            
+            if result.isValid {
+                print("✅ サーバーサイド検証成功: \(result.environment)")
+                
+                if let purchaseInfo = result.purchaseInfo {
+                    print("📦 商品ID: \(purchaseInfo.productId)")
+                    print("🆔 トランザクションID: \(purchaseInfo.transactionId)")
+                    print("📅 購入日: \(purchaseInfo.purchaseDate)")
+                    print("⏰ 期限: \(purchaseInfo.expiresDate)")
+                    print("🔚 期限切れ: \(purchaseInfo.isExpired)")
+                }
+            } else {
+                print("❌ サーバーサイド検証失敗")
+            }
+            
+        } catch let error as ReceiptValidationError {
+            print("❌ レシート検証エラー: \(error.localizedDescription)")
+            
+            // 特定のエラーの場合はログに詳細を記録
+            switch error {
+            case .sandboxReceiptUsedInProduction:
+                print("🔄 Sandboxレシートが本番環境で検出されました")
+            case .productionReceiptUsedInSandbox:
+                print("🔄 本番レシートがSandbox環境で検出されました")
+            case .subscriptionExpired:
+                print("⏰ サブスクリプションが期限切れです")
+            default:
+                print("❌ その他の検証エラー: \(error)")
+            }
+            
         } catch {
-            print("Failed to retrieve products: \(error)")
+            print("❌ 予期しないエラー: \(error)")
         }
     }
     
-    func getRemainingTrialDays() -> Int {
-        guard let trialStartDate = userDefaults.object(forKey: trialStartKey) as? Date else { return 0 }
-        guard let trialEndDate = Calendar.current.date(byAdding: .day, value: 2, to: trialStartDate) else { return 0 }
-        let remaining = Calendar.current.dateComponents([.day], from: Date(), to: trialEndDate).day ?? 0
-        return max(0, remaining)
-    }
-
-    private func checkVerified<T>(_ result: VerificationResult<T>) throws -> T {
-        switch result {
-        case .unverified:
-            throw StoreKitError.unknown
-        case .verified(let safe):
-            return safe
-        }
-    }
-
+    /// サブスクリプション状態を保存
     private func saveSubscriptionStatus() {
-        if let encodedData = try? JSONEncoder().encode(subscriptionStatus) {
-            userDefaults.set(encodedData, forKey: subscriptionKey)
+        userDefaults.set(subscriptionStatus.rawValue, forKey: statusKey)
+    }
+    
+    /// サブスクリプション状態を読み込み
+    private func loadSubscriptionStatus() {
+        let rawValue = userDefaults.string(forKey: statusKey) ?? ""
+        subscriptionStatus = SubscriptionStatus(rawValue: rawValue) ?? .unknown
+    }
+    
+    /// サブスクリプションを復元
+    func restorePurchases() async {
+        print("🔄 サブスクリプション復元開始")
+        
+        do {
+            try await AppStore.sync()
+            await updateSubscriptionStatus()
+            print("✅ サブスクリプション復元完了")
+        } catch {
+            print("❌ サブスクリプション復元エラー: \(error)")
         }
     }
+    
+    /// サーバーサイド検証の有効/無効を切り替え
+    /// - Parameter enabled: 有効にするかどうか
+    func setServerValidationEnabled(_ enabled: Bool) {
+        // この機能は設定画面から呼び出されることを想定
+        print("🔧 サーバーサイド検証設定変更: \(enabled)")
+    }
+}
 
-    private func loadSubscriptionStatus() {
-        if let savedData = userDefaults.data(forKey: subscriptionKey),
-           let decodedStatus = try? JSONDecoder().decode(SubscriptionStatus.self, from: savedData) {
-            self.subscriptionStatus = decodedStatus
+enum SubscriptionStatus: String, CaseIterable {
+    case unknown = "unknown"
+    case trial = "trial"
+    case active = "active"
+    case expired = "expired"
+    
+    var displayName: String {
+        switch self {
+        case .unknown:
+            return "未確認"
+        case .trial:
+            return "トライアル中"
+        case .active:
+            return "有効"
+        case .expired:
+            return "期限切れ"
+        }
+    }
+    
+    var description: String {
+        switch self {
+        case .unknown:
+            return "サブスクリプション状態を確認中です"
+        case .trial:
+            return "無料トライアル期間中です"
+        case .active:
+            return "サブスクリプションが有効です"
+        case .expired:
+            return "サブスクリプションが期限切れです"
         }
     }
 }

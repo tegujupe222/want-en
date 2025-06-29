@@ -3,10 +3,11 @@ import SwiftUI
 struct SettingsView: View {
     @StateObject private var aiConfigManager = AIConfigManager.shared
     @StateObject private var personaManager = PersonaManager.shared
+    @StateObject private var subscriptionManager = SubscriptionManager.shared
     @State private var showingAISettings = false
     @State private var showingAbout = false
     @State private var showingDataExport = false
-    @State private var showingLegalView = false
+    @State private var serverValidationEnabled = true
     
     var body: some View {
         NavigationView {
@@ -30,6 +31,81 @@ struct SettingsView: View {
                         }
                     }
                 }
+                
+                // サブスクリプションセクション
+                Section(header: Text("サブスクリプション")) {
+                    HStack {
+                        Image(systemName: "creditcard")
+                            .foregroundColor(.green)
+                            .frame(width: 24)
+                        
+                        VStack(alignment: .leading) {
+                            Text("現在の状態")
+                                .font(.body)
+                            
+                            Text(subscriptionManager.subscriptionStatus.displayName)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                        
+                        Spacer()
+                    }
+                    
+                    Button(action: {
+                        Task {
+                            await subscriptionManager.restorePurchases()
+                        }
+                    }) {
+                        HStack {
+                            Image(systemName: "arrow.clockwise")
+                                .foregroundColor(.blue)
+                                .frame(width: 24)
+                            
+                            Text("購入を復元")
+                                .foregroundColor(.primary)
+                        }
+                    }
+                }
+                
+                // 開発者設定セクション（デバッグ用）
+                #if DEBUG
+                Section(header: Text("開発者設定")) {
+                    Toggle(isOn: $serverValidationEnabled) {
+                        HStack {
+                            Image(systemName: "checkmark.shield")
+                                .foregroundColor(.orange)
+                                .frame(width: 24)
+                            
+                            VStack(alignment: .leading) {
+                                Text("サーバーサイド検証")
+                                    .font(.body)
+                                
+                                Text("レシートのサーバーサイド検証を有効にする")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                    }
+                    .onChange(of: serverValidationEnabled) { newValue in
+                        subscriptionManager.setServerValidationEnabled(newValue)
+                    }
+                    
+                    Button(action: {
+                        Task {
+                            await subscriptionManager.updateSubscriptionStatus()
+                        }
+                    }) {
+                        HStack {
+                            Image(systemName: "arrow.clockwise.circle")
+                                .foregroundColor(.purple)
+                                .frame(width: 24)
+                            
+                            Text("サブスクリプション状態を更新")
+                                .foregroundColor(.primary)
+                        }
+                    }
+                }
+                #endif
                 
                 // データ管理セクション
                 Section(header: Text("データ管理")) {
@@ -69,7 +145,7 @@ struct SettingsView: View {
                             Text("バージョン")
                                 .font(.body)
                             
-                            Text("1.0.1")
+                            Text("1.0.2")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
@@ -129,7 +205,7 @@ struct SettingsView: View {
                 }
                 
                 // サブスクリプション・法的情報セクション
-                Section(header: Text("サブスクリプション・法的情報")) {
+                Section(header: Text("法的情報")) {
                     NavigationLink(destination: CancellationPolicyView()) {
                         HStack {
                             Image(systemName: "doc.text")
@@ -142,20 +218,7 @@ struct SettingsView: View {
                     }
                     
                     Button(action: {
-                        showingLegalView = true
-                    }) {
-                        HStack {
-                            Image(systemName: "doc.plaintext")
-                                .foregroundColor(.orange)
-                                .frame(width: 24)
-                            
-                            Text("利用規約")
-                                .foregroundColor(.primary)
-                        }
-                    }
-                    
-                    Button(action: {
-                        // プライバシーポリシーを外部URLで開く
+                        // プライバシーポリシーを開く
                         if let url = URL(string: "https://tegujupe222.github.io/privacy-policy/") {
                             UIApplication.shared.open(url)
                         }
@@ -169,15 +232,44 @@ struct SettingsView: View {
                                 .foregroundColor(.primary)
                         }
                     }
+                    
+                    Button(action: {
+                        // 利用規約を開く
+                        if let url = URL(string: "https://tegujupe222.github.io/privacy-policy/terms.html") {
+                            UIApplication.shared.open(url)
+                        }
+                    }) {
+                        HStack {
+                            Image(systemName: "doc.plaintext")
+                                .foregroundColor(.orange)
+                                .frame(width: 24)
+                            
+                            Text("利用規約")
+                                .foregroundColor(.primary)
+                        }
+                    }
+                    
+                    Button(action: {
+                        // ユーザープライバシー選択ページを開く
+                        if let url = URL(string: "https://tegujupe222.github.io/privacy-policy/user-privacy-choices.html") {
+                            UIApplication.shared.open(url)
+                        }
+                    }) {
+                        HStack {
+                            Image(systemName: "person.crop.circle.badge.checkmark")
+                                .foregroundColor(.purple)
+                                .frame(width: 24)
+                            
+                            Text("ユーザープライバシー選択")
+                                .foregroundColor(.primary)
+                        }
+                    }
                 }
             }
             .navigationTitle("設定")
         }
         .sheet(isPresented: $showingAbout) {
             AboutView()
-        }
-        .sheet(isPresented: $showingLegalView) {
-            LegalView()
         }
         .actionSheet(isPresented: $showingDataExport) {
             ActionSheet(
@@ -243,7 +335,7 @@ struct AboutView: View {
                         .fontWeight(.bold)
                     
                     // バージョン
-                    Text("Version 1.0.1")
+                    Text("Version 1.0.2")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     

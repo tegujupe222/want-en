@@ -26,6 +26,9 @@ class AIConfigManager: ObservableObject {
         }
         
         print("🤖 AIConfigManager初期化完了")
+        
+        // トライアル状態に応じてAI機能を更新（非同期で呼び出し）
+        Task { await self.updateAIStatusBasedOnTrial() }
     }
     
     // MARK: - Public Methods
@@ -52,6 +55,25 @@ class AIConfigManager: ObservableObject {
             cloudFunctionURL: "https://asia-northeast1-gen-lang-client-0344989001.cloudfunctions.net/geminiProxy"
         )
         print("🔄 設定をデフォルトにリセットしました")
+    }
+    
+    /// トライアル状態に応じてAI機能を更新
+    @MainActor
+    func updateAIStatusBasedOnTrial() {
+        let subscriptionManager = SubscriptionManager.shared
+        
+        // トライアル期間中または有効なサブスクリプションがある場合はAI有効
+        if subscriptionManager.subscriptionStatus == .trial || 
+           subscriptionManager.subscriptionStatus == .active {
+            if !currentConfig.isAIEnabled {
+                enableAI()
+            }
+        } else {
+            // トライアル終了または未契約の場合はAI無効
+            if currentConfig.isAIEnabled {
+                disableAI()
+            }
+        }
     }
     
     // MARK: - Private Methods
