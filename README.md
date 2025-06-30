@@ -155,24 +155,14 @@ let result = try await validator.validateReceipt(receiptData)
 
 ### 設定方法
 
-1. **Shared Secretの取得**:
-   - App Store Connect → アプリ → App内課金 → App-Specific Shared Secret
+## Shared Secretについて
 
-2. **コード設定**:
-   ```swift
-   let validator = ReceiptValidator(
-       bundleIdentifier: "com.igafactory2025.want",
-       sharedSecret: "YOUR_SHARED_SECRET_HERE"  // ← 実際のShared Secretに変更してください
-   )
-   ```
+本リポジトリでは、App-Specific Shared Secret（sharedSecret）はすでにコード内に設定済みです。
+追加の取得・貼り付け作業は不要です。
 
-3. **統合**:
-   ```swift
-   // SubscriptionManagerで自動的に実行
-   await subscriptionManager.updateSubscriptionStatus()
-   ```
+サブスクリプションのレシート検証は `SubscriptionManager` で自動的に行われます。
 
-詳細な実装方法については、`ReceiptValidationGuide.md`を参照してください。
+詳細な実装方法については、`want/ReceiptValidationGuide.md` を参照してください。
 
 ## 📋 App Store Connect設定要件
 
