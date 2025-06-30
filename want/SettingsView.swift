@@ -145,7 +145,7 @@ struct SettingsView: View {
                             Text("バージョン")
                                 .font(.body)
                             
-                            Text("1.0.2")
+                            Text("1.0.3")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
@@ -335,7 +335,7 @@ struct AboutView: View {
                         .fontWeight(.bold)
                     
                     // バージョン
-                    Text("Version 1.0.2")
+                    Text("Version 1.0.3")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     

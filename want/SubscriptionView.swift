@@ -102,7 +102,7 @@ struct SubscriptionView: View {
                         SubscriptionInfoRow(
                             icon: "calendar",
                             title: "期間",
-                            value: "月額サブスクリプション"
+                            value: "1ヶ月"
                         )
                         
                         // 価格

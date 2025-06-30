@@ -1,5 +1,15 @@
 Command line invocation:
-    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild build -scheme want -destination "platform=iOS Simulator,id=FEB0996D-10AC-4BD8-A48B-C67535B2A37D"
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -scheme want -destination "platform=iOS Simulator,name=iPhone 16" clean build
+
+ComputePackagePrebuildTargetDependencyGraph
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+** CLEAN SUCCEEDED **
 
 ComputePackagePrebuildTargetDependencyGraph
 
@@ -22,7 +32,7 @@ CreateBuildDescription
 
 ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -x c -c /dev/null
 
-ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP/want/Assets.xcassets
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/Assets.xcassets
 
 ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
 
@@ -30,132 +40,504 @@ ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeD
 
 ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
 
-Build description signature: aaa1c40307e9a073072b2fdfae2b06b4
-Build description path: /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/XCBuildData/aaa1c40307e9a073072b2fdfae2b06b4.xcbuilddata
-ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk /Users/igasakigouta/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator18.5-22F76-d5fc8ad4295d2ef488fb7d0f804ce0c4.sdkstatcache
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP/want.xcodeproj
-    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -o /Users/igasakigouta/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator18.5-22F76-d5fc8ad4295d2ef488fb7d0f804ce0c4.sdkstatcache
+Build description signature: 7ef69bdfac8b1c353e100df716221634
+Build description path: /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/XCBuildData/7ef69bdfac8b1c353e100df716221634.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk /Users/igasaki/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator18.5-22F76-d5fc8ad4295d2ef488fb7d0f804ce0c4.sdkstatcache
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -o /Users/igasaki/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator18.5-22F76-d5fc8ad4295d2ef488fb7d0f804ce0c4.sdkstatcache
 
-WriteAuxiliaryFile /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.SwiftConstValuesFileList (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
-    write-file /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.SwiftConstValuesFileList
+CreateBuildDirectory /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want.xcodeproj
+    builtin-create-build-directory /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex
 
-WriteAuxiliaryFile /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.LinkFileList (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
-    write-file /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.LinkFileList
+CreateBuildDirectory /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want.xcodeproj
+    builtin-create-build-directory /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products
 
-WriteAuxiliaryFile /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.SwiftFileList (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
-    write-file /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.SwiftFileList
+CreateBuildDirectory /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want.xcodeproj
+    builtin-create-build-directory /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator
 
-ProcessInfoPlistFile /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app/Info.plist /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/empty-want.plist (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
-    builtin-infoPlistUtility /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/empty-want.plist -producttype com.apple.product-type.application -genpkginfo /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app/PkgInfo -expandbuildsettings -format binary -platform iphonesimulator -additionalcontentfile /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_generated_info.plist -o /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app/Info.plist
+WriteAuxiliaryFile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want-5045727a9cb23107561bcbf858b7b889-VFS-iphonesimulator/all-product-headers.yaml
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want.xcodeproj
+    write-file /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want-5045727a9cb23107561bcbf858b7b889-VFS-iphonesimulator/all-product-headers.yaml
+
+CreateBuildDirectory /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want.xcodeproj
+    builtin-create-build-directory /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+
+WriteAuxiliaryFile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.hmap (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    write-file /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.hmap
+
+WriteAuxiliaryFile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-generated-files.hmap (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    write-file /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-generated-files.hmap
+
+WriteAuxiliaryFile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-all-target-headers.hmap (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    write-file /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-all-target-headers.hmap
+
+WriteAuxiliaryFile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.DependencyMetadataFileList (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    write-file /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.DependencyMetadataFileList
+
+WriteAuxiliaryFile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-own-target-headers.hmap (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    write-file /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-own-target-headers.hmap
+
+WriteAuxiliaryFile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.DependencyStaticMetadataFileList (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    write-file /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-all-non-framework-target-headers.hmap (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    write-file /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-project-headers.hmap (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    write-file /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-project-headers.hmap
+
+WriteAuxiliaryFile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-DebugDylibPath-normal-arm64.txt (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    write-file /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-DebugDylibPath-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-DebugDylibInstallName-normal-arm64.txt (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    write-file /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-DebugDylibInstallName-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/empty-want.plist (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    write-file /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/empty-want.plist
+
+WriteAuxiliaryFile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.SwiftFileList (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    write-file /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.SwiftFileList
+
+WriteAuxiliaryFile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want_const_extract_protocols.json (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    write-file /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.SwiftConstValuesFileList (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    write-file /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.LinkFileList (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    write-file /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.LinkFileList
+
+WriteAuxiliaryFile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want-OutputFileMap.json (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    write-file /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want-OutputFileMap.json
+
+MkDir /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    /bin/mkdir -p /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app
+
+WriteAuxiliaryFile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources/Entitlements-Simulated.plist (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    write-file /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources/Entitlements-Simulated.plist
+
+ProcessProductPackaging "" /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.app-Simulated.xcent (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+    Entitlements:
+    
+    {
+    "application-identifier" = "3477ZNRKUT.com.igafactory2025.want";
+}
+    
+    builtin-productPackagingUtility -entitlements -format xml -o /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.app-Simulated.xcent
+
+ProcessProductPackagingDER /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.app-Simulated.xcent /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.app-Simulated.xcent.der (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    /usr/bin/derq query -f xml -i /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.app-Simulated.xcent -o /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.app-Simulated.xcent.der --raw
+
+MkDir /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_output/unthinned (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    /bin/mkdir -p /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_output/unthinned
+
+CpResource /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/memories.json /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/memories.json (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/memories.json /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app
+
+CpResource /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/emotions.json /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/emotions.json (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/emotions.json /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app
+
+MkDir /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_output/thinned (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    /bin/mkdir -p /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_output/thinned
+
+CpResource /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/persona.json /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/persona.json (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/persona.json /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app
+
+GenerateAssetSymbols /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/Assets.xcassets (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/Assets.xcassets --compile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app --output-format human-readable-text --notices --warnings --export-dependency-info /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_dependencies --output-partial-info-plist /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_generated_info.plist --app-icon AppIcon --accent-color AccentColor --compress-pngs --enable-on-demand-resources YES --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 18.5 --platform iphonesimulator --bundle-identifier com.igafactory2025.want --generate-swift-asset-symbols /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources/GeneratedAssetSymbols.swift --generate-objc-asset-symbols /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources/GeneratedAssetSymbols.h --generate-asset-symbol-index /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/* com.apple.actool.compilation-results */
+/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources/GeneratedAssetSymbols.h
+/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources/GeneratedAssetSymbols.swift
+
+
+CpResource /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/UserPrivacyChoices.html /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/UserPrivacyChoices.html (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/UserPrivacyChoices.html /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app
+
+Ld /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/__preview.dylib normal (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios18.5-simulator -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -O0 -L/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator -F/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator -install_name @rpath/want.debug.dylib -dead_strip -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -debug_variant -Xlinker -dependency_info -Xlinker /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want_dependency_info.dat -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __entitlements -Xlinker /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.app-Simulated.xcent -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __ents_der -Xlinker /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.app-Simulated.xcent.der -Xlinker -no_adhoc_codesign -o /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/__preview.dylib
+
+CpResource /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/ReceiptValidationGuide.md /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ReceiptValidationGuide.md (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ReceiptValidationGuide.md /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app
+
+CpResource /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/PrivacyPolicy.md /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/PrivacyPolicy.md (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/PrivacyPolicy.md /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app
+
+CpResource /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/EULA.md /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/EULA.md (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/EULA.md /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app
+
+CpResource /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/AppStoreReviewNotes.md /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/AppStoreReviewNotes.md (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/AppStoreReviewNotes.md /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app
+
+CompileAssetCatalogVariant thinned /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/Assets.xcassets (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/Assets.xcassets --compile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_dependencies_thinned --output-partial-info-plist /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_generated_info.plist_thinned --app-icon AppIcon --accent-color AccentColor --compress-pngs --enable-on-demand-resources YES --filter-for-thinning-device-configuration iPhone17,3 --filter-for-device-os-version 18.5 --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 18.5 --platform iphonesimulator
+/* com.apple.actool.compilation-results */
+/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_generated_info.plist_thinned
+/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_output/thinned/AppIcon60x60@2x.png
+/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_output/thinned/AppIcon76x76@2x~ipad.png
+/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_output/thinned/Assets.car
+
 
 SwiftDriver want normal arm64 com.apple.xcode.tools.swift.compiler (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
-    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name want -Onone -enforce-exclusivity\=checked @/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -target arm64-apple-ios18.5-simulator -g -module-cache-path /Users/igasakigouta/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -index-store-path /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Index.noindex/DataStore -swift-version 5 -I /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator -F /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64 -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/igasakigouta/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator18.5-22F76-d5fc8ad4295d2ef488fb7d0f804ce0c4.sdkstatcache -output-file-map /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/igasakigouta/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want_const_extract_protocols.json -Xcc -iquote -Xcc /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-generated-files.hmap -Xcc -I/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-own-target-headers.hmap -Xcc -I/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-all-target-headers.hmap -Xcc -iquote -Xcc /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-project-headers.hmap -Xcc -I/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources-normal/arm64 -Xcc -I/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources/arm64 -Xcc -I/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want-Swift.h -working-directory /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP -experimental-emit-module-separately -disable-cmo
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name want -Onone -enforce-exclusivity\=checked @/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -target arm64-apple-ios18.5-simulator -g -module-cache-path /Users/igasaki/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -index-store-path /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Index.noindex/DataStore -swift-version 5 -I /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator -F /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64 -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/igasaki/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator18.5-22F76-d5fc8ad4295d2ef488fb7d0f804ce0c4.sdkstatcache -output-file-map /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/igasaki/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want_const_extract_protocols.json -Xcc -iquote -Xcc /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-generated-files.hmap -Xcc -I/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-own-target-headers.hmap -Xcc -I/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-all-target-headers.hmap -Xcc -iquote -Xcc /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-project-headers.hmap -Xcc -I/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources-normal/arm64 -Xcc -I/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources/arm64 -Xcc -I/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want-Swift.h -working-directory /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP -experimental-emit-module-separately -disable-cmo
+
+SwiftCompile normal arm64 Compiling\ LineMessage.swift,\ SettingsView.swift,\ AvatarView.swift,\ ChatViewModel.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/LineMessage.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/SettingsView.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/AvatarView.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ChatViewModel.swift (in target 'want' from project 'want')
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/LineMessage.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/SettingsView.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+/Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/SettingsView.swift:89:22: warning: 'onChange(of:perform:)' was deprecated in iOS 17.0: Use `onChange` with a two or zero parameter action closure instead.
+                    .onChange(of: serverValidationEnabled) { newValue in
+                     ^
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/AvatarView.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ChatViewModel.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 Compiling\ ReceiptValidator.swift,\ AIConfigManager.swift,\ ChatView.swift,\ EmotionTrigger.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ReceiptValidator.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/AIConfigManager.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ChatView.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/EmotionTrigger.swift (in target 'want' from project 'want')
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ReceiptValidator.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/AIConfigManager.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ChatView.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/EmotionTrigger.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 Compiling\ PersonaManager.swift,\ SetupPersonaView.swift,\ AISettingsView.swift,\ AIInstructionsView.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/PersonaManager.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/SetupPersonaView.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/AISettingsView.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/AIInstructionsView.swift (in target 'want' from project 'want')
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/PersonaManager.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/SetupPersonaView.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/AISettingsView.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/AIInstructionsView.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
 
 SwiftEmitModule normal arm64 Emitting\ module\ for\ want (in target 'want' from project 'want')
 
 EmitSwiftModule normal arm64 (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
     
 
-SwiftCompile normal arm64 Compiling\ AISettingsView.swift /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP/want/AISettingsView.swift (in target 'want' from project 'want')
+SwiftCompile normal arm64 Compiling\ FileImportView.swift,\ InputBar.swift,\ PersonaCustomization.swift,\ ChatBubble.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/FileImportView.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/InputBar.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/PersonaCustomization.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ChatBubble.swift (in target 'want' from project 'want')
 
-SwiftCompile normal arm64 /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP/want/AISettingsView.swift (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/FileImportView.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
     
 
-SwiftCompile normal arm64 Compiling\ ChatViewModel.swift /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ChatViewModel.swift (in target 'want' from project 'want')
-
-SwiftCompile normal arm64 /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ChatViewModel.swift (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/InputBar.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
     
 
-SwiftCompile normal arm64 Compiling\ SubscriptionManager.swift /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP/want/SubscriptionManager.swift (in target 'want' from project 'want')
-
-SwiftCompile normal arm64 /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP/want/SubscriptionManager.swift (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/PersonaCustomization.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
     
 
-SwiftDriverJobDiscovery normal arm64 Compiling AISettingsView.swift (in target 'want' from project 'want')
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ChatBubble.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
 
-SwiftDriverJobDiscovery normal arm64 Compiling SubscriptionManager.swift (in target 'want' from project 'want')
+SwiftCompile normal arm64 Compiling\ ImageManager.swift,\ PersonaLoader.swift,\ AIChatService.swift,\ EmotionResponder.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ImageManager.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/PersonaLoader.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/AIChatService.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/EmotionResponder.swift (in target 'want' from project 'want')
 
-SwiftDriverJobDiscovery normal arm64 Compiling ChatViewModel.swift (in target 'want' from project 'want')
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ImageManager.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/PersonaLoader.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/AIChatService.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/EmotionResponder.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 Compiling\ Calendar+Extensions.swift,\ SubscriptionManager.swift,\ GeminiAPIService.swift,\ PersonaListView.swift,\ ImagePickerView.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/Calendar+Extensions.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/SubscriptionManager.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/GeminiAPIService.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/PersonaListView.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ImagePickerView.swift (in target 'want' from project 'want')
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/Calendar+Extensions.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/SubscriptionManager.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+/Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/SubscriptionManager.swift:146:48: warning: 'appStoreReceiptURL' was deprecated in iOS 18.0: Use AppTransaction.shared and Transaction.all from StoreKit.framework instead
+            guard let receiptURL = Bundle.main.appStoreReceiptURL,
+                                               ^
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/GeminiAPIService.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/PersonaListView.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ImagePickerView.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 Compiling\ EnhancedLocalResponseGenerator.swift,\ ChatRoom.swift,\ ChatRoomListView.swift,\ DebugPersistenceView.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/EnhancedLocalResponseGenerator.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ChatRoom.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ChatRoomListView.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/DebugPersistenceView.swift (in target 'want' from project 'want')
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/EnhancedLocalResponseGenerator.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ChatRoom.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ChatRoomListView.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/DebugPersistenceView.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 Compiling\ LegalView.swift,\ MemoryDatabase.swift,\ EmotionPickerView.swift,\ GeneratedAssetSymbols.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/LegalView.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/MemoryDatabase.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/EmotionPickerView.swift /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'want' from project 'want')
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/LegalView.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/MemoryDatabase.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/EmotionPickerView.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 Compiling\ ChatMessage.swift,\ LocalResponseService.swift,\ ContentView.swift,\ EnhancedMemoryDatabase.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ChatMessage.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/LocalResponseService.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ContentView.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/EnhancedMemoryDatabase.swift (in target 'want' from project 'want')
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ChatMessage.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/LocalResponseService.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/ContentView.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/EnhancedMemoryDatabase.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftDriverJobDiscovery normal arm64 Compiling ImageManager.swift, PersonaLoader.swift, AIChatService.swift, EmotionResponder.swift (in target 'want' from project 'want')
+
+SwiftCompile normal arm64 Compiling\ SubscriptionView.swift,\ MemoryKeyword.swift,\ UserPersona.swift,\ wantApp.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/SubscriptionView.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/MemoryKeyword.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/UserPersona.swift /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/wantApp.swift (in target 'want' from project 'want')
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/SubscriptionView.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/MemoryKeyword.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/UserPersona.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
+
+SwiftCompile normal arm64 /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/wantApp.swift (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    
 
 SwiftDriverJobDiscovery normal arm64 Emitting module for want (in target 'want' from project 'want')
 
 SwiftDriver\ Compilation\ Requirements want normal arm64 com.apple.xcode.tools.swift.compiler (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
-    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name want -Onone -enforce-exclusivity\=checked @/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -target arm64-apple-ios18.5-simulator -g -module-cache-path /Users/igasakigouta/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -index-store-path /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Index.noindex/DataStore -swift-version 5 -I /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator -F /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64 -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/igasakigouta/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator18.5-22F76-d5fc8ad4295d2ef488fb7d0f804ce0c4.sdkstatcache -output-file-map /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/igasakigouta/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want_const_extract_protocols.json -Xcc -iquote -Xcc /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-generated-files.hmap -Xcc -I/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-own-target-headers.hmap -Xcc -I/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-all-target-headers.hmap -Xcc -iquote -Xcc /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-project-headers.hmap -Xcc -I/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources-normal/arm64 -Xcc -I/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources/arm64 -Xcc -I/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want-Swift.h -working-directory /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP -experimental-emit-module-separately -disable-cmo
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name want -Onone -enforce-exclusivity\=checked @/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -target arm64-apple-ios18.5-simulator -g -module-cache-path /Users/igasaki/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -index-store-path /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Index.noindex/DataStore -swift-version 5 -I /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator -F /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64 -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/igasaki/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator18.5-22F76-d5fc8ad4295d2ef488fb7d0f804ce0c4.sdkstatcache -output-file-map /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/igasaki/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want_const_extract_protocols.json -Xcc -iquote -Xcc /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-generated-files.hmap -Xcc -I/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-own-target-headers.hmap -Xcc -I/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-all-target-headers.hmap -Xcc -iquote -Xcc /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-project-headers.hmap -Xcc -I/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources-normal/arm64 -Xcc -I/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources/arm64 -Xcc -I/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want-Swift.h -working-directory /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP -experimental-emit-module-separately -disable-cmo
+
+SwiftDriverJobDiscovery normal arm64 Compiling LegalView.swift, MemoryDatabase.swift, EmotionPickerView.swift, GeneratedAssetSymbols.swift (in target 'want' from project 'want')
+
+SwiftMergeGeneratedHeaders /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources/want-Swift.h /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want-Swift.h (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    builtin-swiftHeaderTool -arch arm64 /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want-Swift.h -o /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources/want-Swift.h
+
+Copy /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.swiftmodule (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.swiftmodule /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.swiftmodule/arm64-apple-ios-simulator.swiftmodule
+
+Copy /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.swiftmodule/arm64-apple-ios-simulator.swiftdoc /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.swiftdoc (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.swiftdoc /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.swiftmodule/arm64-apple-ios-simulator.swiftdoc
+
+Copy /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.swiftmodule/arm64-apple-ios-simulator.abi.json /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.abi.json (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.abi.json /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.swiftmodule/arm64-apple-ios-simulator.abi.json
+
+Copy /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.swiftsourceinfo (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.swiftsourceinfo /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo
+
+SwiftDriverJobDiscovery normal arm64 Compiling ChatMessage.swift, LocalResponseService.swift, ContentView.swift, EnhancedMemoryDatabase.swift (in target 'want' from project 'want')
+
+SwiftDriverJobDiscovery normal arm64 Compiling FileImportView.swift, InputBar.swift, PersonaCustomization.swift, ChatBubble.swift (in target 'want' from project 'want')
+
+SwiftDriverJobDiscovery normal arm64 Compiling ReceiptValidator.swift, AIConfigManager.swift, ChatView.swift, EmotionTrigger.swift (in target 'want' from project 'want')
+
+SwiftDriverJobDiscovery normal arm64 Compiling Calendar+Extensions.swift, SubscriptionManager.swift, GeminiAPIService.swift, PersonaListView.swift, ImagePickerView.swift (in target 'want' from project 'want')
+
+SwiftDriverJobDiscovery normal arm64 Compiling LineMessage.swift, SettingsView.swift, AvatarView.swift, ChatViewModel.swift (in target 'want' from project 'want')
+
+SwiftDriverJobDiscovery normal arm64 Compiling EnhancedLocalResponseGenerator.swift, ChatRoom.swift, ChatRoomListView.swift, DebugPersistenceView.swift (in target 'want' from project 'want')
+
+SwiftDriverJobDiscovery normal arm64 Compiling PersonaManager.swift, SetupPersonaView.swift, AISettingsView.swift, AIInstructionsView.swift (in target 'want' from project 'want')
+
+SwiftDriverJobDiscovery normal arm64 Compiling SubscriptionView.swift, MemoryKeyword.swift, UserPersona.swift, wantApp.swift (in target 'want' from project 'want')
 
 SwiftDriver\ Compilation want normal arm64 com.apple.xcode.tools.swift.compiler (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
-    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name want -Onone -enforce-exclusivity\=checked @/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -target arm64-apple-ios18.5-simulator -g -module-cache-path /Users/igasakigouta/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -index-store-path /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Index.noindex/DataStore -swift-version 5 -I /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator -F /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64 -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/igasakigouta/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator18.5-22F76-d5fc8ad4295d2ef488fb7d0f804ce0c4.sdkstatcache -output-file-map /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/igasakigouta/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want_const_extract_protocols.json -Xcc -iquote -Xcc /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-generated-files.hmap -Xcc -I/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-own-target-headers.hmap -Xcc -I/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-all-target-headers.hmap -Xcc -iquote -Xcc /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-project-headers.hmap -Xcc -I/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources-normal/arm64 -Xcc -I/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources/arm64 -Xcc -I/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want-Swift.h -working-directory /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP -experimental-emit-module-separately -disable-cmo
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name want -Onone -enforce-exclusivity\=checked @/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -target arm64-apple-ios18.5-simulator -g -module-cache-path /Users/igasaki/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -index-store-path /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Index.noindex/DataStore -swift-version 5 -I /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator -F /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64 -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/igasaki/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator18.5-22F76-d5fc8ad4295d2ef488fb7d0f804ce0c4.sdkstatcache -output-file-map /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/igasaki/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want_const_extract_protocols.json -Xcc -iquote -Xcc /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-generated-files.hmap -Xcc -I/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-own-target-headers.hmap -Xcc -I/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-all-target-headers.hmap -Xcc -iquote -Xcc /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-project-headers.hmap -Xcc -I/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources-normal/arm64 -Xcc -I/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources/arm64 -Xcc -I/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want-Swift.h -working-directory /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP -experimental-emit-module-separately -disable-cmo
 
-Copy /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.swiftmodule (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
-    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.swiftmodule /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.swiftmodule/arm64-apple-ios-simulator.swiftmodule
+Ld /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/want.debug.dylib normal (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios18.5-simulator -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -O0 -L/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -L/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator -F/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -F/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator -filelist /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.LinkFileList -install_name @rpath/want.debug.dylib -Xlinker -rpath -Xlinker @executable_path/Frameworks -dead_strip -Xlinker -object_path_lto -Xlinker /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want_lto.o -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -debug_variant -Xlinker -dependency_info -Xlinker /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want_dependency_info.dat -fobjc-link-runtime -fprofile-instr-generate -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.swiftmodule -Xlinker -alias -Xlinker _main -Xlinker ___debug_main_executable_dylib_entry_point -Xlinker -no_adhoc_codesign -o /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/want.debug.dylib
 
-Copy /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.swiftmodule/arm64-apple-ios-simulator.abi.json /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.abi.json (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
-    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.abi.json /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.swiftmodule/arm64-apple-ios-simulator.abi.json
-
-Copy /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.swiftsourceinfo (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
-    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.swiftsourceinfo /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo
-
-Ld /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app/want.debug.dylib normal (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
-    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios18.5-simulator -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -O0 -L/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -L/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator -F/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -F/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator -filelist /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.LinkFileList -install_name @rpath/want.debug.dylib -Xlinker -rpath -Xlinker @executable_path/Frameworks -dead_strip -Xlinker -object_path_lto -Xlinker /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want_lto.o -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -debug_variant -Xlinker -dependency_info -Xlinker /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want_dependency_info.dat -fobjc-link-runtime -fprofile-instr-generate -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.swiftmodule -Xlinker -alias -Xlinker _main -Xlinker ___debug_main_executable_dylib_entry_point -Xlinker -no_adhoc_codesign -o /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app/want.debug.dylib
-
-ConstructStubExecutorLinkFileList /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-ExecutorLinkFileList-normal-arm64.txt (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
-    construct-stub-executor-link-file-list /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app/want.debug.dylib /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libPreviewsJITStubExecutor_no_swift_entry_point.a /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libPreviewsJITStubExecutor.a --output /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-ExecutorLinkFileList-normal-arm64.txt
+ConstructStubExecutorLinkFileList /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-ExecutorLinkFileList-normal-arm64.txt (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    construct-stub-executor-link-file-list /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/want.debug.dylib /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libPreviewsJITStubExecutor_no_swift_entry_point.a /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libPreviewsJITStubExecutor.a --output /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-ExecutorLinkFileList-normal-arm64.txt
 note: Using stub executor library with Swift entry point. (in target 'want' from project 'want')
 
-Ld /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app/want normal (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
-    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios18.5-simulator -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -O0 -L/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator -F/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator -Xlinker -rpath -Xlinker @executable_path -Xlinker -rpath -Xlinker @executable_path/Frameworks -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -debug_variant -e ___debug_blank_executor_main -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_dylib -Xlinker /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-DebugDylibPath-normal-arm64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_instlnm -Xlinker /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-DebugDylibInstallName-normal-arm64.txt -Xlinker -filelist -Xlinker /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-ExecutorLinkFileList-normal-arm64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __entitlements -Xlinker /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.app-Simulated.xcent -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __ents_der -Xlinker /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.app-Simulated.xcent.der /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app/want.debug.dylib -Xlinker -no_adhoc_codesign -o /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app/want
+Ld /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/want normal (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios18.5-simulator -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -O0 -L/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator -F/Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator -Xlinker -rpath -Xlinker @executable_path -Xlinker -rpath -Xlinker @executable_path/Frameworks -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -debug_variant -e ___debug_blank_executor_main -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_dylib -Xlinker /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-DebugDylibPath-normal-arm64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_instlnm -Xlinker /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-DebugDylibInstallName-normal-arm64.txt -Xlinker -filelist -Xlinker /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want-ExecutorLinkFileList-normal-arm64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __entitlements -Xlinker /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.app-Simulated.xcent -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __ents_der -Xlinker /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.app-Simulated.xcent.der /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/want.debug.dylib -Xlinker -no_adhoc_codesign -o /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/want
 
-CopySwiftLibs /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
-    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app/want.debug.dylib --scan-folder /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app/Frameworks --scan-folder /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app/PlugIns --scan-folder /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app/SystemExtensions --scan-folder /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app/Extensions --platform iphonesimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+LinkAssetCatalog /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP/want/Assets.xcassets (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    builtin-linkAssetCatalog --thinned /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_output/thinned --thinned-dependencies /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_dependencies_thinned --thinned-info-plist-content /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_generated_info.plist_thinned --unthinned /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_output/unthinned --unthinned-dependencies /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_dependencies_unthinned --unthinned-info-plist-content /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_generated_info.plist_unthinned --output /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app --plist-output /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_generated_info.plist
+note: Emplaced /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/AppIcon76x76@2x~ipad.png (in target 'want' from project 'want')
+note: Emplaced /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/Assets.car (in target 'want' from project 'want')
+note: Emplaced /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/AppIcon60x60@2x.png (in target 'want' from project 'want')
+
+ProcessInfoPlistFile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/Info.plist /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/empty-want.plist (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    builtin-infoPlistUtility /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/empty-want.plist -producttype com.apple.product-type.application -genpkginfo /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/PkgInfo -expandbuildsettings -format binary -platform iphonesimulator -additionalcontentfile /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/assetcatalog_generated_info.plist -o /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/Info.plist
 
 ExtractAppIntentsMetadata (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
-    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name want --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk --xcode-version 16F6 --platform-family iOS --deployment-target 18.5 --bundle-identifier igafactory.want --output /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app --target-triple arm64-apple-ios18.5-simulator --binary-file /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app/want --dependency-file /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want_dependency_info.dat --stringsdata-file /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.SwiftFileList --metadata-file-list /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.DependencyMetadataFileList --static-metadata-file-list /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.DependencyStaticMetadataFileList --swift-const-vals-list /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --validate-assistant-intents --no-app-shortcuts-localization
-2025-06-22 21:47:06.663 appintentsmetadataprocessor[46483:1199419] Starting appintentsmetadataprocessor export
-2025-06-22 21:47:06.664 appintentsmetadataprocessor[46483:1199419] warning: Metadata extraction skipped. No AppIntents.framework dependency found.
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name want --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk --xcode-version 16F6 --platform-family iOS --deployment-target 18.5 --bundle-identifier com.igafactory2025.want --output /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app --target-triple arm64-apple-ios18.5-simulator --binary-file /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/want --dependency-file /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want_dependency_info.dat --stringsdata-file /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.SwiftFileList --metadata-file-list /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.DependencyMetadataFileList --static-metadata-file-list /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.DependencyStaticMetadataFileList --swift-const-vals-list /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/Objects-normal/arm64/want.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --validate-assistant-intents --no-app-shortcuts-localization
+2025-06-30 10:03:38.494 appintentsmetadataprocessor[5751:130043] Starting appintentsmetadataprocessor export
+2025-06-30 10:03:38.495 appintentsmetadataprocessor[5751:130043] warning: Metadata extraction skipped. No AppIntents.framework dependency found.
 
-CodeSign /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app/want.debug.dylib (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
+CopySwiftLibs /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/want.debug.dylib --scan-folder /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/Frameworks --scan-folder /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/PlugIns --scan-folder /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/SystemExtensions --scan-folder /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/Extensions --platform iphonesimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+AppIntentsSSUTraining (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/Info.plist --temp-dir-path /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/ssu --bundle-id com.igafactory2025.want --product-path /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app --extracted-metadata-path /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/Metadata.appintents --metadata-file-list /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Intermediates.noindex/want.build/Debug-iphonesimulator/want.build/want.DependencyMetadataFileList --archive-ssu-assets
+2025-06-30 10:03:38.506 appintentsnltrainingprocessor[5752:130044] Parsing options for appintentsnltrainingprocessor
+2025-06-30 10:03:38.506 appintentsnltrainingprocessor[5752:130044] No AppShortcuts found - Skipping.
+
+CodeSign /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/want.debug.dylib (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
     
     Signing Identity:     "Sign to Run Locally"
     
-    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app/want.debug.dylib
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/want.debug.dylib
 
-CodeSign /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app/__preview.dylib (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
+CodeSign /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/__preview.dylib (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
     
     Signing Identity:     "Sign to Run Locally"
     
-    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app/__preview.dylib
-/Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app/__preview.dylib: replacing existing signature
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app/__preview.dylib
 
-CodeSign /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
+CodeSign /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
     
     Signing Identity:     "Sign to Run Locally"
     
-    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app
 
-Validate /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app (in target 'want' from project 'want')
-    cd /Users/igasakigouta/Desktop/compleat/NEW＿完成させるよ/want_JP
-    builtin-validationUtility /Users/igasakigouta/Library/Developer/Xcode/DerivedData/want-cgxyesmdncrwwbadmggoejpuofru/Build/Products/Debug-iphonesimulator/want.app -infoplist-subpath Info.plist
+RegisterExecutionPolicyException /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    builtin-RegisterExecutionPolicyException /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app
+
+Validate /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    builtin-validationUtility /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app -infoplist-subpath Info.plist
+
+Touch /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app (in target 'want' from project 'want')
+    cd /Users/igasaki/Desktop/compleat/NEW＿完成させるよ/want_JP
+    /usr/bin/touch -c /Users/igasaki/Library/Developer/Xcode/DerivedData/want-gsprhrktrblfnkblcovqjasccyzi/Build/Products/Debug-iphonesimulator/want.app
 
 ** BUILD SUCCEEDED **
 

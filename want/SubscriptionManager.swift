@@ -29,7 +29,7 @@ class SubscriptionManager: ObservableObject {
         // ReceiptValidatorを初期化（実際の運用では適切なShared Secretを設定）
         self.receiptValidator = ReceiptValidator(
             bundleIdentifier: "com.igafactory2025.want",
-            sharedSecret: "YOUR_SHARED_SECRET_HERE" // App Store Connectで取得したShared Secret
+            sharedSecret: "c8bd394394d642e3aa07bd0125ab96ff" // App Store Connectで取得したShared Secret（本番用）
         )
         
         loadSubscriptionStatus()

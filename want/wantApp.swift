@@ -432,7 +432,7 @@ struct AppSettingsView: View {
                                 .foregroundColor(.blue)
                             Text("バージョン")
                             Spacer()
-                            Text("1.0.2")
+                            Text("1.0.3")
                                 .foregroundColor(.secondary)
                         }
                     }
