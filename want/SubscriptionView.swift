@@ -43,9 +43,9 @@ struct SubscriptionView: View {
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
                         
-                        Text("トライアル期間終了後は月額800円で継続利用できます")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
+                                        Text("トライアル期間終了後は月額250円で継続利用できます")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
                     }
                     .padding()
@@ -116,7 +116,7 @@ struct SubscriptionView: View {
                             SubscriptionInfoRow(
                                 icon: "yensign.circle",
                                 title: "価格",
-                                value: "800円 / 月"
+                                value: "250円 / 月"
                             )
                         }
                         
