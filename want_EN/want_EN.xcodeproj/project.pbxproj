@@ -75,9 +75,9 @@
 		D7C9D9D42DEE94BD00AACBD3 = {
 			isa = PBXGroup;
 			children = (
-				D7C9D9DF2DEE94BD00AACBD3 /* want */,
-				D7C9D9ED2DEE94BE00AACBD3 /* wantTests */,
-				D7C9D9F72DEE94BE00AACBD3 /* wantUITests */,
+				D7C9D9DF2DEE94BD00AACBD3 /* want_EN */,
+				D7C9D9ED2DEE94BE00AACBD3 /* wantENTests */,
+				D7C9D9F72DEE94BE00AACBD3 /* wantENUITests */,
 				D7C9D9DE2DEE94BD00AACBD3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -186,7 +186,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D7C9D9D82DEE94BD00AACBD3 /* Build configuration list for PBXProject "want" */;
+			buildConfigurationList = D7C9D9D82DEE94BD00AACBD3 /* Build configuration list for PBXProject "want_EN" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -200,9 +200,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D7C9D9DC2DEE94BD00AACBD3 /* want */,
-				D7C9D9E92DEE94BE00AACBD3 /* wantTests */,
-				D7C9D9F32DEE94BE00AACBD3 /* wantUITests */,
+				D7C9D9DC2DEE94BD00AACBD3 /* want_EN */,
+				D7C9D9E92DEE94BE00AACBD3 /* wantENTests */,
+				D7C9D9F32DEE94BE00AACBD3 /* wantENUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -258,12 +258,12 @@
 /* Begin PBXTargetDependency section */
 		D7C9D9EC2DEE94BE00AACBD3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D7C9D9DC2DEE94BD00AACBD3 /* want */;
+			target = D7C9D9DC2DEE94BD00AACBD3 /* want_EN */;
 			targetProxy = D7C9D9EB2DEE94BE00AACBD3 /* PBXContainerItemProxy */;
 		};
 		D7C9D9F62DEE94BE00AACBD3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D7C9D9DC2DEE94BD00AACBD3 /* want */;
+			target = D7C9D9DC2DEE94BD00AACBD3 /* want_EN */;
 			targetProxy = D7C9D9F52DEE94BE00AACBD3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -410,7 +410,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.4;
-				PRODUCT_BUNDLE_IDENTIFIER = com.igafactory2025.want;
+				PRODUCT_BUNDLE_IDENTIFIER = com.igafactory2025.want.en;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -440,7 +440,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.4;
-				PRODUCT_BUNDLE_IDENTIFIER = com.igafactory2025.want;
+				PRODUCT_BUNDLE_IDENTIFIER = com.igafactory2025.want.en;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -519,7 +519,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D7C9D9D82DEE94BD00AACBD3 /* Build configuration list for PBXProject "want" */ = {
+		D7C9D9D82DEE94BD00AACBD3 /* Build configuration list for PBXProject "want_EN" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D7C9D9FC2DEE94BE00AACBD3 /* Debug */,
@@ -528,7 +528,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D7C9D9FE2DEE94BE00AACBD3 /* Build configuration list for PBXNativeTarget "want" */ = {
+		D7C9D9FE2DEE94BE00AACBD3 /* Build configuration list for PBXNativeTarget "want_EN" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D7C9D9FF2DEE94BE00AACBD3 /* Debug */,
@@ -537,7 +537,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D7C9DA012DEE94BE00AACBD3 /* Build configuration list for PBXNativeTarget "wantTests" */ = {
+		D7C9DA012DEE94BE00AACBD3 /* Build configuration list for PBXNativeTarget "wantENTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D7C9DA022DEE94BE00AACBD3 /* Debug */,
@@ -546,7 +546,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D7C9DA042DEE94BE00AACBD3 /* Build configuration list for PBXNativeTarget "wantUITests" */ = {
+		D7C9DA042DEE94BE00AACBD3 /* Build configuration list for PBXNativeTarget "wantENUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D7C9DA052DEE94BE00AACBD3 /* Debug */,

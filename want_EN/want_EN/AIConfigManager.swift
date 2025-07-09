@@ -21,7 +21,7 @@ class AIConfigManager: ObservableObject {
             self.currentConfig = AIConfig(
                 isAIEnabled: true,
                 provider: .openai,
-                cloudFunctionURL: "https://your-vercel-app.vercel.app/api/chat"
+                cloudFunctionURL: "https://your-vercel-app.vercel.app/api/openai-proxy"
             )
         }
         
@@ -52,7 +52,7 @@ class AIConfigManager: ObservableObject {
         currentConfig = AIConfig(
             isAIEnabled: true,
             provider: .openai,
-            cloudFunctionURL: "https://your-vercel-app.vercel.app/api/chat"
+            cloudFunctionURL: "https://your-vercel-app.vercel.app/api/openai-proxy"
         )
         print("🔄 Settings reset to defaults")
     }

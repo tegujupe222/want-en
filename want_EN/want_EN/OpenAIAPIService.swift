@@ -30,6 +30,10 @@ class OpenAIAPIService {
     ) async throws -> String {
         
         print("🤖 OpenAI API call started")
+        print("🔗 Vercel Server URL: \(vercelServerURL)")
+        print("👤 Persona: \(persona.name) (\(persona.relationship))")
+        print("💬 User message: \(userMessage)")
+        print("📚 Conversation history count: \(conversationHistory.count)")
         
         // Create request data
         let request = OpenAIRequest(
@@ -41,9 +45,11 @@ class OpenAIAPIService {
         
         // JSON encode
         let jsonData = try JSONEncoder().encode(request)
+        print("📦 Request data size: \(jsonData.count) bytes")
         
         // Create URL request
         guard let url = URL(string: vercelServerURL) else {
+            print("❌ Invalid URL: \(vercelServerURL)")
             throw AIChatError.invalidURL
         }
         
@@ -52,27 +58,42 @@ class OpenAIAPIService {
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.httpBody = jsonData
         
+        print("📡 Sending POST request to: \(url)")
+        
         // Execute network request
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
         
+        print("📥 Received response data size: \(data.count) bytes")
+        
         // Check response
         guard let httpResponse = response as? HTTPURLResponse else {
+            print("❌ Invalid response type")
             throw AIChatError.networkError
         }
         
+        print("📊 HTTP Status Code: \(httpResponse.statusCode)")
+        print("📋 Response Headers: \(httpResponse.allHeaderFields)")
+        
         guard httpResponse.statusCode == 200 else {
+            let responseText = String(data: data, encoding: .utf8) ?? "Unable to decode response"
             print("❌ HTTP Error: \(httpResponse.statusCode)")
+            print("❌ Error Response: \(responseText)")
             throw AIChatError.serverError(httpResponse.statusCode)
         }
         
         // Decode response
+        let responseText = String(data: data, encoding: .utf8) ?? "Unable to decode response"
+        print("📄 Raw response: \(responseText)")
+        
         let openAIResponse = try JSONDecoder().decode(OpenAIResponse.self, from: data)
         
         if let error = openAIResponse.error {
+            print("❌ API Error: \(error)")
             throw AIChatError.apiError(NSError(domain: "OpenAIAPI", code: -1, userInfo: [NSLocalizedDescriptionKey: error]))
         }
         
         print("✅ OpenAI API call successful")
+        print("💬 Response: \(openAIResponse.response.prefix(100))...")
         return openAIResponse.response
     }
     
@@ -110,41 +131,4 @@ class OpenAIAPIService {
 }
 
 // MARK: - Error Types
-
-enum OpenAIAPIError: LocalizedError {
-    case invalidResponse
-    case badRequest
-    case unauthorized
-    case forbidden
-    case endpointNotFound
-    case rateLimitExceeded
-    case serverError
-    case unknownError(Int)
-    case invalidResponseFormat
-    case jsonParsingError(Error)
-    
-    var errorDescription: String? {
-        switch self {
-        case .invalidResponse:
-            return "Invalid response received"
-        case .badRequest:
-            return "Invalid request format"
-        case .unauthorized:
-            return "API key is invalid. Please check your settings."
-        case .forbidden:
-            return "API access denied"
-        case .endpointNotFound:
-            return "API endpoint not found. Please check the URL."
-        case .rateLimitExceeded:
-            return "API rate limit exceeded. Please wait and try again."
-        case .serverError:
-            return "Server error occurred"
-        case .unknownError(let code):
-            return "Unknown error occurred (code: \(code))"
-        case .invalidResponseFormat:
-            return "Invalid API response format"
-        case .jsonParsingError(let error):
-            return "JSON parsing error: \(error.localizedDescription)"
-        }
-    }
-} 
+// Using AIChatError from AIChatService.swift for consistency 

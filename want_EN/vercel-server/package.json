@@ -1,0 +1,28 @@
+{
+  "name": "want-en-vercel-server",
+  "version": "1.0.0",
+  "description": "Vercel server for want_EN AI chat app",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "vercel": "^32.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "vercel",
+    "openai",
+    "api",
+    "proxy",
+    "chat"
+  ],
+  "author": "want_EN Development Team",
+  "license": "MIT"
+} 
