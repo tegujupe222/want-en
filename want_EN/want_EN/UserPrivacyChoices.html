@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ユーザープライバシー選択 - want</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f7;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #007AFF;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #007AFF;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        .section {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #007AFF;
+        }
+        .choice-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e1e5e9;
+        }
+        .choice-item:hover {
+            border-color: #007AFF;
+            box-shadow: 0 2px 8px rgba(0,122,255,0.1);
+        }
+        .toggle {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background: #ccc;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .toggle.active {
+            background: #007AFF;
+        }
+        .toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+        .toggle.active::after {
+            transform: translateX(26px);
+        }
+        .description {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+            transition: background 0.3s;
+        }
+        .button:hover {
+            background: #0056CC;
+        }
+        .button.secondary {
+            background: #6c757d;
+        }
+        .button.secondary:hover {
+            background: #545b62;
+        }
+        .contact-info {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e1e5e9;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ユーザープライバシー選択</h1>
+        <p><strong>最終更新日:</strong> 2025年6月24日</p>
+        
+        <div class="section">
+            <h2>データ収集の選択</h2>
+            <p>wantアプリでは、あなたのプライバシーを尊重し、データの収集と使用について選択できるようにしています。以下の設定を変更することで、データの収集方法をカスタマイズできます。</p>
+        </div>
+
+        <div class="section">
+            <h2>必須データ</h2>
+            <p>アプリの基本機能を提供するために必要なデータです。これらは無効にすることはできません。</p>
+            
+            <div class="choice-item">
+                <div>
+                    <strong>アプリ機能データ</strong>
+                    <div class="description">ペルソナ設定、会話履歴、アプリ設定など、アプリの基本機能に必要なデータ</div>
+                </div>
+                <div class="toggle active" style="opacity: 0.5;"></div>
+            </div>
+            
+            <div class="choice-item">
+                <div>
+                    <strong>サブスクリプション情報</strong>
+                    <div class="description">App Storeを通じた課金情報（Appleが管理）</div>
+                </div>
+                <div class="toggle active" style="opacity: 0.5;"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>オプショナルデータ</h2>
+            <p>サービスの改善のために使用されるデータです。これらは無効にすることができます。</p>
+            
+            <div class="choice-item">
+                <div>
+                    <strong>利用統計データ</strong>
+                    <div class="description">アプリの使用頻度、機能の利用状況などの匿名化された統計情報</div>
+                </div>
+                <div class="toggle active" onclick="toggleChoice(this)"></div>
+            </div>
+            
+            <div class="choice-item">
+                <div>
+                    <strong>クラッシュレポート</strong>
+                    <div class="description">アプリのクラッシュ情報（バグ修正のため）</div>
+                </div>
+                <div class="toggle active" onclick="toggleChoice(this)"></div>
+            </div>
+            
+            <div class="choice-item">
+                <div>
+                    <strong>デバイス情報</strong>
+                    <div class="description">OSバージョン、アプリバージョンなどの技術情報</div>
+                </div>
+                <div class="toggle active" onclick="toggleChoice(this)"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>データ管理</h2>
+            <p>あなたのデータを管理するためのオプションです。</p>
+            
+            <button class="button" onclick="exportData()">データをエクスポート</button>
+            <button class="button secondary" onclick="deleteData()">データを削除</button>
+            <button class="button secondary" onclick="resetChoices()">設定をリセット</button>
+        </div>
+
+        <div class="section">
+            <h2>外部サービス</h2>
+            <p>本アプリは以下の外部サービスを使用しています：</p>
+            
+            <div class="choice-item">
+                <div>
+                    <strong>Google Gemini API</strong>
+                    <div class="description">AI機能の提供（会話内容が送信されます）</div>
+                </div>
+                <div class="toggle active" style="opacity: 0.5;"></div>
+            </div>
+            
+            <div class="choice-item">
+                <div>
+                    <strong>Apple App Store</strong>
+                    <div class="description">アプリ配布・課金（Appleが管理）</div>
+                </div>
+                <div class="toggle active" style="opacity: 0.5;"></div>
+            </div>
+        </div>
+
+        <div class="contact-info">
+            <h2>お問い合わせ</h2>
+            <p>プライバシーに関するご質問やご要望がございましたら、お気軽にお問い合わせください。</p>
+            <p><strong>メール:</strong> igafactory2023@gmail.com</p>
+            <p><strong>対応時間:</strong> 平日 9:00-18:00（日本時間）</p>
+        </div>
+
+        <div class="footer">
+            <p>関連リンク:</p>
+            <p><a href="https://tegujupe222.github.io/privacy-policy/">プライバシーポリシー</a> | 
+               <a href="https://tegujupe222.github.io/privacy-policy/terms.html">利用規約</a></p>
+            <p>&copy; 2025 igafactory. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleChoice(element) {
+            element.classList.toggle('active');
+            saveChoices();
+        }
+
+        function saveChoices() {
+            const toggles = document.querySelectorAll('.toggle:not([style*="opacity"])');
+            const choices = {};
+            toggles.forEach((toggle, index) => {
+                choices[`choice_${index}`] = toggle.classList.contains('active');
+            });
+            localStorage.setItem('privacyChoices', JSON.stringify(choices));
+        }
+
+        function loadChoices() {
+            const choices = JSON.parse(localStorage.getItem('privacyChoices') || '{}');
+            const toggles = document.querySelectorAll('.toggle:not([style*="opacity"])');
+            toggles.forEach((toggle, index) => {
+                if (choices[`choice_${index}`] === false) {
+                    toggle.classList.remove('active');
+                }
+            });
+        }
+
+        function exportData() {
+            alert('データエクスポート機能はアプリ内でご利用ください。');
+        }
+
+        function deleteData() {
+            if (confirm('すべてのデータを削除しますか？この操作は取り消せません。')) {
+                alert('データ削除機能はアプリ内でご利用ください。');
+            }
+        }
+
+        function resetChoices() {
+            if (confirm('プライバシー設定をデフォルトにリセットしますか？')) {
+                const toggles = document.querySelectorAll('.toggle:not([style*="opacity"])');
+                toggles.forEach(toggle => {
+                    toggle.classList.add('active');
+                });
+                saveChoices();
+                alert('設定をリセットしました。');
+            }
+        }
+
+        // ページ読み込み時に設定を復元
+        document.addEventListener('DOMContentLoaded', loadChoices);
+    </script>
+</body>
+</html> 

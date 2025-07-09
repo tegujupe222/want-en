@@ -1,0 +1,28 @@
+{
+  "name": "want_EN",
+  "version": "1.0.3",
+  "description": "English version of the want AI chat app - Create and chat with personalized personas",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ios",
+    "swift",
+    "swiftui",
+    "ai",
+    "chat",
+    "persona",
+    "english"
+  ],
+  "author": "want_EN Development Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/want_EN.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/want_EN/issues"
+  },
+  "homepage": "https://github.com/your-username/want_EN#readme"
+} 
