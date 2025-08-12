@@ -318,8 +318,7 @@ struct AppContentView: View {
                 print("📋 5. AI feature status check...")
                 let aiConfig = AIConfigManager.shared.currentConfig
                 print("🤖 AI enabled: \(aiConfig.isAIEnabled)")
-                print("🤖 AI provider: \(aiConfig.provider.displayName)")
-                print("🤖 Cloud Function URL: \(aiConfig.cloudFunctionURL)")
+                print("🤖 Gemini API Key: \(aiConfig.geminiAPIKey.isEmpty ? "Not set" : "Set")")
                 
                 // AI feature connection test (run in background)
                 print("📋 6. AI feature connection test started...")

@@ -17,11 +17,10 @@ class AIConfigManager: ObservableObject {
            let config = try? JSONDecoder().decode(AIConfig.self, from: data) {
             self.currentConfig = config
         } else {
-            // Default settings - now using OpenAI
+            // Default settings - using Gemini 2.5 Flash Lite only
             self.currentConfig = AIConfig(
                 isAIEnabled: true,
-                provider: .openai,
-                cloudFunctionURL: "https://your-vercel-app.vercel.app/api/openai-proxy"
+                geminiAPIKey: ""
             )
         }
         
@@ -43,16 +42,15 @@ class AIConfigManager: ObservableObject {
         print("❌ AI features disabled")
     }
     
-    func updateCloudFunctionURL(_ url: String) {
-        currentConfig.cloudFunctionURL = url
-        print("🔗 Cloud Function URL updated: \(url)")
+    func updateGeminiAPIKey(_ apiKey: String) {
+        currentConfig.geminiAPIKey = apiKey
+        print("🔑 Gemini API key updated")
     }
     
     func resetToDefaults() {
         currentConfig = AIConfig(
             isAIEnabled: true,
-            provider: .openai,
-            cloudFunctionURL: "https://your-vercel-app.vercel.app/api/openai-proxy"
+            geminiAPIKey: ""
         )
         print("🔄 Settings reset to defaults")
     }
@@ -90,20 +88,5 @@ class AIConfigManager: ObservableObject {
 
 struct AIConfig: Codable {
     var isAIEnabled: Bool
-    var provider: AIProvider
-    var cloudFunctionURL: String
-    
-    enum AIProvider: String, CaseIterable, Codable {
-        case gemini = "gemini"
-        case openai = "openai"
-        
-        var displayName: String {
-            switch self {
-            case .gemini:
-                return "Google Gemini"
-            case .openai:
-                return "OpenAI GPT"
-            }
-        }
-    }
+    var geminiAPIKey: String
 }

@@ -4,7 +4,7 @@ struct ChatBubble: View {
     let message: ChatMessage
     let persona: UserPersona
     
-    // ✅ パフォーマンス最適化のためのプロパティ
+    // ✅ Performance optimization properties
     private let bubbleMaxWidth = UIScreen.main.bounds.width * 0.75
     
     var body: some View {
@@ -17,10 +17,10 @@ struct ChatBubble: View {
                 Spacer()
             }
         }
-        .padding(.horizontal, 4) // 最小限のパディング
+        .padding(.horizontal, 4) // Minimal padding
     }
     
-    // ✅ ユーザーメッセージバブル（最適化）
+    // ✅ User message bubble (optimized)
     private var userBubbleView: some View {
         VStack(alignment: .trailing, spacing: 4) {
             Text(message.content)
@@ -48,7 +48,7 @@ struct ChatBubble: View {
                     )
                 )
             
-            // ✅ シンプルな時刻表示
+            // ✅ Simple time display
             Text(formatTime(message.timestamp))
                 .font(.caption2)
                 .foregroundColor(.secondary)
@@ -57,17 +57,17 @@ struct ChatBubble: View {
         .frame(maxWidth: bubbleMaxWidth, alignment: .trailing)
     }
     
-    // ✅ ボットメッセージバブル（最適化）
+    // ✅ Bot message bubble (optimized)
     private var botBubbleView: some View {
         HStack(alignment: .bottom, spacing: 8) {
-            // ✅ 画像対応のアバター表示
+            // ✅ Image-supported avatar display
             AvatarView(
-                persona: persona,  // ✅ 新しいPersona対応イニシャライザーを使用
+                persona: persona,  // ✅ Using new Persona-compatible initializer
                 size: 32
             )
             
             VStack(alignment: .leading, spacing: 4) {
-                // ✅ 感情トリガー表示（簡素化）
+                // ✅ Emotion trigger display (simplified)
                 if let emotion = message.emotionTrigger {
                     EmotionBadgeView(emotion: emotion)
                 }
@@ -91,7 +91,7 @@ struct ChatBubble: View {
                         )
                     )
                 
-                // ✅ シンプルな時刻表示
+                // ✅ Simple time display
                 Text(formatTime(message.timestamp))
                     .font(.caption2)
                     .foregroundColor(.secondary)
@@ -101,9 +101,9 @@ struct ChatBubble: View {
         .frame(maxWidth: bubbleMaxWidth, alignment: .leading)
     }
     
-    // ✅ 最適化された時刻フォーマッター
+    // ✅ Optimized time formatter
     private func formatTime(_ date: Date) -> String {
-        // ✅ 静的フォーマッターでパフォーマンス向上
+        // ✅ Static formatter for performance improvement
         let formatter: DateFormatter = {
             let f = DateFormatter()
             f.timeStyle = .short
@@ -114,7 +114,7 @@ struct ChatBubble: View {
     }
 }
 
-// ✅ 軽量化された感情バッジ
+// ✅ Lightweight emotion badge
 struct EmotionBadgeView: View {
     let emotion: String
     
@@ -135,24 +135,24 @@ struct EmotionBadgeView: View {
     }
 }
 
-// ✅ パフォーマンス最適化のためのプレビュー
+// ✅ Performance optimized preview
 #Preview {
     VStack(spacing: 12) {
         ChatBubble(
-            message: ChatMessage(content: "こんにちは！元気？", isFromUser: true),
+            message: ChatMessage(content: "Hello! How are you?", isFromUser: true),
             persona: UserPersona.defaultPersona
         )
         
         ChatBubble(
-            message: ChatMessage(content: "元気だよ！君はどう？", isFromUser: false),
+            message: ChatMessage(content: "I'm doing great! How about you?", isFromUser: false),
             persona: UserPersona.defaultPersona
         )
         
         ChatBubble(
             message: ChatMessage(
-                content: "ありがとう！",
+                content: "Thank you!",
                 isFromUser: false,
-                emotionTrigger: "ありがとう"
+                emotionTrigger: "thank you"
             ),
             persona: UserPersona.defaultPersona
         )

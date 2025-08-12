@@ -12,7 +12,7 @@ struct UserPersona: Identifiable, Codable, Equatable {
     var mood: PersonaMood
     var customization: PersonaCustomization
     
-    // 初期化
+    // Initialization
     init(
         id: String = UUID().uuidString,
         name: String,
@@ -35,14 +35,14 @@ struct UserPersona: Identifiable, Codable, Equatable {
         self.customization = customization
     }
     
-    // Equatable適合
+    // Equatable conformance
     static func == (lhs: UserPersona, rhs: UserPersona) -> Bool {
         return lhs.id == rhs.id
     }
     
-    // 表示用のプロパティ
+    // Display properties
     var displayName: String {
-        return name.isEmpty ? "名前なし" : name
+        return name.isEmpty ? "Unnamed" : name
     }
     
     var moodEmoji: String {
@@ -65,12 +65,12 @@ struct UserPersona: Identifiable, Codable, Equatable {
     
     static var defaultPersona: UserPersona {
         return UserPersona(
-            name: "アシスタント",
-            relationship: "サポーター",
-            personality: ["親しみやすい", "頼れる", "優しい"],
-            speechStyle: "丁寧で親しみやすい口調",
-            catchphrases: ["お疲れさまです", "いつでもサポートします"],
-            favoriteTopics: ["日常会話", "相談事", "雑談"],
+            name: "Assistant",
+            relationship: "Supporter",
+            personality: ["Friendly", "Reliable", "Kind"],
+            speechStyle: "Polite and friendly tone",
+            catchphrases: ["Good job", "I'm here to help"],
+            favoriteTopics: ["Daily conversation", "Advice", "Casual chat"],
             mood: .happy,
             customization: PersonaCustomization.safeDefault
         )
@@ -91,19 +91,19 @@ enum PersonaMood: String, CaseIterable, Codable {
     var displayName: String {
         switch self {
         case .happy:
-            return "幸せ"
+            return "Happy"
         case .sad:
-            return "悲しい"
+            return "Sad"
         case .excited:
-            return "興奮"
+            return "Excited"
         case .calm:
-            return "穏やか"
+            return "Calm"
         case .anxious:
-            return "不安"
+            return "Anxious"
         case .angry:
-            return "怒り"
+            return "Angry"
         case .neutral:
-            return "普通"
+            return "Neutral"
         }
     }
     

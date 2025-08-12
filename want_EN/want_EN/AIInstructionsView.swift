@@ -9,14 +9,14 @@ struct AIView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                // ヘッダー
+                // Header
                 headerView
                 
                 if personaManager.personas.isEmpty {
-                    // 空の状態
+                    // Empty state
                     emptyStateView
                 } else {
-                    // ペルソナ選択リスト
+                    // Persona selection list
                     personaListView
                 }
                 
@@ -40,15 +40,15 @@ struct AIView: View {
     
     private var headerView: some View {
         VStack(spacing: 16) {
-            // タイトル
+            // Title
             HStack {
-                Text("AI チャット")
+                Text("AI Chat")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                 
                 Spacer()
                 
-                // 設定ボタン
+                // Settings button
                 NavigationLink(destination: AISettingsView()) {
                     Image(systemName: "gearshape.fill")
                         .font(.title2)
@@ -56,8 +56,8 @@ struct AIView: View {
                 }
             }
             
-            // サブタイトル
-            Text("話したいペルソナを選択してください")
+            // Subtitle
+            Text("Select a persona to chat with")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
         }
@@ -76,24 +76,24 @@ struct AIView: View {
                 .foregroundColor(.gray)
             
             VStack(spacing: 8) {
-                Text("まだペルソナがありません")
+                Text("No personas yet")
                     .font(.headline)
                     .fontWeight(.semibold)
                 
-                Text("「人物」タブでペルソナを作成すると\nAIチャットを楽しめます")
+                Text("Create a persona in the \"People\" tab\nto enjoy AI chat")
                     .font(.body)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
             }
             
-            // 人物タブへの誘導ボタン
+            // Navigation button to People tab
             Button(action: {
-                // TabViewで人物タブに切り替える処理が必要
-                // 現在の実装では直接制御できないため、メッセージのみ表示
+                // Need to implement TabView switching to People tab
+                // Currently can't control directly, so just show message
             }) {
                 HStack {
                     Image(systemName: "person.fill")
-                    Text("ペルソナを作成する")
+                    Text("Create Persona")
                 }
                 .font(.headline)
                 .foregroundColor(.white)
@@ -143,7 +143,7 @@ struct PersonaCardView: View {
     var body: some View {
         Button(action: onTap) {
             HStack(spacing: 16) {
-                // アバター
+                // Avatar
                 ZStack {
                     Circle()
                         .fill(persona.customization.avatarColor)
@@ -160,7 +160,7 @@ struct PersonaCardView: View {
                     }
                 }
                 
-                // 情報
+                // Information
                 VStack(alignment: .leading, spacing: 4) {
                     Text(persona.name)
                         .font(.headline)
@@ -179,7 +179,7 @@ struct PersonaCardView: View {
                 
                 Spacer()
                 
-                // 詳細ボタン
+                // Detail button
                 Button(action: onInfo) {
                     Image(systemName: "info.circle")
                         .font(.title2)
@@ -187,7 +187,7 @@ struct PersonaCardView: View {
                 }
                 .buttonStyle(PlainButtonStyle())
                 
-                // チャット開始アイコン
+                // Chat start icon
                 Image(systemName: "chevron.right")
                     .font(.body)
                     .foregroundColor(.gray)
@@ -208,7 +208,7 @@ struct PersonaDetailView: View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
-                    // アバター
+                    // Avatar
                     HStack {
                         Spacer()
                         
@@ -231,39 +231,39 @@ struct PersonaDetailView: View {
                         Spacer()
                     }
                     
-                    // 基本情報
+                    // Basic information
                     VStack(alignment: .leading, spacing: 16) {
                         DetailSection(
-                            title: "基本情報",
+                            title: "Basic Info",
                             items: [
-                                ("名前", persona.name),
-                                ("関係性", persona.relationship),
-                                ("話し方", persona.speechStyle)
+                                ("Name", persona.name),
+                                ("Relationship", persona.relationship),
+                                ("Speech Style", persona.speechStyle)
                             ]
                         )
                         
                         DetailSection(
-                            title: "性格",
+                            title: "Personality",
                             items: persona.personality.map { ("", $0) }
                         )
                         
                         DetailSection(
-                            title: "口癖",
+                            title: "Catchphrases",
                             items: persona.catchphrases.map { ("", $0) }
                         )
                         
                         DetailSection(
-                            title: "好きな話題",
+                            title: "Favorite Topics",
                             items: persona.favoriteTopics.map { ("", $0) }
                         )
                     }
                 }
                 .padding()
             }
-            .navigationTitle("ペルソナ詳細")
+            .navigationTitle("Persona Details")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(
-                trailing: Button("完了") {
+                trailing: Button("Done") {
                     presentationMode.wrappedValue.dismiss()
                 }
             )

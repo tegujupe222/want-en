@@ -4,14 +4,14 @@ struct SetupPersonaView: View {
     @StateObject private var personaManager = PersonaManager.shared
     @Environment(\.dismiss) private var dismiss
     
-    // オプショナルなコールバック関数
+    // Optional callback function
     let onComplete: ((UserPersona) -> Void)?
     let editingPersona: UserPersona?
     
     @State private var setupMode: SetupMode = .selection
     @State private var showingFileImport = false
     
-    // フォーム用の状態変数
+    // Form state variables
     @State private var name: String = ""
     @State private var relationship: String = ""
     @State private var selectedPersonality: Set<String> = []
@@ -20,27 +20,27 @@ struct SetupPersonaView: View {
     @State private var favoriteTopics: String = ""
     @State private var selectedMood: PersonaMood = .happy
     @State private var selectedEmoji: String = "😊"
-    @State private var selectedAvatarImage: UIImage?  // ✅ 選択された画像
-    @State private var avatarImageFileName: String?   // ✅ 保存された画像ファイル名
+    @State private var selectedAvatarImage: UIImage?  // ✅ Selected image
+    @State private var avatarImageFileName: String?   // ✅ Saved image filename
     @State private var selectedColor: Color = .blue
     @State private var currentStep: Int = 0
     @State private var showingRelationshipPicker = false
     
-    // ✅ キーボード非表示用
+    // ✅ For hiding keyboard
     @FocusState private var isTextFieldFocused: Bool
     
     private let personalityOptions = [
-        "優しい", "思いやりがある", "聞き上手", "明るい", "ユーモアがある",
-        "真面目", "冷静", "情熱的", "創造的", "知的", "親しみやすい"
+        "Kind", "Caring", "Good listener", "Cheerful", "Humorous",
+        "Serious", "Calm", "Passionate", "Creative", "Intelligent", "Friendly"
     ]
     
     private let relationshipOptions = [
-        "家族", "友人", "恋人", "先生", "同僚", "先輩", "後輩", "大切な人"
+        "Family", "Friend", "Lover", "Teacher", "Colleague", "Senior", "Junior", "Important person"
     ]
     
     private let speechStyleOptions = [
-        "丁寧で暖かい口調", "親しみやすい口調", "フレンドリーな口調",
-        "落ち着いた口調", "元気で明るい口調", "優しく包み込む口調"
+        "Polite and warm tone", "Friendly tone", "Casual tone",
+        "Calm tone", "Energetic and bright tone", "Gentle and caring tone"
     ]
     
     enum SetupMode {
@@ -49,7 +49,7 @@ struct SetupPersonaView: View {
         case automatic
     }
     
-    // 複数のイニシャライザーを提供
+    // Multiple initializers
     init() {
         self.onComplete = nil
         self.editingPersona = nil
@@ -64,7 +64,7 @@ struct SetupPersonaView: View {
         self.onComplete = nil
         self.editingPersona = editingPersona
         
-        // 編集モードの場合は初期値を設定
+        // Set initial values for edit mode
         self._name = State(initialValue: editingPersona.name)
         self._relationship = State(initialValue: editingPersona.relationship)
         self._selectedPersonality = State(initialValue: Set(editingPersona.personality))
@@ -73,27 +73,27 @@ struct SetupPersonaView: View {
         self._favoriteTopics = State(initialValue: editingPersona.favoriteTopics.joined(separator: ", "))
         self._selectedMood = State(initialValue: editingPersona.mood)
         self._selectedEmoji = State(initialValue: editingPersona.customization.avatarEmoji ?? "😊")
-        self._avatarImageFileName = State(initialValue: editingPersona.customization.avatarImageFileName)  // ✅ 画像ファイル名を初期化
+        self._avatarImageFileName = State(initialValue: editingPersona.customization.avatarImageFileName)  // ✅ Initialize image filename
         self._selectedColor = State(initialValue: editingPersona.customization.avatarColor)
         self._setupMode = State(initialValue: .manual)
         self._currentStep = State(initialValue: 5)
     }
     
     var body: some View {
-        // NavigationViewの重複を避けるため、条件付きで使用
+        // Avoid NavigationView duplication by using conditionally
         Group {
             if editingPersona != nil {
-                // 編集モードの場合はNavigationViewを使わない
+                // Don't use NavigationView for edit mode
                 mainContent
             } else {
-                // 新規作成の場合のみNavigationViewを使用
+                // Use NavigationView only for new creation
                 NavigationView {
                     mainContent
                 }
             }
         }
         .onAppear {
-            // 編集モードの場合は手動設定モードに切り替え
+            // Switch to manual setup mode for edit mode
             if editingPersona != nil {
                 setupMode = .manual
             }
@@ -102,19 +102,19 @@ struct SetupPersonaView: View {
     
     private var mainContent: some View {
         VStack(spacing: 0) {
-            // プログレスバー（手動設定時のみ）
+            // Progress bar (manual setup only)
             if setupMode == .manual {
                 ProgressView(value: Double(currentStep), total: 5.0)
                     .progressViewStyle(LinearProgressViewStyle())
                     .padding()
             }
             
-            // メインコンテンツ
+            // Main content
             Group {
                 switch setupMode {
                 case .selection:
                     if editingPersona != nil {
-                        // 編集モードの場合は直接手動設定へ
+                        // Go directly to manual setup for edit mode
                         manualSetupView
                     } else {
                         setupModeSelectionView
@@ -126,22 +126,22 @@ struct SetupPersonaView: View {
                 }
             }
             
-            // ナビゲーションボタン（手動設定時のみ）
+            // Navigation buttons (manual setup only)
             if setupMode == .manual {
                 navigationButtons
             }
         }
-        .navigationTitle(editingPersona != nil ? "プロフィール編集" :
-                       setupMode == .selection ? "設定方法を選択" : "話したい相手を設定")
+        .navigationTitle(editingPersona != nil ? "Edit Profile" :
+                       setupMode == .selection ? "Choose Setup Method" : "Set Up Person to Chat With")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Button("キャンセル") {
+                Button("Cancel") {
                     dismiss()
                 }
             }
         }
-        // ✅ 改善されたキーボード非表示対応
+        // ✅ Improved keyboard hiding
         .simultaneousGesture(
             TapGesture()
                 .onEnded { _ in
@@ -150,7 +150,7 @@ struct SetupPersonaView: View {
         )
     }
     
-    // ✅ キーボード非表示用メソッド
+    // ✅ Method for hiding keyboard
     private func hideKeyboard() {
         isTextFieldFocused = false
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
@@ -158,46 +158,46 @@ struct SetupPersonaView: View {
     
     private var setupModeSelectionView: some View {
         VStack(spacing: 32) {
-            // ヘッダー
+            // Header
             VStack(spacing: 16) {
                 Image(systemName: "person.badge.plus")
                     .font(.system(size: 60))
                     .foregroundColor(.blue)
                 
-                Text("設定方法を選択してください")
+                Text("Choose Setup Method")
                     .font(.title2)
                     .fontWeight(.bold)
                 
-                Text("手動で設定するか、\n簡単設定から始められます")
+                Text("You can set up manually or\nstart with quick setup")
                     .font(.body)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
             }
             
-            // 設定方法の選択肢
+            // Setup method options
             VStack(spacing: 16) {
-                // ✅ 簡単設定ボタン - レスポンシブ改善
+                // ✅ Quick setup button - improved responsiveness
                 Button(action: {
                     setupMode = .automatic
                 }) {
                     SetupOptionCard(
                         icon: "magic.wand",
-                        title: "簡単設定（推奨）",
-                        description: "基本的な情報のみで\nすぐに始められます",
-                        badge: "簡単",
+                        title: "Quick Setup (Recommended)",
+                        description: "Start immediately with\nbasic information only",
+                        badge: "Quick",
                         isRecommended: true
                     )
                 }
                 
-                // ✅ 手動設定ボタン - レスポンシブ改善
+                // ✅ Manual setup button - improved responsiveness
                 Button(action: {
                     setupMode = .manual
                 }) {
                     SetupOptionCard(
                         icon: "hand.raised",
-                        title: "詳細設定",
-                        description: "相手の特徴や話し方を\n詳しく設定できます",
-                        badge: "詳細",
+                        title: "Detailed Setup",
+                        description: "Set up personality and\nspeech style in detail",
+                        badge: "Detailed",
                         isRecommended: false
                     )
                 }
@@ -211,42 +211,42 @@ struct SetupPersonaView: View {
     private var automaticSetupView: some View {
         ScrollView {
             VStack(spacing: 32) {
-                // ヘッダー
+                // Header
                 VStack(spacing: 16) {
                     Image(systemName: "magic.wand")
                         .font(.system(size: 60))
                         .foregroundColor(.blue)
                     
-                    Text("簡単設定")
+                    Text("Quick Setup")
                         .font(.title2)
                         .fontWeight(.bold)
                     
-                    Text("基本的な情報を入力するだけで\nすぐに会話を始められます")
+                    Text("Enter basic information to\nstart chatting immediately")
                         .font(.body)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
                 }
                 
-                // 簡単フォーム
+                // Simple form
                 VStack(spacing: 20) {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("お相手の名前")
+                        Text("Person's Name")
                             .font(.headline)
-                        TextField("例: お母さん、田中さん、友達", text: $name)
+                        TextField("e.g., Mom, Mr. Tanaka, Friend", text: $name)
                             .textFieldStyle(.roundedBorder)
                             .focused($isTextFieldFocused)
                     }
                     
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("関係性")
+                        Text("Relationship")
                             .font(.headline)
                         
-                        // ✅ 改善されたピッカー
+                        // ✅ Improved picker
                         Button(action: {
                             showingRelationshipPicker = true
                         }) {
                             HStack {
-                                Text(relationship.isEmpty ? "選択してください" : relationship)
+                                Text(relationship.isEmpty ? "Please select" : relationship)
                                     .foregroundColor(relationship.isEmpty ? .secondary : .primary)
                                     .font(.body)
                                 Spacer()
@@ -259,7 +259,7 @@ struct SetupPersonaView: View {
                             .background(Color(.systemGray6))
                             .cornerRadius(8)
                         }
-                        .confirmationDialog("関係性を選択", isPresented: $showingRelationshipPicker) {
+                        .confirmationDialog("Select Relationship", isPresented: $showingRelationshipPicker) {
                             ForEach(relationshipOptions, id: \.self) { option in
                                 Button(option) {
                                     relationship = option
@@ -273,11 +273,11 @@ struct SetupPersonaView: View {
                 .background(Color(.systemGray6))
                 .cornerRadius(12)
                 
-                // 作成ボタン
+                // Create button
                 Button(action: {
                     savePersona()
                 }) {
-                    Text("ペルソナを作成")
+                    Text("Create Persona")
                         .font(.headline)
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
@@ -296,22 +296,22 @@ struct SetupPersonaView: View {
     
     private var manualSetupView: some View {
         TabView(selection: $currentStep) {
-            // ステップ1: 基本情報
+            // Step 1: Basic info
             stepOneView.tag(0)
             
-            // ステップ2: 関係性と性格
+            // Step 2: Relationship and personality
             stepTwoView.tag(1)
             
-            // ステップ3: 話し方
+            // Step 3: Speech style
             stepThreeView.tag(2)
             
-            // ステップ4: 話題と口癖
+            // Step 4: Topics and catchphrases
             stepFourView.tag(3)
             
-            // ステップ5: 外見設定
+            // Step 5: Appearance settings
             stepFiveView.tag(4)
             
-            // ステップ6: 確認
+            // Step 6: Confirmation
             confirmationView.tag(5)
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -323,7 +323,7 @@ struct SetupPersonaView: View {
                 Button(action: {
                     currentStep -= 1
                 }) {
-                    Text("戻る")
+                    Text("Back")
                         .font(.body)
                         .fontWeight(.medium)
                         .foregroundColor(.blue)
@@ -343,7 +343,7 @@ struct SetupPersonaView: View {
                     currentStep += 1
                 }
             }) {
-                Text(currentStep == 5 ? "完了" : "次へ")
+                Text(currentStep == 5 ? "Complete" : "Next")
                     .font(.body)
                     .fontWeight(.semibold)
                     .foregroundColor(.white)
@@ -361,10 +361,10 @@ struct SetupPersonaView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("話したい相手の名前を教えてください")
+                    Text("What's the name of the person you want to chat with?")
                         .font(.headline)
                     
-                    TextField("例: お父さん、田中さん、大切な人", text: $name)
+                    TextField("e.g., Dad, Mr. Tanaka, Important person", text: $name)
                         .textFieldStyle(.roundedBorder)
                         .focused($isTextFieldFocused)
                 }
@@ -379,10 +379,10 @@ struct SetupPersonaView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("どんな関係の方ですか？")
+                    Text("What's your relationship with this person?")
                         .font(.headline)
                     
-                    // ✅ 改善されたグリッドレイアウト
+                    // ✅ Improved grid layout
                     VStack(spacing: 8) {
                         ForEach(Array(relationshipOptions.chunked(into: 2)), id: \.self) { row in
                             HStack(spacing: 8) {
@@ -402,7 +402,7 @@ struct SetupPersonaView: View {
                                     }
                                 }
                                 
-                                // 奇数個の場合の調整
+                                // Adjustment for odd number
                                 if row.count == 1 {
                                     Spacer()
                                         .frame(maxWidth: .infinity)
@@ -413,10 +413,10 @@ struct SetupPersonaView: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("どんな性格の方ですか？（複数選択可）")
+                    Text("What's their personality like? (Multiple selection)")
                         .font(.headline)
                     
-                    // ✅ 改善されたグリッドレイアウト
+                    // ✅ Improved grid layout
                     VStack(spacing: 8) {
                         ForEach(Array(personalityOptions.chunked(into: 2)), id: \.self) { row in
                             HStack(spacing: 8) {
@@ -440,7 +440,7 @@ struct SetupPersonaView: View {
                                     }
                                 }
                                 
-                                // 奇数個の場合の調整
+                                // Adjustment for odd number
                                 if row.count == 1 {
                                     Spacer()
                                         .frame(maxWidth: .infinity)
@@ -460,7 +460,7 @@ struct SetupPersonaView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("どんな話し方をする方ですか？")
+                    Text("How does this person speak?")
                         .font(.headline)
                     
                     VStack(spacing: 8) {
@@ -499,19 +499,19 @@ struct SetupPersonaView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("よく使っていた口癖はありますか？")
+                    Text("What catchphrases did they often use?")
                         .font(.headline)
                     
-                    TextField("例: そうだね、なるほど、大丈夫だよ（カンマ区切り）", text: $catchphrases)
+                    TextField("e.g., I see, That's right, It's okay (comma separated)", text: $catchphrases)
                         .textFieldStyle(.roundedBorder)
                         .focused($isTextFieldFocused)
                 }
                 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("よく話していた話題は何ですか？")
+                    Text("What topics did they often talk about?")
                         .font(.headline)
                     
-                    TextField("例: 仕事、趣味、家族、思い出話（カンマ区切り）", text: $favoriteTopics)
+                    TextField("e.g., Work, Hobbies, Family, Memories (comma separated)", text: $favoriteTopics)
                         .textFieldStyle(.roundedBorder)
                         .focused($isTextFieldFocused)
                 }
@@ -525,17 +525,17 @@ struct SetupPersonaView: View {
     private var stepFiveView: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
-                Text("外見を設定してください")
+                Text("Set up appearance")
                     .font(.headline)
                 
-                // ✅ 画像選択セクション
+                // ✅ Image selection section
                 ImageOptionsView(
                     selectedImage: $selectedAvatarImage,
                     avatarEmoji: $selectedEmoji,
                     showingImagePicker: .constant(false),
                     onImageSelected: { image in
                         selectedAvatarImage = image
-                        selectedEmoji = "" // 画像を選択したら絵文字をクリア
+                        selectedEmoji = "" // Clear emoji when image is selected
                     },
                     onEmojiSelected: {
                         selectedAvatarImage = nil
@@ -551,10 +551,10 @@ struct SetupPersonaView: View {
                 )
                 
                 VStack(spacing: 20) {
-                    // アバター絵文字（画像が選択されていない場合のみ表示）
+                    // Avatar emoji (only show when no image is selected)
                     if selectedAvatarImage == nil {
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("アバター絵文字")
+                            Text("Avatar Emoji")
                                 .font(.subheadline)
                                 .fontWeight(.semibold)
                             
@@ -565,23 +565,23 @@ struct SetupPersonaView: View {
                         }
                     }
                     
-                    // カラー選択
+                    // Color selection
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("カラーテーマ")
+                        Text("Color Theme")
                             .font(.subheadline)
                             .fontWeight(.semibold)
                         
-                        ColorPicker("カラーを選択", selection: $selectedColor)
+                        ColorPicker("Select Color", selection: $selectedColor)
                             .labelsHidden()
                     }
                     
-                    // 気分設定
+                    // Mood setting
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("基本的な気分")
+                        Text("Basic Mood")
                             .font(.subheadline)
                             .fontWeight(.semibold)
                         
-                        Picker("気分", selection: $selectedMood) {
+                        Picker("Mood", selection: $selectedMood) {
                             ForEach(PersonaMood.allCases, id: \.self) { mood in
                                 HStack {
                                     Text(mood.emoji)
@@ -593,13 +593,13 @@ struct SetupPersonaView: View {
                         .pickerStyle(MenuPickerStyle())
                     }
                     
-                    // プレビュー
+                    // Preview
                     VStack(spacing: 8) {
-                        Text("プレビュー")
+                        Text("Preview")
                             .font(.subheadline)
                             .fontWeight(.semibold)
                         
-                        // ✅ 画像対応のプレビュー
+                        // ✅ Image-supported preview
                         if let avatarImage = selectedAvatarImage {
                             Image(uiImage: avatarImage)
                                 .resizable()
@@ -612,7 +612,7 @@ struct SetupPersonaView: View {
                                 )
                         } else {
                             AvatarView(
-                                name: name.isEmpty ? "名前" : name,
+                                name: name.isEmpty ? "Name" : name,
                                 emoji: selectedEmoji.isEmpty ? nil : selectedEmoji,
                                 color: selectedColor,
                                 size: 80
@@ -630,29 +630,29 @@ struct SetupPersonaView: View {
     private var confirmationView: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                Text("設定内容を確認してください")
+                Text("Please confirm your settings")
                     .font(.headline)
                 
                 VStack(alignment: .leading, spacing: 12) {
-                    InfoRow(label: "名前", value: name)
-                    InfoRow(label: "関係", value: relationship)
-                    InfoRow(label: "性格", value: Array(selectedPersonality).joined(separator: ", "))
-                    InfoRow(label: "話し方", value: speechStyle)
-                    InfoRow(label: "気分", value: selectedMood.displayName)
+                    InfoRow(label: "Name", value: name)
+                    InfoRow(label: "Relationship", value: relationship)
+                    InfoRow(label: "Personality", value: Array(selectedPersonality).joined(separator: ", "))
+                    InfoRow(label: "Speech Style", value: speechStyle)
+                    InfoRow(label: "Mood", value: selectedMood.displayName)
                     
                     if !catchphrases.isEmpty {
-                        InfoRow(label: "口癖", value: catchphrases)
+                        InfoRow(label: "Catchphrases", value: catchphrases)
                     }
                     
                     if !favoriteTopics.isEmpty {
-                        InfoRow(label: "話題", value: favoriteTopics)
+                        InfoRow(label: "Topics", value: favoriteTopics)
                     }
                 }
                 .padding()
                 .background(Color(.systemGray6))
                 .cornerRadius(12)
                 
-                Text("この設定で「\(name)」との会話を始めます。いつでも設定は変更できます。")
+                Text("Start chatting with \"\(name)\" with these settings. You can change settings anytime.")
                     .font(.caption)
                     .foregroundColor(.secondary)
                     .padding(.top)
@@ -672,59 +672,59 @@ struct SetupPersonaView: View {
     }
     
     private func applyQuickSettings() {
-        // 関係性に基づいたデフォルト設定を適用
+        // Apply default settings based on relationship
         switch relationship {
-        case "家族":
-            selectedPersonality = Set(["優しい", "思いやりがある"])
-            speechStyle = "丁寧で暖かい口調"
-            catchphrases = "大丈夫よ, お疲れさま"
-            favoriteTopics = "日常の出来事, 健康, 家族のこと"
+        case "Family":
+            selectedPersonality = Set(["Kind", "Caring"])
+            speechStyle = "Polite and warm tone"
+            catchphrases = "It's okay, Good job"
+            favoriteTopics = "Daily events, Health, Family matters"
             selectedEmoji = "👨‍👩‍👧‍👦"
-            selectedColor = Color.personaPink  // 安全な色を使用
+            selectedColor = Color.personaPink  // Use safe color
             
-        case "友人":
-            selectedPersonality = Set(["明るい", "親しみやすい"])
-            speechStyle = "親しみやすい口調"
-            catchphrases = "そうだね, すごいじゃん"
-            favoriteTopics = "趣味, エンタメ, 日常会話"
+        case "Friend":
+            selectedPersonality = Set(["Cheerful", "Friendly"])
+            speechStyle = "Friendly tone"
+            catchphrases = "I see, That's amazing"
+            favoriteTopics = "Hobbies, Entertainment, Daily conversation"
             selectedEmoji = "😊"
-            selectedColor = Color.personaLightBlue  // 安全な色を使用
+            selectedColor = Color.personaLightBlue  // Use safe color
             
-        case "恋人":
-            selectedPersonality = Set(["優しい", "愛情深い"])
-            speechStyle = "優しく包み込む口調"
-            catchphrases = "愛してる, 大丈夫だよ"
-            favoriteTopics = "思い出話, 将来のこと, 愛情表現"
+        case "Lover":
+            selectedPersonality = Set(["Kind", "Loving"])
+            speechStyle = "Gentle and caring tone"
+            catchphrases = "I love you, It's okay"
+            favoriteTopics = "Memories, Future plans, Love expressions"
             selectedEmoji = "💕"
-            selectedColor = Color.personaPink  // 安全な色を使用
+            selectedColor = Color.personaPink  // Use safe color
             
         default:
-            selectedPersonality = Set(["親しみやすい"])
-            speechStyle = "親しみやすい口調"
-            catchphrases = "よろしく"
-            favoriteTopics = "日常会話"
+            selectedPersonality = Set(["Friendly"])
+            speechStyle = "Friendly tone"
+            catchphrases = "Nice to meet you"
+            favoriteTopics = "Daily conversation"
             selectedEmoji = "😊"
-            selectedColor = .blue  // 標準の青は安全
+            selectedColor = .blue  // Standard blue is safe
         }
     }
     
     private func savePersona() {
-        let personality = selectedPersonality.isEmpty ? ["親しみやすい"] : Array(selectedPersonality)
-        let catchphrasesArray = catchphrases.isEmpty ? ["よろしく"] :
+        let personality = selectedPersonality.isEmpty ? ["Friendly"] : Array(selectedPersonality)
+        let catchphrasesArray = catchphrases.isEmpty ? ["Nice to meet you"] :
             catchphrases.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
-        let topicsArray = favoriteTopics.isEmpty ? ["日常会話"] :
+        let topicsArray = favoriteTopics.isEmpty ? ["Daily conversation"] :
             favoriteTopics.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
         
         let persona: UserPersona
         
-        // 編集モードの場合は既存のペルソナを更新
+        // Update existing persona for edit mode
         if let editing = editingPersona {
-            // ✅ 画像保存処理
+            // ✅ Image save process
             var finalImageFileName = avatarImageFileName
             if let selectedImage = selectedAvatarImage {
                 finalImageFileName = ImageManager.shared.saveAvatarImage(selectedImage, for: editing.id)
                 
-                // 古い画像ファイルがあれば削除
+                // Delete old image file if exists
                 if let oldImageFileName = editing.customization.avatarImageFileName,
                    oldImageFileName != finalImageFileName {
                     ImageManager.shared.deleteAvatarImage(fileName: oldImageFileName)
@@ -737,7 +737,7 @@ struct SetupPersonaView: View {
                 avatarColor: selectedColor
             )
             
-            // 安全性チェック
+            // Safety check
             customization.makeSafe()
             
             persona = UserPersona(
@@ -745,7 +745,7 @@ struct SetupPersonaView: View {
                 name: name,
                 relationship: relationship,
                 personality: personality,
-                speechStyle: speechStyle.isEmpty ? "親しみやすい口調" : speechStyle,
+                speechStyle: speechStyle.isEmpty ? "Friendly tone" : speechStyle,
                 catchphrases: catchphrasesArray,
                 favoriteTopics: topicsArray,
                 mood: selectedMood,
@@ -753,16 +753,16 @@ struct SetupPersonaView: View {
             )
             personaManager.updatePersona(persona)
         } else {
-            // 新規作成の場合
+            // New creation
             let newPersonaId = UUID().uuidString
             
-            // ✅ 画像保存処理
+            // ✅ Image save process
             var finalImageFileName: String?
             var finalEmoji = selectedEmoji.isEmpty ? nil : selectedEmoji
             
             if let selectedImage = selectedAvatarImage {
                 finalImageFileName = ImageManager.shared.saveAvatarImage(selectedImage, for: newPersonaId)
-                finalEmoji = nil // 画像がある場合は絵文字をクリア
+                finalEmoji = nil // Clear emoji when image exists
             }
             
             var customization = PersonaCustomization(
@@ -771,7 +771,7 @@ struct SetupPersonaView: View {
                 avatarColor: selectedColor
             )
             
-            // 安全性チェック
+            // Safety check
             customization.makeSafe()
             
             persona = UserPersona(
@@ -779,7 +779,7 @@ struct SetupPersonaView: View {
                 name: name,
                 relationship: relationship,
                 personality: personality,
-                speechStyle: speechStyle.isEmpty ? "親しみやすい口調" : speechStyle,
+                speechStyle: speechStyle.isEmpty ? "Friendly tone" : speechStyle,
                 catchphrases: catchphrasesArray,
                 favoriteTopics: topicsArray,
                 mood: selectedMood,
@@ -789,14 +789,14 @@ struct SetupPersonaView: View {
             personaManager.addPersona(persona)
         }
         
-        // コールバック呼び出し
+        // Call callback
         onComplete?(persona)
         
         dismiss()
     }
 }
 
-// ✅ 改善されたSetupOptionCard
+// ✅ Improved SetupOptionCard
 struct SetupOptionCard: View {
     let icon: String
     let title: String
@@ -870,13 +870,13 @@ struct InfoRow: View {
             Text(label)
                 .font(.caption)
                 .foregroundColor(.secondary)
-            Text(value.isEmpty ? "未設定" : value)
+            Text(value.isEmpty ? "Not set" : value)
                 .font(.body)
         }
     }
 }
 
-// ✅ 配列のチャンク化用エクステンション
+// ✅ Array chunking extension
 extension Array {
     func chunked(into size: Int) -> [[Element]] {
         return stride(from: 0, to: count, by: size).map {
@@ -885,7 +885,7 @@ extension Array {
     }
 }
 
-// AvatarViewは別ファイルで定義済み
+// AvatarView is defined in separate file
 
 #Preview {
     SetupPersonaView()

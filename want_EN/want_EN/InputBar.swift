@@ -5,14 +5,14 @@ struct InputBar: View {
     let onSend: () -> Void
     @FocusState private var isTextFieldFocused: Bool
     
-    // ✅ 安定性のための状態管理
+    // ✅ State management for stability
     @State private var isSending = false
     @State private var lastSentText = ""
     
     var body: some View {
         HStack(spacing: 12) {
-            // ✅ 安定化されたテキスト入力欄
-            TextField("メッセージを入力...", text: $text, axis: .vertical)
+            // ✅ Stabilized text input field
+            TextField("Type a message...", text: $text, axis: .vertical)
                 .textFieldStyle(PlainTextFieldStyle())
                 .padding(.horizontal, 16)
                 .padding(.vertical, 10)
@@ -21,20 +21,20 @@ struct InputBar: View {
                 .focused($isTextFieldFocused)
                 .lineLimit(1...4)
                 .disabled(isSending)
-                // ✅ 最適化された送信処理
+                // ✅ Optimized send processing
                 .onSubmit {
                     if canSend {
                         performSend()
                     }
                 }
-                // ✅ 文字数制限（オプション）
+                // ✅ Character limit (optional)
                 .onChange(of: text) { oldValue, newValue in
                     if newValue.count > 1000 {
                         text = String(newValue.prefix(1000))
                     }
                 }
             
-            // ✅ 安定化された送信ボタン
+            // ✅ Stabilized send button
             Button(action: performSend) {
                 ZStack {
                     Circle()
@@ -58,7 +58,7 @@ struct InputBar: View {
         .padding(.horizontal, 4)
     }
     
-    // ✅ 計算プロパティ
+    // ✅ Computed properties
     private var canSend: Bool {
         let trimmedText = text.trimmingCharacters(in: .whitespacesAndNewlines)
         return !trimmedText.isEmpty && trimmedText != lastSentText && !isSending
@@ -72,11 +72,11 @@ struct InputBar: View {
         }
     }
     
-    // ✅ 安定化された送信処理
+    // ✅ Stabilized send processing
     private func performSend() {
         let textToSend = text.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        // ✅ 重複送信防止
+        // ✅ Prevent duplicate sending
         guard canSend else { return }
         
         // ✅ 送信状態に設定
@@ -124,7 +124,7 @@ struct InputBar: View {
         .padding()
         
         // ✅ テスト用のさまざまな状態
-        InputBar(text: .constant("テストメッセージ")) {
+        InputBar(text: .constant("Test message")) {
             print("Send test message")
         }
         .padding()

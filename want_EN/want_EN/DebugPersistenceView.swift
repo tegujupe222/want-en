@@ -8,21 +8,21 @@ struct DebugPersistenceView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 16) {
-                Text("永続化デバッグテスト")
+                Text("Persistence Debug Test")
                     .font(.title)
                     .fontWeight(.bold)
                 
                 // 現状表示
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("現在のメッセージ数: \(chatViewModel.messages.count)")
+                    Text("Current message count: \(chatViewModel.messages.count)")
                         .font(.headline)
                     
-                    Text("メモリ使用状況:")
+                    Text("Memory usage:")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     
                     // ✅ 修正: シンプルなメモリ情報表示
-                    Text("メッセージ: \(chatViewModel.messages.count)件")
+                    Text("Messages: \(chatViewModel.messages.count) items")
                         .font(.caption)
                         .foregroundColor(.secondary)
                     
@@ -44,10 +44,10 @@ struct DebugPersistenceView: View {
                 
                 // テスト用入力
                 VStack(spacing: 8) {
-                    TextField("テストメッセージを入力", text: $testMessage)
+                    TextField("Enter test message", text: $testMessage)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     
-                    Button("メッセージを追加") {
+                    Button("Add Message") {
                         Task { @MainActor in
                             await addTestMessage()
                         }
@@ -58,21 +58,21 @@ struct DebugPersistenceView: View {
                 
                 // テストボタン群
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 8) {
-                    Button("💾 強制保存") {
+                    Button("💾 Force Save") {
                         Task { @MainActor in
                             await performForceSave()
                         }
                     }
                     .buttonStyle(.bordered)
                     
-                    Button("📱 強制読み込み") {
+                    Button("📱 Force Load") {
                         Task { @MainActor in
                             await performForceLoad()
                         }
                     }
                     .buttonStyle(.bordered)
                     
-                    Button("🔍 デバッグ情報") {
+                    Button("🔍 Debug Info") {
                         Task { @MainActor in
                             chatViewModel.printDebugInfo()
                             addLog("デバッグ情報出力")
@@ -80,7 +80,7 @@ struct DebugPersistenceView: View {
                     }
                     .buttonStyle(.bordered)
                     
-                    Button("🗑️ 全クリア") {
+                    Button("🗑️ Clear All") {
                         Task { @MainActor in
                             chatViewModel.clearConversation()
                             addLog("全データクリア")
@@ -89,14 +89,14 @@ struct DebugPersistenceView: View {
                     .buttonStyle(.bordered)
                     .foregroundColor(.red)
                     
-                    Button("🎯 UserDefaults確認") {
+                    Button("🎯 Check UserDefaults") {
                         Task { @MainActor in
                             await checkUserDefaults()
                         }
                     }
                     .buttonStyle(.bordered)
                     
-                    Button("🔄 AI会話開始") {
+                    Button("🔄 Start AI Chat") {
                         Task { @MainActor in
                             chatViewModel.loadAIConversation()
                             addLog("AI会話開始")
@@ -104,7 +104,7 @@ struct DebugPersistenceView: View {
                     }
                     .buttonStyle(.bordered)
                     
-                    Button("📊 ペルソナ情報") {
+                    Button("📊 Persona Info") {
                         Task { @MainActor in
                             showPersonaInfo()
                         }
@@ -115,7 +115,7 @@ struct DebugPersistenceView: View {
                 
                 // ログ表示
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("操作ログ:")
+                    Text("Operation Log:")
                         .font(.headline)
                     
                     ScrollView {
@@ -130,7 +130,7 @@ struct DebugPersistenceView: View {
                     .frame(maxHeight: 100)
                     .border(Color.gray.opacity(0.3))
                     
-                    Button("ログクリア") {
+                    Button("Clear Log") {
                         logMessages.removeAll()
                     }
                     .font(.caption)
@@ -139,7 +139,7 @@ struct DebugPersistenceView: View {
                 Spacer()
             }
             .padding()
-            .navigationTitle("デバッグ")
+            .navigationTitle("Debug")
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 Task { @MainActor in

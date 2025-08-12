@@ -25,24 +25,13 @@ class AIChatService {
             throw AIChatError.subscriptionRequired
         }
         
-        switch config.provider {
-        case .gemini:
-            return try await generateGeminiResponse(
-                persona: persona,
-                conversationHistory: conversationHistory,
-                userMessage: userMessage,
-                emotionContext: emotionContext,
-                cloudFunctionURL: config.cloudFunctionURL
-            )
-        case .openai:
-            return try await generateOpenAIResponse(
-                persona: persona,
-                conversationHistory: conversationHistory,
-                userMessage: userMessage,
-                emotionContext: emotionContext,
-                vercelServerURL: config.cloudFunctionURL
-            )
-        }
+        return try await generateGeminiResponse(
+            persona: persona,
+            conversationHistory: conversationHistory,
+            userMessage: userMessage,
+            emotionContext: emotionContext,
+            apiKey: config.geminiAPIKey
+        )
     }
     
     // MARK: - Private Methods
@@ -52,32 +41,17 @@ class AIChatService {
         conversationHistory: [ChatMessage],
         userMessage: String,
         emotionContext: String?,
-        cloudFunctionURL: String
+        apiKey: String
     ) async throws -> String {
         
-        // Create GeminiAPIService dynamically (pass URL)
-        let geminiService = GeminiAPIService(cloudFunctionURL: cloudFunctionURL)
+        guard !apiKey.isEmpty else {
+            throw AIChatError.apiKeyNotSet
+        }
+        
+        // Create GeminiAPIService with API key
+        let geminiService = GeminiAPIService(apiKey: apiKey)
         
         return try await geminiService.generateResponse(
-                persona: persona,
-                conversationHistory: conversationHistory,
-                userMessage: userMessage,
-                emotionContext: emotionContext
-            )
-    }
-    
-    private func generateOpenAIResponse(
-        persona: UserPersona,
-        conversationHistory: [ChatMessage],
-        userMessage: String,
-        emotionContext: String?,
-        vercelServerURL: String
-    ) async throws -> String {
-        
-        // Create OpenAIAPIService dynamically (pass URL)
-        let openAIService = OpenAIAPIService(vercelServerURL: vercelServerURL)
-        
-        return try await openAIService.generateResponse(
                 persona: persona,
                 conversationHistory: conversationHistory,
                 userMessage: userMessage,
@@ -104,33 +78,12 @@ class AIChatService {
             throw AIChatError.subscriptionRequired
         }
         
-        // Simple test persona and message
-        let testPersona = UserPersona(
-            name: "Test",
-            relationship: "Assistant",
-            personality: ["Friendly"],
-            speechStyle: "Polite",
-            catchphrases: ["Hello"],
-            favoriteTopics: ["Test"]
-        )
-        
-        let testMessage = "Hello"
-        
-        do {
-            let response = try await generateResponse(
-                persona: testPersona,
-                conversationHistory: [],
-                userMessage: testMessage,
-                emotionContext: nil
-            )
-            
-            print("✅ AI connection test successful: \(response.prefix(50))...")
-            return true
-            
-        } catch {
-            print("❌ AI connection test failed: \(error)")
-            throw error
+        guard !config.geminiAPIKey.isEmpty else {
+            throw AIChatError.apiKeyNotSet
         }
+        
+        let geminiService = GeminiAPIService(apiKey: config.geminiAPIKey)
+        return try await geminiService.testConnection()
     }
 }
 
@@ -140,7 +93,6 @@ enum AIChatError: LocalizedError {
     case aiNotEnabled
     case apiKeyNotSet
     case apiError(Error)
-    case invalidProvider
     case networkError
     case rateLimitExceeded
     case invalidResponse
@@ -153,11 +105,9 @@ enum AIChatError: LocalizedError {
         case .aiNotEnabled:
             return "AI features are not enabled"
         case .apiKeyNotSet:
-            return "API key is not set"
+            return "Gemini API key is not set"
         case .apiError(let error):
             return "API connection test failed: \(error.localizedDescription)"
-        case .invalidProvider:
-            return "Invalid AI provider"
         case .networkError:
             return "Network error occurred"
         case .rateLimitExceeded:

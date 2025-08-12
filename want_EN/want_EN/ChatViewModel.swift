@@ -178,7 +178,7 @@ class ChatViewModel: ObservableObject {
         print("🤖 AI応答生成開始: \(userMessage)")
         
         let config = AIConfigManager.shared.currentConfig
-        print("🤖 AI設定確認: 有効=\(config.isAIEnabled), プロバイダー=\(config.provider.displayName)")
+        print("🤖 AI設定確認: 有効=\(config.isAIEnabled)")
         
         if !config.isAIEnabled {
             // AI無効時は定型文からランダム返答

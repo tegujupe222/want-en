@@ -116,7 +116,7 @@ struct ImagePickerButton: View {
                 .font(.title2)
                 .foregroundColor(.blue)
             
-            Text("写真を選択")
+            Text("Select Photo")
                 .font(.body)
                 .foregroundColor(.blue)
         }
@@ -172,12 +172,12 @@ struct ImageOptionsView: View {
     
     var body: some View {
         VStack(spacing: 16) {
-            Text("アバター設定")
+            Text("Avatar Settings")
                 .font(.headline)
                 .fontWeight(.semibold)
             
             HStack(spacing: 20) {
-                // 現在のアバタープレビュー
+                // Current avatar preview
                 VStack(spacing: 8) {
                     if let image = selectedImage {
                         AvatarImagePreview(image: image, size: 80)
@@ -194,23 +194,23 @@ struct ImageOptionsView: View {
                         AvatarImagePreview(image: nil, size: 80)
                     }
                     
-                    Text("現在のアバター")
+                    Text("Current Avatar")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
                 
                 VStack(spacing: 12) {
-                    // 写真を選択ボタン
+                    // Select photo button
                     UniversalImagePicker(
                         selectedImage: $selectedImage,
                         onImageSelected: onImageSelected
                     )
                     
-                    // 絵文字に戻すボタン
+                    // Return to emoji button
                     Button(action: onEmojiSelected) {
                         HStack {
                             Image(systemName: "face.smiling")
-                            Text("絵文字を使用")
+                            Text("Use Emoji")
                         }
                         .font(.body)
                         .foregroundColor(.orange)
@@ -220,12 +220,12 @@ struct ImageOptionsView: View {
                         .cornerRadius(8)
                     }
                     
-                    // 画像を削除ボタン
+                    // Delete image button
                     if selectedImage != nil {
                         Button(action: onRemoveImage) {
                             HStack {
                                 Image(systemName: "trash")
-                                Text("画像を削除")
+                                Text("Remove Image")
                             }
                             .font(.body)
                             .foregroundColor(.red)

@@ -7,15 +7,15 @@ struct LegalView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                // タブ選択
+                // Tab selection
                 Picker("Legal Document", selection: $selectedTab) {
-                    Text("利用規約").tag(0)
-                    Text("プライバシーポリシー").tag(1)
+                    Text("Terms of Service").tag(0)
+                    Text("Privacy Policy").tag(1)
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .padding()
                 
-                // コンテンツ表示
+                // Content display
                 TabView(selection: $selectedTab) {
                     EULAView()
                         .tag(0)
@@ -25,11 +25,11 @@ struct LegalView: View {
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             }
-            .navigationTitle("法的文書")
+            .navigationTitle("Legal Documents")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("閉じる") {
+                    Button("Close") {
                         dismiss()
                     }
                 }
@@ -42,58 +42,58 @@ struct EULAView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                Text("利用規約（EULA）")
+                Text("Terms of Service (EULA)")
                     .font(.title)
                     .fontWeight(.bold)
                 
-                Text("最終更新日: 2025年6月24日")
+                Text("Last updated: June 24, 2025")
                     .font(.caption)
                     .foregroundColor(.secondary)
                 
                 Group {
-                    Text("1. 総則")
+                    Text("1. General Provisions")
                         .font(.headline)
-                    Text("本利用規約（以下「本規約」）は、igafactory（以下「当社」）が提供する「want」アプリケーション（以下「本アプリ」）の利用に関する条件を定めるものです。")
+                    Text("These Terms of Service (hereinafter \"Terms\") set forth the conditions for the use of the \"want\" application (hereinafter \"App\") provided by igafactory (hereinafter \"Company\").")
                     
-                    Text("2. 利用の承諾")
+                    Text("2. Acceptance of Terms")
                         .font(.headline)
-                    Text("本アプリをダウンロード、インストール、または使用することにより、利用者は本規約に同意したものとみなされます。")
+                    Text("By downloading, installing, or using the App, users are deemed to have agreed to these Terms.")
                     
-                    Text("3. 利用可能期間")
+                    Text("3. Usage Period")
                         .font(.headline)
-                    Text("本アプリは以下の期間で利用可能です：\n• 無料トライアル期間：初回起動から3日間\n• 有料サブスクリプション期間：月額課金による継続利用")
+                    Text("The App is available for the following periods:\n• Free trial period: 3 days from first launch\n• Paid subscription period: Continuous use through monthly billing")
                     
-                    Text("4. 利用料金")
+                    Text("4. Usage Fees")
                         .font(.headline)
-                    Text("• 無料トライアル期間中は全ての機能を無料で利用できます\n• トライアル期間終了後は、月額サブスクリプション（価格はApp Storeにて表示）が必要です\n• 課金はApp Storeを通じて行われ、Appleの課金システムに従います")
+                    Text("• All features are available free of charge during the free trial period\n• After the trial period ends, a monthly subscription (price displayed in App Store) is required\n• Billing is processed through the App Store and follows Apple's billing system")
                     
-                    Text("5. 禁止事項")
+                    Text("5. Prohibited Activities")
                         .font(.headline)
-                    Text("利用者は以下の行為を行ってはなりません：\n• 本アプリの逆コンパイル、逆アセンブル、またはリバースエンジニアリング\n• 本アプリの著作権、商標権、その他の知的財産権の侵害\n• 本アプリを使用した違法行為\n• 他の利用者に迷惑をかける行為\n• 本アプリのサーバーやネットワークに負荷をかける行為")
+                    Text("Users must not engage in the following activities:\n• Reverse compilation, disassembly, or reverse engineering of the App\n• Infringement of copyright, trademark, or other intellectual property rights of the App\n• Illegal activities using the App\n• Actions that cause trouble to other users\n• Actions that place load on the App's servers or networks")
                     
-                    Text("6. プライバシー")
+                    Text("6. Privacy")
                         .font(.headline)
-                    Text("利用者の個人情報の取り扱いについては、別途プライバシーポリシーに従います。")
+                    Text("The handling of user personal information is subject to the separate Privacy Policy.")
                     
-                    Text("7. AI機能について")
+                    Text("7. AI Features")
                         .font(.headline)
-                    Text("本アプリはGoogle Gemini APIを使用してAI機能を提供します：\n• AIとの会話内容は適切に管理されます\n• 機密情報や個人情報の入力は避けてください\n• AIの回答は参考情報であり、医療、法律、投資等の重要な判断には使用しないでください")
+                    Text("The App uses Google Gemini API to provide AI features:\n• Conversations with AI are managed appropriately\n• Avoid entering confidential or personal information\n• AI responses are for reference only and should not be used for important decisions such as medical, legal, or investment matters")
                     
-                    Text("8. 免責事項")
+                    Text("8. Disclaimer")
                         .font(.headline)
-                    Text("• 当社は本アプリの利用により生じた損害について一切の責任を負いません\n• 本アプリの機能は予告なく変更される場合があります\n• 本アプリの利用により生じた問題について、当社は技術的サポートを提供する場合がありますが、保証するものではありません")
+                    Text("• The Company assumes no responsibility for any damages arising from the use of the App\n• App features may be changed without notice\n• The Company may provide technical support for issues arising from App use, but does not guarantee such support")
                     
-                    Text("9. 規約の変更")
+                    Text("9. Changes to Terms")
                         .font(.headline)
-                    Text("当社は必要に応じて本規約を変更することができます。変更された規約は本アプリ内または当社ウェブサイトで通知されます。")
+                    Text("The Company may change these Terms as necessary. Changed terms will be notified within the App or on the Company's website.")
                     
-                    Text("10. 準拠法・管轄裁判所")
+                    Text("10. Governing Law and Jurisdiction")
                         .font(.headline)
-                    Text("本規約の解釈および適用については、日本法に準拠し、東京地方裁判所を第一審の専属管轄裁判所とします。")
+                    Text("The interpretation and application of these Terms shall be governed by Japanese law, with the Tokyo District Court as the court of first instance with exclusive jurisdiction.")
                     
-                    Text("お問い合わせ")
+                    Text("Contact")
                         .font(.headline)
-                    Text("本規約に関するお問い合わせは以下までお願いします：\n• メール: igafactory2023@gmail.com")
+                    Text("For inquiries regarding these Terms, please contact:\n• Email: igafactory2023@gmail.com")
                 }
             }
             .padding()
@@ -105,58 +105,58 @@ struct PrivacyPolicyView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                Text("プライバシーポリシー")
+                Text("Privacy Policy")
                     .font(.title)
                     .fontWeight(.bold)
                 
-                Text("最終更新日: 2025年6月24日")
+                Text("Last updated: June 24, 2025")
                     .font(.caption)
                     .foregroundColor(.secondary)
                 
                 Group {
-                    Text("1. 収集する情報")
+                    Text("1. Information Collected")
                         .font(.headline)
-                    Text("1.1 自動収集される情報\n• デバイス情報（OSバージョン、アプリバージョン等）\n• 利用統計情報（アプリの使用頻度、機能の利用状況等）\n• クラッシュレポート\n\n1.2 ユーザーが入力する情報\n• AIとの会話内容\n• 設定情報（ペルソナ設定、感情設定等）\n• サブスクリプション情報（App Storeを通じて）")
+                    Text("1.1 Automatically Collected Information\n• Device information (OS version, app version, etc.)\n• Usage statistics (app usage frequency, feature usage, etc.)\n• Crash reports\n\n1.2 Information Entered by Users\n• Conversation content with AI\n• Settings information (persona settings, emotion settings, etc.)\n• Subscription information (through App Store)")
                     
-                    Text("2. 情報の利用目的")
+                    Text("2. Purpose of Information Use")
                         .font(.headline)
-                    Text("収集した情報は以下の目的で利用します：\n• 本アプリの機能提供\n• サービスの改善・開発\n• カスタマーサポート\n• 不正利用の防止\n• 法的義務の履行")
+                    Text("Collected information is used for the following purposes:\n• Providing App functionality\n• Service improvement and development\n• Customer support\n• Prevention of unauthorized use\n• Compliance with legal obligations")
                     
-                    Text("3. 情報の共有")
+                    Text("3. Information Sharing")
                         .font(.headline)
-                    Text("当社は以下の場合を除き、個人情報を第三者に提供しません：\n• 利用者の同意がある場合\n• 法令に基づく場合\n• 人の生命、身体、または財産の保護のために必要な場合\n• 公衆衛生の向上または児童の健全な育成の推進のために特に必要な場合")
+                    Text("The Company will not provide personal information to third parties except in the following cases:\n• When user consent is obtained\n• When required by law\n• When necessary to protect human life, body, or property\n• When particularly necessary for public health improvement or healthy child development")
                     
-                    Text("4. 外部サービスの利用")
+                    Text("4. Use of External Services")
                         .font(.headline)
-                    Text("4.1 Google Gemini API\n• AI機能の提供のために使用\n• 会話内容はGoogleのサーバーに送信されます\n• Googleのプライバシーポリシーが適用されます\n\n4.2 Apple App Store\n• アプリの配布・課金のために使用\n• Appleのプライバシーポリシーが適用されます")
+                    Text("4.1 Google Gemini API\n• Used to provide AI features\n• Conversation content is sent to Google's servers\n• Google's Privacy Policy applies\n\n4.2 Apple App Store\n• Used for app distribution and billing\n• Apple's Privacy Policy applies")
                     
-                    Text("5. 情報の保存期間")
+                    Text("5. Information Retention Period")
                         .font(.headline)
-                    Text("• 会話内容：アプリ内にローカル保存（デバイス内）\n• 設定情報：アプリ内にローカル保存\n• 利用統計：匿名化された形で永続保存")
+                    Text("• Conversation content: Locally stored in app (on device)\n• Settings information: Locally stored in app\n• Usage statistics: Permanently stored in anonymized form")
                     
-                    Text("6. 情報のセキュリティ")
+                    Text("6. Information Security")
                         .font(.headline)
-                    Text("当社は個人情報の漏洩、滅失、き損の防止その他の個人情報の安全管理のために必要かつ適切な措置を講じます。")
+                    Text("The Company implements necessary and appropriate measures to prevent leakage, loss, or damage of personal information and for other security management of personal information.")
                     
-                    Text("7. 利用者の権利")
+                    Text("7. User Rights")
                         .font(.headline)
-                    Text("利用者は以下の権利を有します：\n• 個人情報の開示請求\n• 個人情報の訂正・追加・削除請求\n• 個人情報の利用停止・消去請求")
+                    Text("Users have the following rights:\n• Request for disclosure of personal information\n• Request for correction, addition, or deletion of personal information\n• Request for suspension or deletion of personal information use")
                     
-                    Text("8. 未成年者の情報")
+                    Text("8. Information from Minors")
                         .font(.headline)
-                    Text("13歳未満の利用者からの個人情報の収集は行いません。13歳以上18歳未満の利用者については、保護者の同意を得てからサービスを提供します。")
+                    Text("We do not collect personal information from users under 13 years of age. For users 13 years or older but under 18, we provide services after obtaining parental consent.")
                     
-                    Text("9. プライバシーポリシーの変更")
+                    Text("9. Changes to Privacy Policy")
                         .font(.headline)
-                    Text("当社は必要に応じて本プライバシーポリシーを変更することができます。重要な変更がある場合は、アプリ内または当社ウェブサイトで通知します。")
+                    Text("The Company may change this Privacy Policy as necessary. For important changes, notification will be provided within the app or on the Company's website.")
                     
-                    Text("10. お問い合わせ")
+                    Text("10. Contact")
                         .font(.headline)
-                    Text("個人情報の取り扱いに関するお問い合わせは以下までお願いします：\n\nメール: igafactory2023@gmail.com\n対応時間: 平日 9:00-18:00（日本時間）\n\nプライバシーポリシー詳細: https://tegujupe222.github.io/privacy-policy/")
+                    Text("For inquiries regarding personal information handling, please contact:\n\nEmail: igafactory2023@gmail.com\nResponse hours: Weekdays 9:00-18:00 (Japan time)\n\nPrivacy Policy details: https://tegujupe222.github.io/privacy-policy/")
                     
-                    Text("11. 準拠法")
+                    Text("11. Governing Law")
                         .font(.headline)
-                    Text("本プライバシーポリシーは日本法に準拠します。")
+                    Text("This Privacy Policy is governed by Japanese law.")
                 }
             }
             .padding()

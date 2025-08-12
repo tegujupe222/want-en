@@ -3,7 +3,7 @@ import SwiftUI
 struct AvatarView: View {
     let name: String
     let emoji: String?
-    let imageFileName: String?  // ✅ 画像ファイル名を追加
+    let imageFileName: String?  // ✅ Added image filename
     let color: Color
     let size: CGFloat
     
@@ -12,7 +12,7 @@ struct AvatarView: View {
     init(
         name: String,
         emoji: String? = nil,
-        imageFileName: String? = nil,  // ✅ 画像ファイル名パラメータを追加
+        imageFileName: String? = nil,  // ✅ Added image filename parameter
         color: Color = .blue,
         size: CGFloat = 50
     ) {
@@ -26,7 +26,7 @@ struct AvatarView: View {
     var body: some View {
         Group {
             if let avatarImage = avatarImage {
-                // ✅ カスタム画像アバター
+                // ✅ Custom image avatar
                 Image(uiImage: avatarImage)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -37,7 +37,7 @@ struct AvatarView: View {
                             .stroke(color.opacity(0.3), lineWidth: 2)
                     )
             } else if let emoji = emoji, !emoji.isEmpty {
-                // 絵文字アバター
+                // Emoji avatar
                 ZStack {
                     Circle()
                         .fill(color.opacity(0.2))
@@ -47,7 +47,7 @@ struct AvatarView: View {
                         .font(.system(size: size * 0.6))
                 }
             } else {
-                // デフォルトアバター（名前の頭文字）
+                // Default avatar (name initials)
                 Circle()
                     .fill(LinearGradient(
                         gradient: Gradient(colors: [
@@ -87,7 +87,7 @@ struct AvatarView: View {
 // MARK: - Convenience Initializers
 
 extension AvatarView {
-    // PersonaCustomizationから直接作成
+    // Create directly from PersonaCustomization
     init(
         name: String,
         customization: PersonaCustomization,
@@ -102,7 +102,7 @@ extension AvatarView {
         )
     }
     
-    // UserPersonaから直接作成
+    // Create directly from UserPersona
     init(
         persona: UserPersona,
         size: CGFloat = 50
@@ -141,7 +141,7 @@ struct AvatarViewWithLoading: View {
             }
         }
         .onAppear {
-            // 画像読み込み時のローディング状態管理
+            // Loading state management during image loading
             if customization.avatarImageFileName != nil {
                 isLoading = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -158,21 +158,21 @@ struct AvatarViewWithLoading: View {
     VStack(spacing: 20) {
         HStack(spacing: 20) {
             AvatarView(
-                name: "田中太郎",
+                name: "John Smith",
                 emoji: "😊",
                 color: .blue,
                 size: 50
             )
             
             AvatarView(
-                name: "山田花子",
+                name: "Jane Doe",
                 emoji: "👩",
                 color: .pink,
                 size: 50
             )
             
             AvatarView(
-                name: "佐藤次郎",
+                name: "Bob Wilson",
                 emoji: nil,
                 color: .green,
                 size: 50
@@ -181,7 +181,7 @@ struct AvatarViewWithLoading: View {
         
         HStack(spacing: 20) {
             AvatarView(
-                name: "アシスタント",
+                name: "Assistant",
                 emoji: "🤖",
                 color: .purple,
                 size: 40
@@ -190,17 +190,17 @@ struct AvatarViewWithLoading: View {
             AvatarView(
                 name: "Friend",
                 emoji: nil,
-                imageFileName: "sample_avatar.jpg",  // ✅ 画像ファイル名の例
+                imageFileName: "sample_avatar.jpg",  // ✅ Example image filename
                 color: .orange,
                 size: 60
             )
         }
         
-        Text("画像対応アバター")
+        Text("Image Avatar Support")
             .font(.headline)
         
         AvatarViewWithLoading(
-            name: "カスタム",
+            name: "Custom",
             customization: PersonaCustomization(
                 avatarEmoji: nil,
                 avatarImageFileName: "custom_avatar.jpg",

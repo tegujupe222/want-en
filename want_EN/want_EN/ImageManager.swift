@@ -22,9 +22,9 @@ class ImageManager: ObservableObject {
         if !FileManager.default.fileExists(atPath: avatarImagesDirectory.path) {
             do {
                 try FileManager.default.createDirectory(at: avatarImagesDirectory, withIntermediateDirectories: true)
-                print("📁 アバター画像ディレクトリを作成: \(avatarImagesDirectory.path)")
+                print("📁 Created avatar images directory: \(avatarImagesDirectory.path)")
             } catch {
-                print("❌ ディレクトリ作成エラー: \(error)")
+                print("❌ Directory creation error: \(error)")
             }
         }
     }
@@ -36,16 +36,16 @@ class ImageManager: ObservableObject {
         let fileURL = avatarImagesDirectory.appendingPathComponent(fileName)
         
         guard let imageData = image.jpegData(compressionQuality: 0.8) else {
-            print("❌ 画像データの変換に失敗")
+            print("❌ Failed to convert image data")
             return nil
         }
         
         do {
             try imageData.write(to: fileURL)
-            print("💾 アバター画像を保存: \(fileName)")
+            print("💾 Saved avatar image: \(fileName)")
             return fileName
         } catch {
-            print("❌ 画像保存エラー: \(error)")
+            print("❌ Image save error: \(error)")
             return nil
         }
     }
@@ -56,13 +56,13 @@ class ImageManager: ObservableObject {
         let fileURL = avatarImagesDirectory.appendingPathComponent(fileName)
         
         guard FileManager.default.fileExists(atPath: fileURL.path) else {
-            print("⚠️ 画像ファイルが見つかりません: \(fileName)")
+            print("⚠️ Image file not found: \(fileName)")
             return nil
         }
         
         guard let imageData = try? Data(contentsOf: fileURL),
               let image = UIImage(data: imageData) else {
-            print("❌ 画像読み込みエラー: \(fileName)")
+            print("❌ Image load error: \(fileName)")
             return nil
         }
         
@@ -77,9 +77,9 @@ class ImageManager: ObservableObject {
         if FileManager.default.fileExists(atPath: fileURL.path) {
             do {
                 try FileManager.default.removeItem(at: fileURL)
-                print("🗑️ アバター画像を削除: \(fileName)")
+                print("🗑️ Deleted avatar image: \(fileName)")
             } catch {
-                print("❌ 画像削除エラー: \(error)")
+                print("❌ Image deletion error: \(error)")
             }
         }
     }
@@ -132,12 +132,12 @@ class ImageManager: ObservableObject {
                     
                     if !existingPersonaIds.contains(personaId) {
                         deleteAvatarImage(fileName: fileName)
-                        print("🧹 未使用画像を削除: \(fileName)")
+                        print("🧹 Deleted unused image: \(fileName)")
                     }
                 }
             }
         } catch {
-            print("❌ クリーンアップエラー: \(error)")
+            print("❌ Cleanup error: \(error)")
         }
     }
 }

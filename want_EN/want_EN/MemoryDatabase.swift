@@ -6,14 +6,14 @@ class MemoryDatabase {
     func findMemoryResponse(for message: String) -> String? {
         let lowercasedMessage = message.lowercased()
         
-        // キーワードマッチングを実行
+        // Execute keyword matching
         for memory in memories {
-            // メインキーワードをチェック
+            // Check main keyword
             if lowercasedMessage.contains(memory.keyword) {
                 return selectResponse(from: memory)
             }
             
-            // 関連キーワードをチェック
+            // Check related keywords
             for relatedWord in memory.relatedWords {
                 if lowercasedMessage.contains(relatedWord.lowercased()) {
                     return selectResponse(from: memory)
@@ -25,12 +25,12 @@ class MemoryDatabase {
     }
     
     private func selectResponse(from memory: MemoryKeyword) -> String {
-        // 感情的重要度に基づいて応答を選択
+        // Select response based on emotional weight
         if memory.emotionalWeight > 0.8 {
-            // 重要な思い出には特別な応答
-            return memory.memoryResponses.randomElement() ?? "その思い出、大切にしてるよ"
+            // Special response for important memories
+            return memory.memoryResponses.randomElement() ?? "I cherish that memory"
         } else {
-            return memory.memoryResponses.randomElement() ?? "そのこと、覚えてるよ"
+            return memory.memoryResponses.randomElement() ?? "I remember that"
         }
     }
     
@@ -38,8 +38,8 @@ class MemoryDatabase {
                         relatedWords: [String] = [],
                         responses: [String],
                         emotionalWeight: Double = 0.5) {
-        // 実際のアプリでは永続化が必要
-        // ここではサンプル実装
+        // In a real app, persistence would be needed
+        // This is a sample implementation
         let newMemory = MemoryKeyword(
             keyword: keyword,
             relatedWords: relatedWords,
@@ -47,8 +47,8 @@ class MemoryDatabase {
             emotionalWeight: emotionalWeight
         )
         
-        // 実装時は配列に追加し、UserDefaults や Core Data に保存
-        print("新しい思い出を追加: \(newMemory.keyword)")
+        // In implementation, add to array and save to UserDefaults or Core Data
+        print("Added new memory: \(newMemory.keyword)")
     }
     
     func getAllMemories() -> [MemoryKeyword] {

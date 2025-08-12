@@ -1,6 +1,6 @@
 import Foundation
 
-// ✅ UUID永続化の修正版
+// ✅ UUID persistence fix version
 struct ChatMessage: Identifiable, Codable, Equatable {
     let id: UUID
     let content: String
@@ -9,7 +9,7 @@ struct ChatMessage: Identifiable, Codable, Equatable {
     let emotion: String?
     let emotionTrigger: String?
     
-    // ✅ 修正: initでUUIDを明示的に設定
+    // ✅ Fix: explicitly set UUID in init
     init(
         id: UUID = UUID(),
         content: String,
@@ -26,7 +26,7 @@ struct ChatMessage: Identifiable, Codable, Equatable {
         self.emotionTrigger = emotionTrigger
     }
     
-    // ✅ 感情検出付きのコンビニエンスイニシャライザー
+    // ✅ Convenience initializer with emotion detection
     init(
         content: String,
         isFromUser: Bool,
@@ -39,7 +39,7 @@ struct ChatMessage: Identifiable, Codable, Equatable {
         self.timestamp = timestamp
         
         if detectEmotion && !isFromUser {
-            // ボットメッセージの場合、感情を自動検出
+            // Auto-detect emotion for bot messages
             if let trigger = EmotionTrigger.findTrigger(for: content) {
                 self.emotion = trigger.emotion
                 self.emotionTrigger = trigger.emotion
@@ -53,12 +53,12 @@ struct ChatMessage: Identifiable, Codable, Equatable {
         }
     }
     
-    // ✅ Codableのためのカスタムキー（すべてのプロパティを含む）
+    // ✅ Custom keys for Codable (include all properties)
     private enum CodingKeys: String, CodingKey {
         case id, content, isFromUser, timestamp, emotion, emotionTrigger
     }
     
-    // ✅ カスタムエンコーダー（デバッグ用）
+    // ✅ Custom encoder (for debugging)
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
@@ -69,7 +69,7 @@ struct ChatMessage: Identifiable, Codable, Equatable {
         try container.encodeIfPresent(emotionTrigger, forKey: .emotionTrigger)
     }
     
-    // ✅ カスタムデコーダー（デバッグ用）
+    // ✅ Custom decoder (for debugging)
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(UUID.self, forKey: .id)
@@ -80,7 +80,7 @@ struct ChatMessage: Identifiable, Codable, Equatable {
         emotionTrigger = try container.decodeIfPresent(String.self, forKey: .emotionTrigger)
     }
     
-    // ✅ Equatableの実装
+    // ✅ Equatable implementation
     static func == (lhs: ChatMessage, rhs: ChatMessage) -> Bool {
         return lhs.id == rhs.id
     }
@@ -89,7 +89,7 @@ struct ChatMessage: Identifiable, Codable, Equatable {
 // MARK: - Extensions
 
 extension ChatMessage {
-    // ✅ 表示用のプロパティ
+    // ✅ Display properties
     var displayTime: String {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
@@ -110,7 +110,7 @@ extension ChatMessage {
         return Calendar.current.isDateInYesterday(timestamp)
     }
     
-    // ✅ 感情情報の取得
+    // ✅ Get emotion information
     var emotionInfo: EmotionTrigger? {
         guard let emotionTrigger = emotionTrigger else { return nil }
         return EmotionTrigger.defaultTriggers.first { $0.emotion == emotionTrigger }
@@ -120,7 +120,7 @@ extension ChatMessage {
         return emotion != nil || emotionTrigger != nil
     }
     
-    // ✅ メッセージの分析
+    // ✅ Message analysis
     var wordCount: Int {
         return content.components(separatedBy: .whitespacesAndNewlines)
             .filter { !$0.isEmpty }.count
@@ -138,12 +138,12 @@ extension ChatMessage {
         return content.count > 100
     }
     
-    // ✅ 感情強度の計算
+    // ✅ Calculate emotional intensity
     var emotionalIntensity: Int {
         return EmotionTrigger.getEmotionStrength(for: content)
     }
     
-    // ✅ メッセージのカテゴリ分類
+    // ✅ Message category classification
     var messageCategory: MessageCategory {
         if content.contains("？") || content.contains("?") {
             return .question
@@ -158,7 +158,7 @@ extension ChatMessage {
         }
     }
     
-    // ✅ 感情検出メソッド
+    // ✅ Emotion detection methods
     func detectEmotions() -> [EmotionTrigger] {
         return EmotionTrigger.findAllTriggers(for: content)
     }
@@ -167,7 +167,7 @@ extension ChatMessage {
         return EmotionTrigger.findTrigger(for: content)
     }
     
-    // ✅ コピーメソッド
+    // ✅ Copy method
     func copy(
         content: String? = nil,
         emotion: String? = nil,
@@ -196,15 +196,15 @@ enum MessageCategory {
     var description: String {
         switch self {
         case .question:
-            return "質問"
+            return "Question"
         case .emotional:
-            return "感情的"
+            return "Emotional"
         case .brief:
-            return "簡潔"
+            return "Brief"
         case .detailed:
-            return "詳細"
+            return "Detailed"
         case .normal:
-            return "通常"
+            return "Normal"
         }
     }
     
@@ -227,7 +227,7 @@ enum MessageCategory {
 // MARK: - Factory Methods
 
 extension ChatMessage {
-    // ✅ よく使われるメッセージの生成
+    // ✅ Generate commonly used messages
     static func welcomeMessage(for persona: UserPersona) -> ChatMessage {
         let welcomeContent = generateWelcomeContent(for: persona)
         return ChatMessage(
@@ -239,7 +239,7 @@ extension ChatMessage {
     
     static func errorMessage(_ error: String) -> ChatMessage {
         return ChatMessage(
-            content: "申し訳ありません。\(error)",
+            content: "I'm sorry. \(error)",
             isFromUser: false,
             detectEmotion: false
         )
@@ -258,20 +258,20 @@ extension ChatMessage {
         let name = persona.name
         
         switch relationship {
-        case let r where r.contains("家族") || r.contains("母") || r.contains("父"):
-            return "こんにちは！\(name)よ。元気にしてた？何か話したいことはある？"
-        case let r where r.contains("友"):
-            return "やあ！久しぶり〜！最近どう？何か面白いことあった？"
-        case let r where r.contains("恋人"):
-            return "おかえり♪ 今日はどんな一日だった？聞かせて！"
-        case let r where r.contains("先生"):
-            return "こんにちは。今日も一日お疲れさまでした。何かお話ししたいことはありますか？"
+        case let r where r.contains("family") || r.contains("mother") || r.contains("father"):
+            return "Hello! I'm \(name). How are you doing? Is there anything you'd like to talk about?"
+        case let r where r.contains("friend"):
+            return "Hey! Long time no see! How have you been? Any interesting stories?"
+        case let r where r.contains("lover"):
+            return "Welcome back! ♪ How was your day? Tell me about it!"
+        case let r where r.contains("teacher"):
+            return "Hello. Thank you for your hard work today. Is there anything you'd like to discuss?"
         default:
             let catchphrase = persona.catchphrases.first ?? ""
             if catchphrase.isEmpty {
-                return "こんにちは！\(name)です。今日はよろしくお願いします！"
+                return "Hello! I'm \(name). Nice to meet you today!"
             } else {
-                return "\(catchphrase) こんにちは！\(name)です。お話ししましょう！"
+                return "\(catchphrase) Hello! I'm \(name). Let's chat!"
             }
         }
     }

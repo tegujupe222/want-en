@@ -36,7 +36,7 @@ struct ChatRoom: Identifiable, Codable, Equatable {
         self.createdDate = createdDate
     }
     
-    // UserPersonaから ChatRoom を作成
+    // Create ChatRoom from UserPersona
     init(from persona: UserPersona) {
         self.id = UUID().uuidString
         self.personaId = persona.id
@@ -50,14 +50,14 @@ struct ChatRoom: Identifiable, Codable, Equatable {
         self.createdDate = Date()
     }
     
-    // Equatable適合
+    // Equatable conformance
     static func == (lhs: ChatRoom, rhs: ChatRoom) -> Bool {
         return lhs.id == rhs.id
     }
     
-    // 表示用のプロパティ
+    // Display properties
     var displayLastMessage: String {
-        return lastMessage ?? "新しいトークルーム"
+        return lastMessage ?? "New chat room"
     }
     
     var hasUnreadMessages: Bool {
@@ -74,7 +74,7 @@ struct ChatRoom: Identifiable, Codable, Equatable {
             formatter.timeStyle = .short
             return formatter.string(from: date)
         } else if calendar.isYesterday(date) {
-            return "昨日"
+            return "Yesterday"
         } else {
             formatter.dateStyle = .short
             return formatter.string(from: date)
@@ -93,13 +93,13 @@ class ChatRoomManager: ObservableObject {
     
     init() {
         loadChatRooms()
-        print("💬 ChatRoomManager初期化完了")
+        print("💬 ChatRoomManager initialization completed")
     }
     
     // MARK: - Public Methods
     
     func createChatRoom(for persona: UserPersona) -> ChatRoom {
-        // 既存のチャットルームがあるかチェック
+        // Check if chat room already exists
         if let existingRoom = chatRooms.first(where: { $0.personaId == persona.id }) {
             return existingRoom
         }
@@ -108,21 +108,21 @@ class ChatRoomManager: ObservableObject {
         chatRooms.append(newRoom)
         saveChatRooms()
         
-        print("🆕 新しいチャットルーム作成: \(persona.name)")
+        print("🆕 Created new chat room: \(persona.name)")
         return newRoom
     }
     
     func deleteChatRoom(_ room: ChatRoom) {
         chatRooms.removeAll { $0.id == room.id }
         saveChatRooms()
-        print("🗑️ チャットルーム削除: \(room.personaName)")
+        print("🗑️ Deleted chat room: \(room.personaName)")
     }
     
     func pinChatRoom(_ room: ChatRoom) {
         if let index = chatRooms.firstIndex(where: { $0.id == room.id }) {
             chatRooms[index].isPinned.toggle()
             saveChatRooms()
-            print("📌 チャットルームピン留め切り替え: \(room.personaName)")
+            print("📌 Toggled chat room pin: \(room.personaName)")
         }
     }
     
@@ -130,7 +130,7 @@ class ChatRoomManager: ObservableObject {
         if let index = chatRooms.firstIndex(where: { $0.id == room.id }) {
             chatRooms[index].isArchived.toggle()
             saveChatRooms()
-            print("📁 チャットルームアーカイブ切り替え: \(room.personaName)")
+            print("📁 Toggled chat room archive: \(room.personaName)")
         }
     }
     
@@ -168,23 +168,23 @@ class ChatRoomManager: ObservableObject {
         do {
             let data = try JSONEncoder().encode(chatRooms)
             userDefaults.set(data, forKey: chatRoomsKey)
-            print("💾 チャットルーム保存完了: \(chatRooms.count)件")
+            print("💾 Chat rooms saved: \(chatRooms.count) items")
         } catch {
-            print("❌ チャットルーム保存エラー: \(error)")
+            print("❌ Chat room save error: \(error)")
         }
     }
     
     private func loadChatRooms() {
         guard let data = userDefaults.data(forKey: chatRoomsKey) else {
-            print("📱 保存されたチャットルームなし")
+            print("📱 No saved chat rooms")
             return
         }
         
         do {
             chatRooms = try JSONDecoder().decode([ChatRoom].self, from: data)
-            print("📱 チャットルーム読み込み完了: \(chatRooms.count)件")
+            print("📱 Chat rooms loaded: \(chatRooms.count) items")
         } catch {
-            print("❌ チャットルーム読み込みエラー: \(error)")
+            print("❌ Chat room load error: \(error)")
             chatRooms = []
         }
     }

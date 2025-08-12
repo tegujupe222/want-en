@@ -27,7 +27,7 @@ struct EmotionPickerView: View {
         selectedEmotion = emotion
         onEmotionSelected(emotion)
         
-        // 選択状態を一定時間後にリセット
+        // Reset selection state after a certain time
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             selectedEmotion = nil
         }

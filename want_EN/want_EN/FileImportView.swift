@@ -22,17 +22,17 @@ struct FileImportView: View {
                 }
             }
             .padding()
-            .navigationTitle("トーク履歴をインポート")
+            .navigationTitle("Import Chat History")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("キャンセル") {
+                    Button("Cancel") {
                         isPresented = false
                     }
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("使い方") {
+                    Button("How to Use") {
                         showingInstructions = true
                     }
                 }
@@ -47,7 +47,7 @@ struct FileImportView: View {
             ) { result in
                 handleFileImport(result)
             }
-            .alert("エラー", isPresented: .constant(lineAnalyzer.errorMessage != nil)) {
+            .alert("Error", isPresented: .constant(lineAnalyzer.errorMessage != nil)) {
                 Button("OK") {
                     lineAnalyzer.errorMessage = nil
                 }
@@ -59,27 +59,27 @@ struct FileImportView: View {
     
     private var importOptionsView: some View {
         VStack(spacing: 32) {
-            // ヘッダー
+            // Header
             VStack(spacing: 16) {
                 Image(systemName: "doc.text.magnifyingglass")
                     .font(.system(size: 60))
                     .foregroundColor(.accentColor)
                 
-                Text("LINEトーク履歴を分析")
+                Text("Analyze LINE Chat History")
                     .font(.title2)
                     .fontWeight(.bold)
                 
-                Text("トーク履歴から相手の話し方や\n性格を自動で分析します")
+                Text("Automatically analyze speaking style and\npersonality from chat history")
                     .font(.body)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
             }
             
-            // インポートボタン
+            // Import button
             VStack(spacing: 16) {
                 importButton
                 
-                // ドラッグ&ドロップエリア
+                // Drag & drop area
                 dropArea
             }
             
@@ -91,7 +91,7 @@ struct FileImportView: View {
         Button(action: {
             showingFilePicker = true
         }) {
-            Text("ファイルを選択")
+            Text("Select File")
                 .font(.headline)
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
@@ -106,7 +106,7 @@ struct FileImportView: View {
             Image(systemName: "icloud.and.arrow.down")
                 .font(.largeTitle)
                 .padding(.bottom, 8)
-            Text("ここにファイルをドラッグ＆ドロップ")
+            Text("Drag & drop files here")
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
@@ -130,14 +130,14 @@ struct FileImportView: View {
         VStack(spacing: 24) {
             Spacer()
             
-            // プログレスアニメーション
+            // Progress animation
             VStack(spacing: 16) {
                 loadingIndicator
                 
-                Text("トーク履歴を分析中...")
+                Text("Analyzing chat history...")
                     .font(.headline)
                 
-                Text("話し方や性格の特徴を\n自動で抽出しています")
+                Text("Automatically extracting speaking style\nand personality characteristics")
                     .font(.body)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
@@ -168,64 +168,64 @@ struct FileImportView: View {
     private func analysisResultView(_ result: AnalysisResult) -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                // ヘッダー
+                // Header
                 VStack(spacing: 8) {
                     HStack {
                         Image(systemName: "checkmark.circle.fill")
                             .foregroundColor(.green)
                             .font(.title2)
-                        Text("分析完了！")
+                        Text("Analysis Complete!")
                             .font(.title2)
                             .fontWeight(.bold)
                     }
                     
-                    Text("以下の特徴が検出されました")
+                    Text("The following characteristics were detected")
                         .font(.body)
                         .foregroundColor(.secondary)
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.bottom)
                 
-                // 分析結果
+                // Analysis results
                 VStack(alignment: .leading, spacing: 16) {
                     ResultCard(
-                        title: "検出された名前",
+                        title: "Detected Name",
                         content: result.detectedName,
                         icon: "person.circle"
                     )
                     
                     ResultCard(
-                        title: "話し方の特徴",
+                        title: "Speaking Style",
                         content: result.communicationStyle,
                         icon: "bubble.left"
                     )
                     
                     ResultCard(
-                        title: "性格",
+                        title: "Personality",
                         content: result.personality.joined(separator: ", "),
                         icon: "heart"
                     )
                     
                     ResultCard(
-                        title: "よく使うフレーズ",
+                        title: "Common Phrases",
                         content: result.commonPhrases.prefix(5).joined(separator: ", "),
                         icon: "quote.bubble"
                     )
                     
                     ResultCard(
-                        title: "話題",
+                        title: "Topics",
                         content: result.favoriteTopics.joined(separator: ", "),
                         icon: "bubble.left.and.bubble.right"
                     )
                     
                     ResultCard(
-                        title: "関係性",
+                        title: "Relationship",
                         content: result.messageFrequency,
                         icon: "person.2"
                     )
                 }
                 
-                // 適用ボタン
+                // Apply button
                 importSuccessButton(result)
             }
             .padding()
@@ -237,7 +237,7 @@ struct FileImportView: View {
                     onAnalysisComplete(result)
                     isPresented = false
                 }) {
-                        Text("この設定を適用")
+                        Text("Apply This Setting")
                 .font(.headline)
                             .fontWeight(.semibold)
                 .foregroundColor(.white)
@@ -258,11 +258,11 @@ struct FileImportView: View {
                 let content = try String(contentsOf: url, encoding: .utf8)
                 lineAnalyzer.analyzeLineHistory(fileContent: content)
             } catch {
-                lineAnalyzer.errorMessage = "ファイルの読み込みに失敗しました: \(error.localizedDescription)"
+                lineAnalyzer.errorMessage = "Failed to load file: \(error.localizedDescription)"
             }
             
         case .failure(let error):
-            lineAnalyzer.errorMessage = "ファイルの選択に失敗しました: \(error.localizedDescription)"
+            lineAnalyzer.errorMessage = "Failed to select file: \(error.localizedDescription)"
         }
     }
     
@@ -300,7 +300,7 @@ struct ResultCard: View {
                     .fontWeight(.semibold)
             }
             
-            Text(content.isEmpty ? "検出されませんでした" : content)
+            Text(content.isEmpty ? "Not detected" : content)
                 .font(.body)
                 .foregroundColor(content.isEmpty ? .secondary : .primary)
         }
@@ -317,55 +317,55 @@ struct InstructionsView: View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    // LINEエクスポート手順
+                    // LINE export instructions
                     InstructionSection(
-                        title: "LINEトーク履歴のエクスポート方法",
+                        title: "How to Export LINE Chat History",
                         icon: "1.circle.fill",
                         steps: [
-                            "LINEアプリで対象のトークルームを開く",
-                            "右上のメニュー（☰）をタップ",
-                            "「その他」→「トーク履歴を送信」を選択",
-                            "「テキストファイル」を選択",
-                            "「ファイルに保存」でファイルを保存"
+                            "Open the target chat room in LINE app",
+                            "Tap the menu (☰) in the top right",
+                            "Select \"Other\" → \"Send Chat History\"",
+                            "Choose \"Text File\"",
+                            "Save the file with \"Save to File\""
                         ]
                     )
                     
                     Divider()
                     
-                    // 注意事項
+                    // Notes
                     InstructionSection(
-                        title: "注意事項",
+                        title: "Notes",
                         icon: "exclamationmark.triangle.fill",
                         steps: [
-                            "プライバシー保護のため、分析はデバイス内で実行されます",
-                            "ファイルは分析後に自動で削除されます",
-                            "個人情報は外部に送信されません",
-                            "大きなファイルは分析に時間がかかる場合があります"
+                            "For privacy protection, analysis is performed on-device",
+                            "Files are automatically deleted after analysis",
+                            "Personal information is not sent externally",
+                            "Large files may take time to analyze"
                         ]
                     )
                     
                     Divider()
                     
-                    // 分析内容
+                    // Analysis content
                     InstructionSection(
-                        title: "分析される内容",
+                        title: "What Gets Analyzed",
                         icon: "chart.bar.fill",
                         steps: [
-                            "話し方の特徴（敬語使用率、絵文字頻度など）",
-                            "よく使うフレーズや口癖",
-                            "性格の傾向（優しさ、明るさなど）",
-                            "よく話す話題",
-                            "コミュニケーションの頻度"
+                            "Speaking style characteristics (polite language usage, emoji frequency, etc.)",
+                            "Common phrases and catchphrases",
+                            "Personality tendencies (kindness, cheerfulness, etc.)",
+                            "Frequent topics of conversation",
+                            "Communication frequency"
                         ]
                     )
                 }
                 .padding()
             }
-            .navigationTitle("使い方")
+            .navigationTitle("How to Use")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("閉じる") {
+                    Button("Close") {
                         dismiss()
                     }
                 }

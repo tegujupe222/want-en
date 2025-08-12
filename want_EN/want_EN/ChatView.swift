@@ -9,8 +9,8 @@ struct ChatView: View {
     
     @State private var showingPersonaSelection = false
     @State private var isInitialized = false
-    @State private var initializationAttempts = 0  // ✅ 初期化試行回数を追跡
-    @State private var showError = false  // ✅ エラー表示フラグ
+    @State private var initializationAttempts = 0  // ✅ Track initialization attempts
+    @State private var showError = false  // ✅ Error display flag
     
     init(isAIMode: Bool = false, persona: UserPersona? = nil) {
         self.isAIMode = isAIMode
@@ -21,13 +21,13 @@ struct ChatView: View {
     var body: some View {
         ZStack {
             if isInitialized && viewModel.selectedPersona != nil {
-                // ✅ 完全に初期化完了後にメインコンテンツを表示
+                // ✅ Display main content after complete initialization
                 mainContent
             } else if showError {
-                // ✅ エラー画面
+                // ✅ Error screen
                 errorView
             } else {
-                // ✅ 初期化中のローディング画面
+                // ✅ Loading screen during initialization
                 loadingView
             }
         }
@@ -36,12 +36,12 @@ struct ChatView: View {
             setupChatWithRetry()
         }
         .background(Color(.systemBackground))
-        .alert("サブスクリプションが必要です", isPresented: $viewModel.showSubscriptionAlert) {
-            Button("設定を開く") {
-                // 設定画面を開く処理
-                // ここでは簡略化のため、アラートを閉じるだけ
+        .alert("Subscription Required", isPresented: $viewModel.showSubscriptionAlert) {
+            Button("Open Settings") {
+                // Open settings screen
+                // Simplified here - just close alert
             }
-            Button("キャンセル", role: .cancel) {}
+            Button("Cancel", role: .cancel) {}
         } message: {
             Text(viewModel.subscriptionAlertMessage)
         }
@@ -65,12 +65,12 @@ struct ChatView: View {
             }
             
             VStack(spacing: 8) {
-                Text("チャットを準備中...")
+                Text("Preparing chat...")
                     .font(.headline)
                     .foregroundColor(.primary)
                 
                 if initializationAttempts > 0 {
-                    Text("試行回数: \(initializationAttempts + 1)")
+                    Text("Attempt: \(initializationAttempts + 1)")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -94,20 +94,20 @@ struct ChatView: View {
                 .font(.system(size: 50))
                 .foregroundColor(.orange)
             
-            Text("チャットの読み込みに失敗しました")
+            Text("Failed to load chat")
                 .font(.headline)
                 .foregroundColor(.primary)
             
-            Text("もう一度お試しください")
+            Text("Please try again")
                 .font(.body)
                 .foregroundColor(.secondary)
             
-            Button("再試行") {
+            Button("Retry") {
                 retryInitialization()
             }
             .buttonStyle(.borderedProminent)
             
-            Button("戻る") {
+            Button("Back") {
                 dismiss()
             }
             .foregroundColor(.secondary)
@@ -121,17 +121,17 @@ struct ChatView: View {
     private var mainContent: some View {
         GeometryReader { geometry in
         VStack(spacing: 0) {
-            // ヘッダー
+            // Header
             headerView
             
-            // メッセージリスト
+            // Message list
             messagesScrollView
-                    .frame(maxWidth: geometry.size.width > 768 ? 600 : nil) // iPadで最大幅を制限
+                    .frame(maxWidth: geometry.size.width > 768 ? 600 : nil) // Limit max width on iPad
                     .frame(maxWidth: .infinity)
             
-            // 入力エリア
+            // Input area
             messageInputView
-                    .frame(maxWidth: geometry.size.width > 768 ? 600 : nil) // iPadで最大幅を制限
+                    .frame(maxWidth: geometry.size.width > 768 ? 600 : nil) // Limit max width on iPad
                     .frame(maxWidth: .infinity)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -142,16 +142,16 @@ struct ChatView: View {
     
     private var headerView: some View {
         HStack {
-            // 戻るボタン
+            // Back button
             Button(action: {
-                print("🔙 チャット画面から戻る")
+                print("🔙 Back from chat screen")
                 dismiss()
             }) {
                 HStack(spacing: 4) {
                     Image(systemName: "chevron.left")
                         .font(.title2)
                         .fontWeight(.medium)
-                    Text("戻る")
+                    Text("Back")
                         .font(.body)
                 }
                 .foregroundColor(.blue)
@@ -159,7 +159,7 @@ struct ChatView: View {
             
             Spacer()
             
-            // タイトル
+            // Title
             VStack(spacing: 2) {
                 if let persona = viewModel.selectedPersona {
                     Text(persona.name)
@@ -170,7 +170,7 @@ struct ChatView: View {
                         .font(.caption)
                         .foregroundColor(.secondary)
                 } else {
-                    Text("チャット")
+                    Text("Chat")
                         .font(.headline)
                         .fontWeight(.semibold)
                 }
@@ -178,19 +178,19 @@ struct ChatView: View {
             
             Spacer()
             
-            // メニューボタン
+            // Menu button
             Menu {
                 if isAIMode {
-                    Button("ペルソナを変更") {
+                    Button("Change Persona") {
                         showingPersonaSelection = true
                     }
                 }
                 
-                Button("会話をクリア") {
+                Button("Clear Conversation") {
                     viewModel.clearConversation()
                 }
                 
-                Button("デバッグ情報") {
+                Button("Debug Info") {
                     viewModel.printDebugInfo()
                 }
             } label: {
@@ -217,17 +217,17 @@ struct ChatView: View {
             ScrollView {
                 LazyVStack(spacing: 12) {
                     if viewModel.messages.isEmpty {
-                        // 空の状態表示
+                        // Empty state display
                         VStack(spacing: 16) {
                             Image(systemName: "bubble.left.and.bubble.right")
                                 .font(.system(size: 50))
                                 .foregroundColor(.gray.opacity(0.5))
                             
-                            Text("会話を始めましょう")
+                            Text("Start a conversation")
                                 .font(.headline)
                                 .foregroundColor(.secondary)
                             
-                            Text("下のメッセージ欄から\n話しかけてみてください")
+                            Text("Try sending a message\nfrom the input field below")
                                 .font(.body)
                                 .foregroundColor(.secondary)
                                 .multilineTextAlignment(.center)
@@ -243,7 +243,7 @@ struct ChatView: View {
                         }
                     }
                     
-                    // タイピングインジケーター
+                    // Typing indicator
                     if viewModel.isTyping {
                         TypingIndicatorView(persona: viewModel.selectedPersona)
                     }
@@ -252,7 +252,7 @@ struct ChatView: View {
                 .padding(.vertical, 8)
             }
             .onChange(of: viewModel.messages.count) { oldValue, newValue in
-                // 新しいメッセージが追加されたら自動スクロール
+                // Auto-scroll when new message is added
                 if let lastMessage = viewModel.messages.last {
                     withAnimation(.easeOut(duration: 0.3)) {
                         proxy.scrollTo(lastMessage.id, anchor: .bottom)
@@ -266,9 +266,9 @@ struct ChatView: View {
     
     private var messageInputView: some View {
         VStack(spacing: 12) {
-            // テキスト入力エリア
+            // Text input area
             HStack(spacing: 12) {
-                TextField("メッセージを入力...", text: $viewModel.currentMessage, axis: .vertical)
+                TextField("Type a message...", text: $viewModel.currentMessage, axis: .vertical)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .lineLimit(1...4)
                     .submitLabel(.send)
@@ -278,13 +278,13 @@ struct ChatView: View {
                         }
                     }
                     .onChange(of: viewModel.currentMessage) { oldValue, newValue in
-                        // 文字数制限
+                        // Character limit
                         if newValue.count > 500 {
                             viewModel.currentMessage = String(newValue.prefix(500))
                         }
                     }
                 
-                // 送信ボタン
+                // Send button
                 Button(action: sendMessage) {
                     Image(systemName: "arrow.up.circle.fill")
                         .font(.title2)
@@ -313,62 +313,62 @@ struct ChatView: View {
     
     // MARK: - Methods
     
-    // ✅ リトライ機能付きの初期化
+    // ✅ Initialization with retry functionality
     private func setupChatWithRetry() {
         initializationAttempts += 1
-        print("🔄 ChatView初期化開始 (試行: \(initializationAttempts))")
+        print("🔄 ChatView initialization started (attempt: \(initializationAttempts))")
         
         Task { @MainActor in
             do {
-                // ✅ 十分な待機時間を確保
-                try await Task.sleep(nanoseconds: 500_000_000) // 0.5秒
+                // ✅ Ensure sufficient wait time
+                try await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
                 
                 let personaToUse: UserPersona
                 
                 if let persona = selectedPersona {
-                    print("📋 指定ペルソナを使用: \(persona.name)")
+                    print("📋 Using specified persona: \(persona.name)")
                     personaToUse = persona
                 } else if isAIMode {
-                    print("🤖 AIモード - デフォルトペルソナを使用")
+                    print("🤖 AI mode - using default persona")
                     personaToUse = PersonaLoader.shared.safeCurrentPersona
                 } else {
-                    print("🔧 デフォルトペルソナを使用")
+                    print("🔧 Using default persona")
                     personaToUse = PersonaLoader.shared.safeCurrentPersona
                 }
                 
-                // ✅ ペルソナの妥当性を確認
+                // ✅ Validate persona
                 guard !personaToUse.name.isEmpty else {
                     throw ChatInitializationError.invalidPersona
                 }
                 
-                print("✅ 使用するペルソナ: \(personaToUse.name)")
+                print("✅ Using persona: \(personaToUse.name)")
                 
-                // ✅ ChatViewModelの読み込み
+                // ✅ Load ChatViewModel
                 viewModel.loadConversation(for: personaToUse)
                 
-                // ✅ 初期化完了の確認
-                try await Task.sleep(nanoseconds: 300_000_000) // 0.3秒
+                // ✅ Confirm initialization completion
+                try await Task.sleep(nanoseconds: 300_000_000) // 0.3 seconds
                 
                 guard viewModel.selectedPersona != nil else {
                     throw ChatInitializationError.viewModelNotReady
                 }
                 
-                // ✅ 初期化完了
+                // ✅ Initialization complete
                 withAnimation(.easeInOut(duration: 0.3)) {
                     isInitialized = true
                 }
                 
-                print("✅ ChatView初期化完了 - ペルソナ: \(viewModel.selectedPersona?.name ?? "nil")")
+                print("✅ ChatView initialization completed - persona: \(viewModel.selectedPersona?.name ?? "nil")")
                 
             } catch {
-                print("❌ 初期化エラー (試行 \(initializationAttempts)): \(error)")
+                print("❌ Initialization error (attempt \(initializationAttempts)): \(error)")
                 
                 if initializationAttempts < 3 {
-                    // ✅ 最大3回まで再試行
-                    try? await Task.sleep(nanoseconds: 1_000_000_000) // 1秒待機
+                    // ✅ Retry up to 3 times
+                    try? await Task.sleep(nanoseconds: 1_000_000_000) // 1 second wait
                     setupChatWithRetry()
                 } else {
-                    // ✅ 3回失敗したらエラー画面を表示
+                    // ✅ Show error screen after 3 failures
                     withAnimation(.easeInOut(duration: 0.3)) {
                         showError = true
                     }
@@ -387,12 +387,12 @@ struct ChatView: View {
     private func sendMessage() {
         guard canSendMessage else { return }
         
-        print("📤 メッセージ送信: \(viewModel.currentMessage)")
+        print("📤 Sending message: \(viewModel.currentMessage)")
         
-        // キーボードを隠す
+        // Hide keyboard
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         
-        // メッセージ送信
+        // Send message
         viewModel.sendMessage()
     }
 }
@@ -428,7 +428,7 @@ struct TypingIndicatorView: View {
                 .background(Color(.systemGray6))
                 .cornerRadius(18)
                 
-                Text("入力中...")
+                Text("Typing...")
                     .font(.caption2)
                     .foregroundColor(.secondary)
                     .padding(.horizontal, 4)
@@ -505,11 +505,11 @@ enum ChatInitializationError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidPersona:
-            return "ペルソナの設定に問題があります"
+            return "There's an issue with persona settings"
         case .viewModelNotReady:
-            return "チャットの準備ができていません"
+            return "Chat is not ready"
         case .timeout:
-            return "初期化がタイムアウトしました"
+            return "Initialization timed out"
         }
     }
 }

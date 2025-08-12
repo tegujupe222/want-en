@@ -12,7 +12,7 @@ class PersonaManager: ObservableObject {
     
     private init() {
         loadPersonas()
-        print("👥 PersonaManager初期化完了")
+        print("👥 PersonaManager initialization completed")
     }
     
     // MARK: - Public Methods
@@ -23,7 +23,7 @@ class PersonaManager: ObservableObject {
         
         personas.append(safePersona)
         savePersonas()
-        print("➕ ペルソナ追加: \(safePersona.name)")
+        print("➕ Added persona: \(safePersona.name)")
     }
     
     func updatePersona(_ persona: UserPersona) {
@@ -33,9 +33,9 @@ class PersonaManager: ObservableObject {
             
             personas[index] = safePersona
             savePersonas()
-            print("🔄 ペルソナ更新: \(safePersona.name)")
+            print("🔄 Updated persona: \(safePersona.name)")
             
-            // PersonaLoaderにも更新を通知（メインアクターで実行）
+            // Notify PersonaLoader of update (execute on main actor)
             Task { @MainActor in
                 PersonaLoader.shared.refreshCurrentPersona()
             }
@@ -45,15 +45,15 @@ class PersonaManager: ObservableObject {
     func deletePersona(_ persona: UserPersona) {
         personas.removeAll { $0.id == persona.id }
         
-        // ✅ 関連する画像ファイルも削除
+        // ✅ Also delete related image files
         if let imageFileName = persona.customization.avatarImageFileName {
             ImageManager.shared.deleteAvatarImage(fileName: imageFileName)
         }
         
         savePersonas()
-        print("🗑️ ペルソナ削除: \(persona.name)")
+        print("🗑️ Deleted persona: \(persona.name)")
         
-        // 削除されたペルソナが現在選択中の場合、PersonaLoaderを更新
+        // Update PersonaLoader if deleted persona was currently selected
         Task { @MainActor in
             if PersonaLoader.shared.currentPersona?.id == persona.id {
                 PersonaLoader.shared.setDefaultPersona()
@@ -76,7 +76,7 @@ class PersonaManager: ObservableObject {
     // MARK: - Validation Methods
     
     func validatePersona(_ persona: UserPersona) -> Bool {
-        // 基本的な妥当性チェック
+        // Basic validation check
         guard !persona.name.isEmpty,
               !persona.relationship.isEmpty,
               !persona.personality.isEmpty,
@@ -92,7 +92,7 @@ class PersonaManager: ObservableObject {
         
         if personas.count != originalCount {
             savePersonas()
-            print("🧹 無効なペルソナをクリーンアップ: \(originalCount - personas.count)件削除")
+            print("🧹 Cleaned up invalid personas: \(originalCount - personas.count) removed")
         }
     }
     
@@ -100,7 +100,7 @@ class PersonaManager: ObservableObject {
     
     private func savePersonas() {
         do {
-            // 保存前に妥当性チェック
+            // Validate before saving
             let validPersonas = personas.compactMap { persona in
                 var validPersona = persona
                 validPersona.customization.makeSafe()
@@ -109,16 +109,16 @@ class PersonaManager: ObservableObject {
             
             let data = try JSONEncoder().encode(validPersonas)
             userDefaults.set(data, forKey: personasKey)
-            print("💾 ペルソナ保存完了: \(validPersonas.count)件")
+            print("💾 Personas saved: \(validPersonas.count) items")
         } catch {
-            print("❌ ペルソナ保存エラー: \(error.localizedDescription)")
-            // エラー発生時は既存データを保護（何もしない）
+            print("❌ Persona save error: \(error.localizedDescription)")
+            // Protect existing data on error (do nothing)
         }
     }
     
     private func loadPersonas() {
         guard let data = userDefaults.data(forKey: personasKey) else {
-            print("📱 保存されたペルソナなし - デフォルトペルソナを作成")
+            print("📱 No saved personas - creating default personas")
             createDefaultPersonas()
             return
         }
@@ -126,31 +126,31 @@ class PersonaManager: ObservableObject {
         do {
             let loadedPersonas = try JSONDecoder().decode([UserPersona].self, from: data)
             
-            // 読み込んだペルソナの妥当性をチェック
+            // Validate loaded personas
             personas = loadedPersonas.compactMap { persona in
                 var validPersona = persona
                 validPersona.customization.makeSafe()
                 
-                // 妥当性チェック
+                // Validation check
                 if validatePersona(validPersona) {
                     return validPersona
                 } else {
-                    print("⚠️ 無効なペルソナをスキップ: \(persona.name)")
+                    print("⚠️ Skipped invalid persona: \(persona.name)")
                     return nil
                 }
             }
             
-            // ペルソナが一つもない場合はデフォルトを作成
+            // Create defaults if no personas exist
             if personas.isEmpty {
-                print("⚠️ 有効なペルソナが見つからないため、デフォルトを作成")
+                print("⚠️ No valid personas found, creating defaults")
                 createDefaultPersonas()
             } else {
-                print("📱 ペルソナ読み込み完了: \(personas.count)件")
+                print("📱 Personas loaded: \(personas.count) items")
             }
             
         } catch {
-            print("❌ ペルソナ読み込みエラー: \(error.localizedDescription)")
-            // エラー時はデフォルトペルソナを作成
+            print("❌ Persona load error: \(error.localizedDescription)")
+            // Create default personas on error
             createDefaultPersonas()
         }
     }
@@ -158,12 +158,12 @@ class PersonaManager: ObservableObject {
     private func createDefaultPersonas() {
         let defaultPersonas = [
             UserPersona(
-                name: "お母さん",
-                relationship: "家族",
-                personality: ["優しい", "心配性", "愛情深い"],
-                speechStyle: "温かく包み込むような口調",
-                catchphrases: ["大丈夫よ", "お疲れさま"],
-                favoriteTopics: ["日常の出来事", "健康", "家族のこと"],
+                name: "Mom",
+                relationship: "Family",
+                personality: ["Kind", "Worried", "Loving"],
+                speechStyle: "Warm and caring tone",
+                catchphrases: ["It's okay", "Good job"],
+                favoriteTopics: ["Daily events", "Health", "Family matters"],
                 mood: .happy,
                 customization: PersonaCustomization(
                     avatarEmoji: "👩",
@@ -171,12 +171,12 @@ class PersonaManager: ObservableObject {
                 )
             ),
             UserPersona(
-                name: "友達",
-                relationship: "親友",
-                personality: ["明るい", "親しみやすい", "ユーモアがある"],
-                speechStyle: "カジュアルで親しみやすい",
-                catchphrases: ["そうなんだ〜", "すごいじゃん！"],
-                favoriteTopics: ["趣味", "エンタメ", "恋愛"],
+                name: "Friend",
+                relationship: "Best Friend",
+                personality: ["Cheerful", "Friendly", "Humorous"],
+                speechStyle: "Casual and approachable",
+                catchphrases: ["Really?", "That's amazing!"],
+                favoriteTopics: ["Hobbies", "Entertainment", "Love"],
                 mood: .excited,
                 customization: PersonaCustomization(
                     avatarEmoji: "😊",
@@ -184,12 +184,12 @@ class PersonaManager: ObservableObject {
                 )
             ),
             UserPersona(
-                name: "先生",
-                relationship: "恩師",
-                personality: ["知的", "優しい", "指導力がある"],
-                speechStyle: "丁寧で落ち着いた口調",
-                catchphrases: ["なるほど", "素晴らしいですね"],
-                favoriteTopics: ["学習", "成長", "将来の目標"],
+                name: "Teacher",
+                relationship: "Mentor",
+                personality: ["Intelligent", "Kind", "Guiding"],
+                speechStyle: "Polite and calm tone",
+                catchphrases: ["I see", "That's wonderful"],
+                favoriteTopics: ["Learning", "Growth", "Future goals"],
                 mood: .calm,
                 customization: PersonaCustomization(
                     avatarEmoji: "👨‍🏫",
@@ -200,7 +200,7 @@ class PersonaManager: ObservableObject {
         
         personas = defaultPersonas
         savePersonas()
-        print("🆕 デフォルトペルソナ作成完了: \(defaultPersonas.count)件")
+        print("🆕 Default personas created: \(defaultPersonas.count) items")
     }
     
     // MARK: - Utility Methods
@@ -223,11 +223,11 @@ class PersonaManager: ObservableObject {
         return personas.filter { $0.mood == mood }
     }
     
-    // ✅ 未使用画像のクリーンアップ
+    // ✅ Cleanup unused images
     func cleanupUnusedImages() {
         let existingPersonaIds = personas.map { $0.id }
         ImageManager.shared.cleanupUnusedImages(existingPersonaIds: existingPersonaIds)
-        print("🧹 未使用画像のクリーンアップ完了")
+        print("🧹 Unused images cleanup completed")
     }
     
     // MARK: - Export/Import Methods
@@ -236,7 +236,7 @@ class PersonaManager: ObservableObject {
         do {
             return try JSONEncoder().encode(personas)
         } catch {
-            print("❌ ペルソナエクスポートエラー: \(error.localizedDescription)")
+            print("❌ Persona export error: \(error.localizedDescription)")
             return nil
         }
     }
@@ -245,25 +245,25 @@ class PersonaManager: ObservableObject {
         do {
             let importedPersonas = try JSONDecoder().decode([UserPersona].self, from: data)
             
-            // インポートしたペルソナの妥当性をチェック
+            // Validate imported personas
             let validPersonas = importedPersonas.compactMap { persona in
                 var validPersona = persona
                 validPersona.customization.makeSafe()
                 return validatePersona(validPersona) ? validPersona : nil
             }
             
-            // 既存のペルソナと重複しないようにIDをチェック
+            // Check IDs to avoid duplicates with existing personas
             let existingIds = Set(personas.map { $0.id })
             let newPersonas = validPersonas.filter { !existingIds.contains($0.id) }
             
             personas.append(contentsOf: newPersonas)
             savePersonas()
             
-            print("📥 ペルソナインポート完了: \(newPersonas.count)件追加")
+            print("📥 Persona import completed: \(newPersonas.count) items added")
             return true
             
         } catch {
-            print("❌ ペルソナインポートエラー: \(error.localizedDescription)")
+            print("❌ Persona import error: \(error.localizedDescription)")
             return false
         }
     }
@@ -297,7 +297,7 @@ struct PersonaStatistics {
 
 extension PersonaManager {
     
-    // 便利なプロパティ
+    // Convenient properties
     var isEmpty: Bool {
         return personas.isEmpty
     }
@@ -306,21 +306,21 @@ extension PersonaManager {
         return personas.contains { $0.id == UserPersona.defaultPersona.id }
     }
     
-    // 最近使用したペルソナを取得（実装例）
+    // Get recently used personas (implementation example)
     func getRecentlyUsedPersonas(limit: Int = 5) -> [UserPersona] {
-        // 実際の実装では最近の使用履歴を保存する必要があります
-        // ここでは先頭から指定数を返す簡単な実装
+        // In actual implementation, recent usage history should be saved
+        // Here's a simple implementation returning first N items
         return Array(personas.prefix(limit))
     }
     
-    // お気に入りペルソナの管理（将来の機能拡張用）
+    // Favorite persona management (for future feature expansion)
     func markAsFavorite(_ persona: UserPersona) {
-        // 将来的にお気に入り機能を実装する場合の準備
-        print("⭐ お気に入りに追加: \(persona.name)")
+        // Preparation for future favorite feature implementation
+        print("⭐ Added to favorites: \(persona.name)")
     }
     
     func removeFromFavorites(_ persona: UserPersona) {
-        // 将来的にお気に入り機能を実装する場合の準備
-        print("⭐ お気に入りから削除: \(persona.name)")
+        // Preparation for future favorite feature implementation
+        print("⭐ Removed from favorites: \(persona.name)")
     }
 }

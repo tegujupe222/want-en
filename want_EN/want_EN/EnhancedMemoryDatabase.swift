@@ -10,14 +10,14 @@ class EnhancedMemoryDatabase {
         loadLearnedPhrases()
     }
     
-    // LINEトーク履歴から学習したデータを統合
+    // Integrate learning data from LINE talk history
     func integrateLearningData(from analysisResult: AnalysisResult) {
-        // 分析結果からカスタムメモリーを作成
+        // Create custom memories from analysis results
         for phrase in analysisResult.commonPhrases {
             addLearnedPhrase(phrase, responses: generateResponsesForPhrase(phrase))
         }
         
-        // 話題に基づくメモリーキーワードを追加
+        // Add memory keywords based on topics
         for topic in analysisResult.favoriteTopics {
             addTopicMemory(topic, from: analysisResult)
         }
@@ -26,12 +26,12 @@ class EnhancedMemoryDatabase {
     }
     
     func findMemoryResponse(for message: String) -> String? {
-        // まず学習済みフレーズをチェック
+        // First check learned phrases
         if let learnedResponse = findLearnedResponse(for: message) {
             return learnedResponse
         }
         
-        // 従来のメモリー検索
+        // Traditional memory search
         return baseMemoryDatabase.findMemoryResponse(for: message)
     }
     
@@ -52,18 +52,18 @@ class EnhancedMemoryDatabase {
     }
     
     private func generateResponsesForPhrase(_ phrase: String) -> [String] {
-        // フレーズに基づいて適切な応答を生成
+        // Generate appropriate responses based on phrase
         switch phrase {
-        case let p where p.contains("ありがとう"):
-            return ["どういたしまして", "喜んでもらえて嬉しいよ", "いつでも力になるからね"]
-        case let p where p.contains("疲れた"):
-            return ["お疲れさま", "ゆっくり休んで", "無理しないでね"]
-        case let p where p.contains("楽しい"):
-            return ["良かったね！", "君の笑顔が見れて嬉しい", "一緒に楽しもう"]
-        case let p where p.contains("そうだね"):
-            return ["そうだね", "わかるよ", "同感だよ"]
+        case let p where p.contains("thank you"):
+            return ["You're welcome", "I'm glad I could help", "I'm always here for you"]
+        case let p where p.contains("tired"):
+            return ["Good job", "Take a rest", "Don't push yourself too hard"]
+        case let p where p.contains("fun"):
+            return ["That's great!", "I'm happy to see your smile", "Let's have fun together"]
+        case let p where p.contains("I see"):
+            return ["I see", "I understand", "I agree"]
         default:
-            return ["そうなんだね", "なるほど", "そう思うよ"]
+            return ["I see", "I understand", "I think so too"]
         }
     }
     
@@ -77,29 +77,29 @@ class EnhancedMemoryDatabase {
             emotionalWeight: 0.6
         )
         
-        // 実際の実装では、カスタムメモリーを永続化
-        print("カスタムメモリーを追加: \(topic)")
+        // In actual implementation, persist custom memories
+        print("Added custom memory: \(topic)")
     }
     
     private func generateTopicResponses(for topic: String, style: String) -> [String] {
         let baseResponses: [String]
         
         switch topic {
-        case "仕事":
-            baseResponses = ["仕事、お疲れさま", "頑張ってるね", "仕事のことなら何でも聞くよ"]
-        case "映画":
-            baseResponses = ["どんな映画を見たの？", "映画の話、好きだよ", "また一緒に見たいな"]
-        case "料理":
-            baseResponses = ["美味しそうだね", "料理上手だね", "今度作ってもらいたいな"]
+        case "work":
+            baseResponses = ["Good job with work", "You're working hard", "I'm here to listen about work"]
+        case "movie":
+            baseResponses = ["What movie did you watch?", "I like talking about movies", "I want to watch together again"]
+        case "cooking":
+            baseResponses = ["That sounds delicious", "You're good at cooking", "I want you to cook for me next time"]
         default:
-            baseResponses = ["その話、興味深いね", "もっと聞かせて", "君の話は面白いよ"]
+            baseResponses = ["That's interesting", "Tell me more", "Your stories are fun"]
         }
         
-        // 話し方のスタイルに合わせて調整
-        if style.contains("丁寧") {
+        // Adjust based on speech style
+        if style.contains("polite") {
             return baseResponses.map { $0.replacingOccurrences(of: "だね", with: "ですね") }
-        } else if style.contains("親しみやすい") {
-            return baseResponses.map { $0 + "！" }
+        } else if style.contains("friendly") {
+            return baseResponses.map { $0 + "!" }
         }
         
         return baseResponses
@@ -107,31 +107,31 @@ class EnhancedMemoryDatabase {
     
     private func getRelatedWords(for topic: String) -> [String] {
         let topicKeywords: [String: [String]] = [
-            "仕事": ["職場", "会社", "上司", "同僚", "プロジェクト", "残業"],
-            "映画": ["シネマ", "ドラマ", "俳優", "監督", "ストーリー"],
-            "料理": ["レシピ", "食材", "レストラン", "美味しい", "作る"],
-            "音楽": ["歌", "アーティスト", "ライブ", "コンサート", "楽器"],
-            "旅行": ["観光", "ホテル", "電車", "景色", "写真"]
+            "work": ["office", "company", "boss", "colleague", "project", "overtime"],
+            "movie": ["cinema", "drama", "actor", "director", "story"],
+            "cooking": ["recipe", "ingredients", "restaurant", "delicious", "cook"],
+            "music": ["song", "artist", "live", "concert", "instrument"],
+            "travel": ["sightseeing", "hotel", "train", "scenery", "photo"]
         ]
         
         return topicKeywords[topic] ?? []
     }
     
-    // 会話履歴から学習
+    // Learn from conversation history
     func learnFromConversation(_ messages: [ChatMessage]) {
         conversationHistory.append(contentsOf: messages)
         
-        // 履歴サイズを制限
+        // Limit history size
         if conversationHistory.count > maxHistorySize {
             conversationHistory = Array(conversationHistory.suffix(maxHistorySize))
         }
         
-        // パターン学習を実行
+        // Execute pattern learning
         analyzeConversationPatterns()
     }
     
     private func analyzeConversationPatterns() {
-        // ユーザーメッセージとBotの応答ペアを分析
+        // Analyze user message and bot response pairs
         for i in 0..<conversationHistory.count - 1 {
             let userMessage = conversationHistory[i]
             let botMessage = conversationHistory[i + 1]
@@ -143,7 +143,7 @@ class EnhancedMemoryDatabase {
     }
     
     private func learnResponsePattern(userInput: String, botResponse: String) {
-        // キーワードベースの学習
+        // Keyword-based learning
         let keywords = extractKeywords(from: userInput)
         
         for keyword in keywords {
@@ -158,7 +158,7 @@ class EnhancedMemoryDatabase {
     }
     
     private func extractKeywords(from text: String) -> [String] {
-        // 簡単なキーワード抽出
+        // Simple keyword extraction
         let commonWords = ["は", "が", "を", "に", "で", "と", "の", "だ", "です", "ます"]
         let words = text.components(separatedBy: .whitespacesAndNewlines)
         
@@ -167,7 +167,7 @@ class EnhancedMemoryDatabase {
         }
     }
     
-    // 学習データの永続化
+    // Persist learning data
     private func saveLearnedPhrases() {
         if let data = try? JSONEncoder().encode(learnedPhrases) {
             UserDefaults.standard.set(data, forKey: "learnedPhrases")
@@ -181,19 +181,19 @@ class EnhancedMemoryDatabase {
         }
     }
     
-    // 学習データのクリア
+    // Clear learning data
     func clearLearnedData() {
         learnedPhrases.removeAll()
         conversationHistory.removeAll()
         UserDefaults.standard.removeObject(forKey: "learnedPhrases")
     }
     
-    // 学習状況の取得
+    // Get learning statistics
     func getLearningStats() -> (phraseCount: Int, conversationCount: Int) {
         return (learnedPhrases.count, conversationHistory.count)
     }
     
-    // ベースのメモリーデータベース機能を公開
+    // Expose base memory database functionality
     func addCustomMemory(keyword: String,
                         relatedWords: [String] = [],
                         responses: [String],

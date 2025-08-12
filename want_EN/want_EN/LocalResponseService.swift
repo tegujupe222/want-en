@@ -6,7 +6,7 @@ class LocalResponseService {
     private let emotionResponder = EmotionResponder.shared
     
     init() {
-        print("🏠 LocalResponseService初期化完了")
+        print("🏠 LocalResponseService initialization completed")
     }
     
     func generateResponse(
@@ -15,36 +15,36 @@ class LocalResponseService {
         userMessage: String,
         emotionContext: String?
     ) -> String {
-        print("🏠 ローカル応答生成: \(userMessage.prefix(20))...")
+        print("🏠 Local response generation: \(userMessage.prefix(20))...")
         
-        // 1. 感情分析
+        // 1. Emotional analysis
         let emotionalAnalysis = emotionResponder.analyzeEmotionalState(from: conversationHistory)
         
-        // 2. パーソナライズされた応答生成
+        // 2. Generate personalized response
         let personalizedResponse = emotionResponder.generatePersonalizedResponse(
             for: userMessage,
             persona: persona,
             emotionalContext: emotionalAnalysis
         )
         
-        // 3. 時間帯を考慮した調整
+        // 3. Time-aware adjustments
         if let dominantEmotion = emotionalAnalysis.dominantEmotion {
             let timeAwareResponse = emotionResponder.generateTimeAwareResponse(for: dominantEmotion)
             
-            // ランダムに時間帯考慮応答を使用
+            // Randomly use time-aware response
             if Bool.random() && timeAwareResponse != personalizedResponse {
                 return timeAwareResponse
             }
         }
         
-        // 4. 会話の流れを考慮した応答調整
+        // 4. Context-aware response adjustments
         let contextualResponse = adjustResponseForContext(
             baseResponse: personalizedResponse,
             persona: persona,
             recentMessages: Array(conversationHistory.suffix(3))
         )
         
-        print("✅ ローカル応答生成完了")
+        print("✅ Local response generation completed")
         return contextualResponse
     }
     
@@ -57,18 +57,18 @@ class LocalResponseService {
     ) -> String {
         var response = baseResponse
         
-        // 連続する同じような応答を避ける
+        // Avoid repetitive responses
         let recentBotMessages = recentMessages.filter { !$0.isFromUser }
         if recentBotMessages.count >= 2 {
             let lastTwoResponses = Array(recentBotMessages.suffix(2)).map { $0.content }
             
-            // 同じような応答が続いている場合は変化を加える
-            if lastTwoResponses.allSatisfy({ $0.contains("そう") }) {
+            // Add variation if similar responses continue
+            if lastTwoResponses.allSatisfy({ $0.contains("I see") }) {
                 response = addVariation(to: response, persona: persona)
             }
         }
         
-        // 会話の長さに応じた応答調整
+        // Adjust response based on conversation length
         if recentMessages.count > 20 {
             response = addLongConversationElement(to: response, persona: persona)
         }
@@ -78,15 +78,15 @@ class LocalResponseService {
     
     private func addVariation(to response: String, persona: UserPersona) -> String {
         let variations = [
-            "ところで、",
-            "そういえば、",
-            "話は変わるけど、",
-            "それより、"
+            "By the way, ",
+            "Speaking of which, ",
+            "Changing the subject, ",
+            "Anyway, "
         ]
         
         if let variation = variations.randomElement(),
            let topic = persona.favoriteTopics.randomElement() {
-            return "\(response) \(variation)\(topic)の話でもしよう？"
+            return "\(response) \(variation)shall we talk about \(topic)?"
         }
         
         return response
@@ -94,14 +94,14 @@ class LocalResponseService {
     
     private func addLongConversationElement(to response: String, persona: UserPersona) -> String {
         let longConversationElements = [
-            "ずっと話してて楽しいな",
-            "君といると時間があっという間だね",
-            "こうして話せて嬉しいよ",
-            "もっと聞かせて"
+            "It's fun talking with you for so long",
+            "Time flies when I'm with you",
+            "I'm happy we can talk like this",
+            "Tell me more"
         ]
         
         if Bool.random(), let element = longConversationElements.randomElement() {
-            return "\(response) \(element)。"
+            return "\(response) \(element)."
         }
         
         return response

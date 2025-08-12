@@ -13,7 +13,7 @@ class EmotionResponder {
     static let shared = EmotionResponder()
     
     private init() {
-        print("🎭 EmotionResponder初期化完了")
+        print("🎭 EmotionResponder initialization completed")
     }
     
     // MARK: - Public Methods
@@ -53,7 +53,7 @@ class EmotionResponder {
         )
         
         emotionTriggerManager.addCustomTrigger(newTrigger)
-        print("🆕 新しい感情トリガーを追加: \(newTrigger.emotion) \(newTrigger.emoji)")
+        print("🆕 Added new emotion trigger: \(newTrigger.emotion) \(newTrigger.emoji)")
     }
     
     func getEmotionalContext(from messages: [ChatMessage]) -> String? {
@@ -167,11 +167,11 @@ class EmotionResponder {
         
         // ペルソナの関係性に応じた調整
         switch persona.relationship.lowercased() {
-        case let r where r.contains("家族") || r.contains("母") || r.contains("父"):
-            return response.replacingOccurrences(of: "君", with: "あなた")
-        case let r where r.contains("友"):
+        case let r where r.contains("family") || r.contains("mother") || r.contains("father"):
+            return response.replacingOccurrences(of: "you", with: "you")
+        case let r where r.contains("friend"):
             return response
-        case let r where r.contains("恋人"):
+        case let r where r.contains("lover") || r.contains("boyfriend") || r.contains("girlfriend"):
             return response + "♪"
         default:
             return response
@@ -180,14 +180,14 @@ class EmotionResponder {
     
     private func generateDefaultResponse(for persona: UserPersona) -> String {
         let defaultResponses = [
-            "そうなんだね",
-            "聞いてるよ",
-            "どう思う？",
-            "なるほど",
-            "そうだったんだ"
+            "I see",
+            "I'm listening",
+            "What do you think?",
+            "I understand",
+            "Is that so"
         ]
         
-        let baseResponse = defaultResponses.randomElement() ?? "そうなんだね"
+        let baseResponse = defaultResponses.randomElement() ?? "I see"
         return personalizeResponse(baseResponse, for: persona)
     }
 }
@@ -201,12 +201,12 @@ struct EmotionalAnalysis {
     let contextualHints: [String]
     
     var isPositive: Bool {
-        let positiveEmotions = ["嬉しい", "ありがとう", "楽しい", "幸せ"]
+        let positiveEmotions = ["happy", "thank you", "fun", "happy"]
         return dominantEmotion.map { positiveEmotions.contains($0) } ?? false
     }
     
     var isNegative: Bool {
-        let negativeEmotions = ["寂しい", "疲れた", "心配", "悲しい"]
+        let negativeEmotions = ["lonely", "tired", "worried", "sad"]
         return dominantEmotion.map { negativeEmotions.contains($0) } ?? false
     }
     
@@ -230,11 +230,11 @@ enum EmotionalIntensity {
     var description: String {
         switch self {
         case .low:
-            return "穏やか"
+            return "Calm"
         case .medium:
-            return "普通"
+            return "Normal"
         case .high:
-            return "強い"
+            return "Strong"
         }
     }
 }

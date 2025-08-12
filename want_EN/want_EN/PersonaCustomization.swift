@@ -3,7 +3,7 @@ import SwiftUI
 
 struct PersonaCustomization: Codable {
     var avatarEmoji: String?
-    var avatarImageFileName: String?  // ✅ 画像ファイル名を追加
+    var avatarImageFileName: String?  // ✅ Added image filename
     var avatarColor: Color
     var backgroundColor: Color
     var textColor: Color
@@ -11,14 +11,14 @@ struct PersonaCustomization: Codable {
     
     init(
         avatarEmoji: String? = nil,
-        avatarImageFileName: String? = nil,  // ✅ 画像ファイル名パラメータを追加
+        avatarImageFileName: String? = nil,  // ✅ Added image filename parameter
         avatarColor: Color = .blue,
         backgroundColor: Color = .white,
         textColor: Color = Color.safeBlack,
         bubbleStyle: BubbleStyle = .modern
     ) {
         self.avatarEmoji = avatarEmoji
-        self.avatarImageFileName = avatarImageFileName  // ✅ 初期化
+        self.avatarImageFileName = avatarImageFileName  // ✅ Initialize
         self.avatarColor = avatarColor
         self.backgroundColor = backgroundColor
         self.textColor = textColor
@@ -34,11 +34,11 @@ enum BubbleStyle: String, CaseIterable, Codable {
     var displayName: String {
         switch self {
         case .modern:
-            return "モダン"
+            return "Modern"
         case .classic:
-            return "クラシック"
+            return "Classic"
         case .rounded:
-            return "丸型"
+            return "Rounded"
         }
     }
 }
@@ -63,11 +63,11 @@ extension Color: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
-        // UIColorの変換をより安全に行う
+        // Convert UIColor more safely
         let cgColor = UIColor(self).cgColor
         guard let components = cgColor.components,
               components.count >= 3 else {
-            // フォールバック: 黒色を使用
+            // Fallback: use black color
             try container.encode(0.0, forKey: .red)
             try container.encode(0.0, forKey: .green)
             try container.encode(0.0, forKey: .blue)
@@ -86,14 +86,14 @@ extension Color: Codable {
         try container.encode(Double(alpha), forKey: .alpha)
     }
     
-    // 便利な色の定義（安全な定義）
+    // Convenient color definitions (safe definitions)
     static let personaPink = Color(red: 1.0, green: 0.75, blue: 0.8)
     static let personaLightBlue = Color(red: 0.7, green: 0.9, blue: 1.0)
     static let personaLightGreen = Color(red: 0.8, green: 1.0, blue: 0.8)
     static let personaLightPurple = Color(red: 0.9, green: 0.8, blue: 1.0)
     static let personaLightOrange = Color(red: 1.0, green: 0.9, blue: 0.7)
     
-    // 安全な黒と白の定義
+    // Safe black and white definitions
     static let safeBlack = Color(red: 0.0, green: 0.0, blue: 0.0)
     static let safeWhite = Color(red: 1.0, green: 1.0, blue: 1.0)
 }
@@ -101,7 +101,7 @@ extension Color: Codable {
 // MARK: - PersonaCustomization Extension
 
 extension PersonaCustomization {
-    // 安全なデフォルト設定を提供
+    // Provide safe default settings
     static var safeDefault: PersonaCustomization {
         return PersonaCustomization(
             avatarEmoji: "😊",
@@ -112,27 +112,27 @@ extension PersonaCustomization {
         )
     }
     
-    // 色の妥当性をチェック
+    // Check color validity
     var isValid: Bool {
-        // 基本的な妥当性チェック
+        // Basic validity check
         return true
     }
     
-    // 安全な色に変換
+    // Convert to safe colors
     mutating func makeSafe() {
-        // 必要に応じて安全な色に置換
+        // Replace with safe colors as needed
         if avatarEmoji?.isEmpty == true {
             avatarEmoji = nil
         }
         
-        // 画像ファイルが存在するかチェック
+        // Check if image file exists
         if let fileName = avatarImageFileName,
            ImageManager.shared.loadAvatarImage(fileName: fileName) == nil {
             avatarImageFileName = nil
-            print("⚠️ 存在しない画像ファイルを削除: \(fileName)")
+            print("⚠️ Removed non-existent image file: \(fileName)")
         }
         
-        // 極端に透明な色や無効な色をチェック
-        // 必要に応じて追加のチェックロジックを実装
+        // Check for extremely transparent or invalid colors
+        // Implement additional check logic as needed
     }
 }

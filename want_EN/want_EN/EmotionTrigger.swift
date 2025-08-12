@@ -5,8 +5,8 @@ struct EmotionTrigger: Identifiable, Codable {
     let emotion: String
     let emoji: String
     let keywords: [String]
-    let responses: [String]  // ✅ 追加：応答テキスト
-    let followUpQuestions: [String]  // ✅ 追加：フォローアップ質問
+    let responses: [String]  // ✅ Added: response text
+    let followUpQuestions: [String]  // ✅ Added: follow-up questions
     let intensity: Int // 1-10
     
     init(emotion: String,
@@ -15,7 +15,7 @@ struct EmotionTrigger: Identifiable, Codable {
          responses: [String] = [],
          followUpQuestions: [String] = [],
          intensity: Int = 5) {
-        self.id = UUID()  // ✅ 修正: initの中でUUIDを生成
+        self.id = UUID()  // ✅ Fix: generate UUID in init
         self.emotion = emotion
         self.emoji = emoji
         self.keywords = keywords
@@ -27,136 +27,136 @@ struct EmotionTrigger: Identifiable, Codable {
     // MARK: - Default Triggers (Enhanced)
     
     static let defaultTriggers: [EmotionTrigger] = [
-        // 寂しさ・孤独
+        // Loneliness
         EmotionTrigger(
-            emotion: "寂しい",
+            emotion: "lonely",
             emoji: "🕊",
-            keywords: ["さびしい", "ひとり", "会いたい", "孤独", "一人", "淋しい"],
+            keywords: ["lonely", "alone", "miss you", "solitude", "by myself", "lonesome"],
             responses: [
-                "そばにいるよ、いつでも",
-                "一人じゃないからね",
-                "君のことを想ってるよ",
-                "大丈夫、私がいるから",
-                "いつでも話しかけて",
-                "心の中でつながってるよ"
+                "I'm here for you, always",
+                "You're not alone",
+                "I'm thinking of you",
+                "It's okay, I'm here",
+                "Talk to me anytime",
+                "We're connected in heart"
             ],
             followUpQuestions: [
-                "どんなことを考えてるの？",
-                "何か話したいことはある？",
-                "今日はどんな一日だった？",
-                "一緒にいた時のこと、覚えてる？"
+                "What are you thinking about?",
+                "Is there anything you want to talk about?",
+                "How was your day today?",
+                "Do you remember when we were together?"
             ],
             intensity: 7
         ),
         
-        // 会話したい
+        // Want to talk
         EmotionTrigger(
-            emotion: "話したい",
+            emotion: "want to talk",
             emoji: "💬",
-            keywords: ["話したい", "聞いて", "相談", "おしゃべり", "話す", "会話"],
+            keywords: ["want to talk", "listen", "advice", "chat", "talk", "conversation"],
             responses: [
-                "何でも話して",
-                "いつでも聞いてるよ",
-                "どんな話？楽しみ",
-                "君の話が好きだよ",
-                "ゆっくり聞かせて",
-                "何から話そうか？"
+                "Tell me anything",
+                "I'm always listening",
+                "What kind of story? I'm looking forward to it",
+                "I like your stories",
+                "Take your time",
+                "What should we talk about?"
             ],
             followUpQuestions: [
-                "最近どう？",
-                "何か面白いことあった？",
-                "今の気持ちを聞かせて",
-                "困ったことはない？"
+                "How have you been lately?",
+                "Any interesting stories?",
+                "Tell me how you're feeling now",
+                "Is there anything troubling you?"
             ],
             intensity: 6
         ),
         
-        // 感謝・喜び
+        // Gratitude and joy
         EmotionTrigger(
-            emotion: "ありがとう",
+            emotion: "thank you",
             emoji: "🌈",
-            keywords: ["ありがとう", "感謝", "嬉しい", "助かった", "サンキュー"],
+            keywords: ["thank you", "grateful", "happy", "helped", "thanks"],
             responses: [
-                "どういたしまして",
-                "君の笑顔が一番だよ",
-                "喜んでもらえて嬉しい",
-                "いつでも力になるからね",
-                "君のためなら何でもするよ",
-                "役に立てて良かった"
+                "You're welcome",
+                "Your smile is the best",
+                "I'm glad I could help",
+                "I'm always here for you",
+                "I'll do anything for you",
+                "I'm glad I could be useful"
             ],
             followUpQuestions: [
-                "他にも何かある？",
-                "今度は何をしようか？",
-                "幸せな気持ちだね",
-                "また一緒に何かしよう"
+                "Is there anything else?",
+                "What should we do next time?",
+                "You seem happy",
+                "Let's do something together again"
             ],
             intensity: 8
         ),
         
-        // 疲労・ストレス
+        // Fatigue and stress
         EmotionTrigger(
-            emotion: "疲れた",
+            emotion: "tired",
             emoji: "😴",
-            keywords: ["疲れた", "つかれた", "疲労", "しんどい", "だるい", "眠い"],
+            keywords: ["tired", "exhausted", "fatigue", "hard", "dull", "sleepy"],
             responses: [
-                "お疲れさま",
-                "ゆっくり休んで",
-                "無理しないでね",
-                "頑張ってるね",
-                "体を大切にして",
-                "少し休憩しよう",
-                "今日も一日お疲れさま"
+                "Good job",
+                "Take a good rest",
+                "Don't push yourself too hard",
+                "You're working hard",
+                "Take care of yourself",
+                "Let's take a short break",
+                "Thank you for your hard work today"
             ],
             followUpQuestions: [
-                "今日は何があったの？",
-                "ちゃんと食べた？",
-                "睡眠は取れてる？",
-                "何か手伝えることある？"
+                "What happened today?",
+                "Did you eat properly?",
+                "Are you getting enough sleep?",
+                "Is there anything I can help with?"
             ],
             intensity: 5
         ),
         
-        // 幸せ・嬉しさ
+        // Happiness and joy
         EmotionTrigger(
-            emotion: "嬉しい",
+            emotion: "happy",
             emoji: "😊",
-            keywords: ["嬉しい", "うれしい", "楽しい", "幸せ", "喜び", "ハッピー"],
+            keywords: ["happy", "joy", "fun", "blessed", "pleasure", "happy"],
             responses: [
-                "良かったね！",
-                "君の笑顔が見れて嬉しい",
-                "幸せそうでなによりだよ",
-                "一緒に喜ばせて",
-                "素晴らしいじゃない",
-                "君が幸せだと私も嬉しい"
+                "That's great!",
+                "I'm happy to see your smile",
+                "I'm glad you seem happy",
+                "Let me share your joy",
+                "That's wonderful",
+                "I'm happy when you're happy"
             ],
             followUpQuestions: [
-                "何があったの？詳しく聞かせて",
-                "どんな気持ち？",
-                "誰かに話したくなるよね",
-                "また嬉しいことがありますように"
+                "What happened? Tell me in detail",
+                "How do you feel?",
+                "You want to tell someone, right?",
+                "I hope you have more happy moments"
             ],
             intensity: 8
         ),
         
-        // 心配・不安
+        // Worry and anxiety
         EmotionTrigger(
-            emotion: "心配",
+            emotion: "worried",
             emoji: "😰",
-            keywords: ["心配", "不安", "怖い", "ドキドキ", "緊張", "悩み"],
+            keywords: ["worried", "anxious", "scared", "nervous", "tension", "troubled"],
             responses: [
-                "大丈夫だよ",
-                "一緒に考えよう",
-                "君なら乗り越えられる",
-                "私がついてるから",
-                "心配しなくていいよ",
-                "何とかなるよ",
-                "君の味方だからね"
+                "It's okay",
+                "Let's think about it together",
+                "You can overcome this",
+                "I'm here for you",
+                "Don't worry",
+                "It'll work out",
+                "I'm on your side"
             ],
             followUpQuestions: [
-                "何が心配なの？",
-                "話してみて、楽になるかも",
-                "どうしたらいいと思う？",
-                "一人で抱え込まないで"
+                "What are you worried about?",
+                "Try talking about it, it might help",
+                "What do you think we should do?",
+                "Don't keep it to yourself"
             ],
             intensity: 6
         )
@@ -198,7 +198,7 @@ struct EmotionTrigger: Identifiable, Codable {
     // MARK: - Response Methods
     
     func getRandomResponse() -> String {
-        return responses.randomElement() ?? "そうなんだね"
+        return responses.randomElement() ?? "I see"
     }
     
     func getRandomFollowUp() -> String? {
@@ -231,7 +231,7 @@ struct EmotionTrigger: Identifiable, Codable {
             keywords: keywords,
             responses: responses,
             followUpQuestions: followUpQuestions,
-            intensity: max(1, min(intensity, 10)) // 1-10の範囲に制限
+            intensity: max(1, min(intensity, 10)) // Limit to 1-10 range
         )
     }
     
@@ -288,7 +288,7 @@ class EmotionTriggerManager: ObservableObject {
     func findTrigger(for text: String) -> EmotionTrigger? {
         let lowercaseText = text.lowercased()
         
-        // カスタムトリガーを優先
+        // Prioritize custom triggers
         if let customTrigger = customTriggers.first(where: { trigger in
             trigger.keywords.contains { keyword in
                 lowercaseText.contains(keyword.lowercased())
@@ -297,13 +297,13 @@ class EmotionTriggerManager: ObservableObject {
             return customTrigger
         }
         
-        // デフォルトトリガーを検索
+        // Search default triggers
         return EmotionTrigger.findTrigger(for: text)
     }
     
     func getEmotionResponse(for emotion: String) -> String {
         guard let trigger = allTriggers.first(where: { $0.emotion == emotion }) else {
-            return "君の気持ち、わかるよ"
+            return "I understand how you feel"
         }
         
         return trigger.getFullResponse()
@@ -321,7 +321,7 @@ class EmotionTriggerManager: ObservableObject {
             let data = try JSONEncoder().encode(customTriggers)
             userDefaults.set(data, forKey: customTriggersKey)
         } catch {
-            print("❌ カスタムトリガー保存エラー: \(error)")
+            print("❌ Custom trigger save error: \(error)")
         }
     }
     
@@ -331,7 +331,7 @@ class EmotionTriggerManager: ObservableObject {
         do {
             customTriggers = try JSONDecoder().decode([EmotionTrigger].self, from: data)
         } catch {
-            print("❌ カスタムトリガー読み込みエラー: \(error)")
+            print("❌ Custom trigger load error: \(error)")
         }
     }
 }
