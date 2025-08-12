@@ -20,7 +20,9 @@ class AIConfigManager: ObservableObject {
             // Default settings - using Gemini 2.5 Flash Lite only
             self.currentConfig = AIConfig(
                 isAIEnabled: true,
-                geminiAPIKey: ""
+                geminiAPIKey: "",
+                useVercelProxy: false,
+                vercelBaseURL: ""
             )
         }
         
@@ -47,10 +49,18 @@ class AIConfigManager: ObservableObject {
         print("🔑 Gemini API key updated")
     }
     
+    func updateVercelSettings(useProxy: Bool, baseURL: String) {
+        currentConfig.useVercelProxy = useProxy
+        currentConfig.vercelBaseURL = baseURL
+        print("🌐 Vercel settings updated: useProxy=\(useProxy), baseURL=\(baseURL)")
+    }
+    
     func resetToDefaults() {
         currentConfig = AIConfig(
             isAIEnabled: true,
-            geminiAPIKey: ""
+            geminiAPIKey: "",
+            useVercelProxy: false,
+            vercelBaseURL: ""
         )
         print("🔄 Settings reset to defaults")
     }
@@ -89,4 +99,13 @@ class AIConfigManager: ObservableObject {
 struct AIConfig: Codable {
     var isAIEnabled: Bool
     var geminiAPIKey: String
+    var useVercelProxy: Bool
+    var vercelBaseURL: String
+    
+    init(isAIEnabled: Bool, geminiAPIKey: String, useVercelProxy: Bool = false, vercelBaseURL: String = "") {
+        self.isAIEnabled = isAIEnabled
+        self.geminiAPIKey = geminiAPIKey
+        self.useVercelProxy = useVercelProxy
+        self.vercelBaseURL = vercelBaseURL
+    }
 }

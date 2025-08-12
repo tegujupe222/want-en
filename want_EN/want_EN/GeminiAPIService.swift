@@ -3,11 +3,15 @@ import Foundation
 class GeminiAPIService {
     // Gemini 2.5 Flash Lite API configuration
     private let apiKey: String
-    private let baseURL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent"
+    private let useVercelProxy: Bool
+    private let vercelBaseURL: String
+    private let directBaseURL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent"
     
-    init(apiKey: String) {
+    init(apiKey: String, useVercelProxy: Bool = false, vercelBaseURL: String = "") {
         self.apiKey = apiKey
-        print("🤖 GeminiAPIService initialized with Gemini 2.5 Flash Lite - API Key: \(String(apiKey.prefix(8)))...")
+        self.useVercelProxy = useVercelProxy
+        self.vercelBaseURL = vercelBaseURL
+        print("🤖 GeminiAPIService initialized - Mode: \(useVercelProxy ? "Vercel Proxy" : "Direct API"), API Key: \(String(apiKey.prefix(8)))...")
     }
     
     // Request structure for Gemini 2.5 Flash Lite
@@ -59,6 +63,19 @@ class GeminiAPIService {
         let probability: String
     }
     
+    // Vercel proxy request/response structures
+    struct VercelRequest: Codable {
+        let prompt: String
+        let persona: UserPersona
+        let conversationHistory: [ChatMessage]
+    }
+    
+    struct VercelResponse: Codable {
+        let response: String
+        let model: String
+        let timestamp: String
+    }
+    
     func generateResponse(
         persona: UserPersona,
         conversationHistory: [ChatMessage],
@@ -92,17 +109,45 @@ class GeminiAPIService {
         // JSON encode
         let jsonData = try JSONEncoder().encode(request)
         
-        // Create URL request
-        guard let url = URL(string: "\(baseURL)?key=\(apiKey)") else {
-            throw AIChatError.invalidURL
+        // Create URL request based on mode
+        let url: URL
+        var urlRequest: URLRequest
+        
+        if useVercelProxy {
+            // Use Vercel proxy
+            guard let vercelURL = URL(string: "\(vercelBaseURL)/api/gemini-proxy") else {
+                throw AIChatError.invalidURL
+            }
+            url = vercelURL
+            
+            // Create Vercel proxy request
+            let vercelRequest = VercelRequest(
+                prompt: userMessage,
+                persona: persona,
+                conversationHistory: conversationHistory
+            )
+            let vercelJsonData = try JSONEncoder().encode(vercelRequest)
+            
+            urlRequest = URLRequest(url: url)
+            urlRequest.httpMethod = "POST"
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            urlRequest.httpBody = vercelJsonData
+            
+            print("📡 Sending request to Vercel proxy")
+        } else {
+            // Use direct API
+            guard let directURL = URL(string: "\(directBaseURL)?key=\(apiKey)") else {
+                throw AIChatError.invalidURL
+            }
+            url = directURL
+            
+            urlRequest = URLRequest(url: url)
+            urlRequest.httpMethod = "POST"
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            urlRequest.httpBody = jsonData
+            
+            print("📡 Sending request to Gemini 2.5 Flash Lite API")
         }
-        
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "POST"
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        urlRequest.httpBody = jsonData
-        
-        print("📡 Sending request to Gemini 2.5 Flash Lite API")
         
         // Execute network request
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
@@ -119,16 +164,22 @@ class GeminiAPIService {
             throw AIChatError.serverError(httpResponse.statusCode)
         }
         
-        // Decode response
-        let geminiResponse = try JSONDecoder().decode(GeminiResponse.self, from: data)
-        
-        guard let candidate = geminiResponse.candidates?.first,
-              let text = candidate.content.parts.first?.text else {
-            throw AIChatError.invalidResponse
+        // Decode response based on mode
+        if useVercelProxy {
+            let vercelResponse = try JSONDecoder().decode(VercelResponse.self, from: data)
+            print("✅ Vercel proxy call successful")
+            return vercelResponse.response.trimmingCharacters(in: .whitespacesAndNewlines)
+        } else {
+            let geminiResponse = try JSONDecoder().decode(GeminiResponse.self, from: data)
+            
+            guard let candidate = geminiResponse.candidates?.first,
+                  let text = candidate.content.parts.first?.text else {
+                throw AIChatError.invalidResponse
+            }
+            
+            print("✅ Gemini 2.5 Flash Lite API call successful")
+            return text.trimmingCharacters(in: .whitespacesAndNewlines)
         }
-        
-        print("✅ Gemini 2.5 Flash Lite API call successful")
-        return text.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
     private func buildPrompt(persona: UserPersona, conversationHistory: [ChatMessage], userMessage: String, emotionContext: String?) -> String {

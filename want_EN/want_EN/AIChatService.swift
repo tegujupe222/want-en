@@ -30,7 +30,9 @@ class AIChatService {
             conversationHistory: conversationHistory,
             userMessage: userMessage,
             emotionContext: emotionContext,
-            apiKey: config.geminiAPIKey
+            apiKey: config.geminiAPIKey,
+            useVercelProxy: config.useVercelProxy,
+            vercelBaseURL: config.vercelBaseURL
         )
     }
     
@@ -41,22 +43,44 @@ class AIChatService {
         conversationHistory: [ChatMessage],
         userMessage: String,
         emotionContext: String?,
-        apiKey: String
+        apiKey: String,
+        useVercelProxy: Bool,
+        vercelBaseURL: String
     ) async throws -> String {
         
-        guard !apiKey.isEmpty else {
-            throw AIChatError.apiKeyNotSet
-        }
-        
-        // Create GeminiAPIService with API key
-        let geminiService = GeminiAPIService(apiKey: apiKey)
-        
-        return try await geminiService.generateResponse(
+        if useVercelProxy {
+            // For Vercel proxy, API key is not needed on client side
+            let geminiService = GeminiAPIService(
+                apiKey: "",
+                useVercelProxy: true,
+                vercelBaseURL: vercelBaseURL
+            )
+            
+            return try await geminiService.generateResponse(
                 persona: persona,
                 conversationHistory: conversationHistory,
                 userMessage: userMessage,
                 emotionContext: emotionContext
             )
+        } else {
+            // Direct API mode
+            guard !apiKey.isEmpty else {
+                throw AIChatError.apiKeyNotSet
+            }
+            
+            let geminiService = GeminiAPIService(
+                apiKey: apiKey,
+                useVercelProxy: false,
+                vercelBaseURL: ""
+            )
+            
+            return try await geminiService.generateResponse(
+                persona: persona,
+                conversationHistory: conversationHistory,
+                userMessage: userMessage,
+                emotionContext: emotionContext
+            )
+        }
     }
     
     // MARK: - Configuration Updates
@@ -82,7 +106,11 @@ class AIChatService {
             throw AIChatError.apiKeyNotSet
         }
         
-        let geminiService = GeminiAPIService(apiKey: config.geminiAPIKey)
+        let geminiService = GeminiAPIService(
+            apiKey: config.geminiAPIKey,
+            useVercelProxy: config.useVercelProxy,
+            vercelBaseURL: config.vercelBaseURL
+        )
         return try await geminiService.testConnection()
     }
 }

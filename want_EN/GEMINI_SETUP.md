@@ -1,88 +1,93 @@
 # Gemini 2.5 Flash Lite Setup Guide
 
-This app uses Google Gemini 2.5 Flash Lite for fast and efficient AI conversations.
+This guide explains how to set up Google's Gemini 2.5 Flash Lite for the Want-EN iOS app.
 
-## Getting Started
+## Option 1: Direct API Integration (Recommended)
 
 ### 1. Get Gemini API Key
 
-1. Go to [Google AI Studio](https://aistudio.google.com/)
-2. Sign in with your Google account
-3. Click on "Get API key" in the top right corner
-4. Create a new API key or use an existing one
-5. Copy the API key (it starts with "AIza...")
+1. Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
+2. Create a new API key
+3. Copy the API key
 
 ### 2. Configure the App
 
 1. Open the app
-2. Go to **AI Settings** (gear icon in the top right)
-3. Tap **"Set API Key"**
-4. Enter your Gemini API key
-5. Tap **"Save"**
+2. Go to Settings > AI Settings
+3. Enter your Gemini API key in the "Gemini 2.5 Flash Lite" section
+4. Tap "Test Connection" to verify the setup
 
-### 3. Test Connection
+### 3. Benefits of Direct Integration
 
-1. In AI Settings, tap **"Test AI Connection"**
-2. If successful, you'll see a confirmation message
-3. You can now start chatting with AI personas!
+- **Lower latency**: Direct API calls without proxy
+- **Better security**: API key stored locally on device
+- **Cost effective**: No additional server costs
+- **Simpler setup**: No server deployment required
 
-## Features
+## Option 2: Vercel Server Proxy
 
-### Gemini 2.5 Flash Lite Benefits
+### 1. Deploy Vercel Server
 
-- **Fast Response**: Optimized for real-time conversations
-- **Cost Effective**: Lower cost compared to other models
-- **High Quality**: Maintains excellent conversation quality
-- **Multilingual**: Supports multiple languages
-- **Safe**: Built-in safety filters
+1. Navigate to the `vercel-server` directory
+2. Install dependencies: `npm install`
+3. Deploy to Vercel: `npm run deploy`
 
-### Model Specifications
+### 2. Set Environment Variables in Vercel
 
-- **Model**: `gemini-2.0-flash-exp`
-- **Max Tokens**: 1000 per response
-- **Temperature**: 0.7 (balanced creativity)
-- **Safety**: Medium and above content filtering
+1. Go to your Vercel project dashboard
+2. Navigate to Settings > Environment Variables
+3. Add the following variable:
+   - **Name**: `GEMINI_API_KEY`
+   - **Value**: Your Google Gemini API key
+   - **Environment**: Production, Preview, Development
+
+### 3. Update iOS App Configuration
+
+1. Open `AIConfigManager.swift`
+2. Set `useVercelProxy` to `true`
+3. Update `vercelBaseURL` with your Vercel deployment URL
 
 ## Troubleshooting
 
 ### Common Issues
 
-1. **"API key is not set"**
-   - Make sure you've entered the API key correctly
-   - Check that the key starts with "AIza"
+1. **API Key Not Set**
+   - Ensure the API key is properly entered in the app settings
+   - Check for extra spaces or characters
 
-2. **"API key is invalid"**
-   - Verify your API key is correct
-   - Ensure you have access to Gemini API
+2. **Connection Failed**
+   - Verify internet connection
+   - Check if Gemini API is available in your region
+   - Ensure API key has proper permissions
 
-3. **"Rate limit exceeded"**
-   - Wait a few minutes before trying again
-   - Check your Google AI Studio quota
+3. **Rate Limiting**
+   - Gemini API has rate limits
+   - Consider implementing request throttling for high usage
 
-4. **"Network error"**
-   - Check your internet connection
-   - Try again in a few moments
+### Error Messages
 
-### Getting Help
+- `API key not set`: Enter your Gemini API key in settings
+- `Connection failed`: Check internet connection and API key validity
+- `Rate limit exceeded`: Wait before making additional requests
 
-- Visit [Google AI Studio Documentation](https://ai.google.dev/docs)
-- Check [Gemini API Reference](https://ai.google.dev/api/gemini-api)
-- Contact support if issues persist
+## Privacy and Security
 
-## Privacy & Security
-
-- Your API key is stored locally on your device
-- Conversations are processed by Google's secure servers
-- No personal data is stored by Google beyond what's necessary for the service
-- You can revoke your API key at any time in Google AI Studio
+- API keys are stored locally on the device
+- No conversation data is sent to external servers (except Gemini API)
+- All communication is encrypted using HTTPS
 
 ## Cost Information
 
-- Gemini 2.5 Flash Lite is very cost-effective
-- Pricing: $0.075 per 1M input tokens, $0.30 per 1M output tokens
-- Typical conversation costs less than $0.01
-- Monitor usage in Google AI Studio dashboard
+- Gemini 2.5 Flash Lite pricing: [Google AI Pricing](https://ai.google.dev/pricing)
+- First 15 requests per minute are free
+- Additional requests are charged per token
 
----
+## Support
 
-**Note**: Make sure to keep your API key secure and never share it publicly.
+For issues with Gemini API:
+- [Google AI Documentation](https://ai.google.dev/docs)
+- [Google AI Studio](https://makersuite.google.com/)
+
+For app-specific issues:
+- Check the app's settings and configuration
+- Ensure all required permissions are granted
