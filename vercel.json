@@ -11,8 +11,5 @@
       "src": "/api/gemini-proxy",
       "dest": "/api/gemini-proxy.js"
     }
-  ],
-  "env": {
-    "GEMINI_API_KEY": "@gemini-api-key"
-  }
+  ]
 }
