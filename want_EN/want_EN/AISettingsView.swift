@@ -5,8 +5,6 @@ import SwiftUI
 struct AISettingsView: View {
     @ObservedObject var aiConfigManager = AIConfigManager.shared
     @ObservedObject var subscriptionManager = SubscriptionManager.shared
-    @State private var showingVercelURLAlert = false
-    @State private var tempVercelURL = ""
     
     var body: some View {
         Form {
@@ -23,38 +21,22 @@ struct AISettingsView: View {
                 }
             }
             
-            Section(header: Text("Vercel Proxy Configuration")) {
-                HStack {
-                    Text("Vercel Base URL")
-                    Spacer()
-                    if aiConfigManager.currentConfig.vercelBaseURL.isEmpty {
-                        Text("Not set")
-                            .foregroundColor(.red)
-                    } else {
-                        Text("Set")
-                            .foregroundColor(.green)
-                    }
-                }
-                
-                Button(aiConfigManager.currentConfig.vercelBaseURL.isEmpty ? "Set Vercel URL" : "Update Vercel URL") {
-                    tempVercelURL = aiConfigManager.currentConfig.vercelBaseURL
-                    showingVercelURLAlert = true
-                }
-                .foregroundColor(.blue)
-                
-                if !aiConfigManager.currentConfig.vercelBaseURL.isEmpty {
-                    Button("Clear Vercel URL") {
-                        aiConfigManager.updateVercelBaseURL("")
-                    }
-                    .foregroundColor(.red)
-                }
-                
+            Section(header: Text("AI Configuration")) {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Gemini 2.5 Flash Lite via Vercel")
                         .font(.headline)
                     Text("Secure AI model access through Vercel proxy")
                         .font(.caption)
                         .foregroundColor(.secondary)
+                    
+                    HStack {
+                        Text("Status:")
+                        Spacer()
+                        Text("Configured")
+                            .foregroundColor(.green)
+                            .fontWeight(.semibold)
+                    }
+                    .padding(.top, 4)
                 }
                 .padding(.vertical, 4)
             }
@@ -93,15 +75,6 @@ struct AISettingsView: View {
             }
         }
         .navigationTitle("AI Settings")
-        .alert("Vercel Base URL", isPresented: $showingVercelURLAlert) {
-            TextField("Enter Vercel Base URL", text: $tempVercelURL)
-            Button("Cancel", role: .cancel) { }
-            Button("Save") {
-                aiConfigManager.updateVercelBaseURL(tempVercelURL)
-            }
-        } message: {
-            Text("Enter your Vercel deployment URL (e.g., https://your-project.vercel.app)")
-        }
     }
     
     private func testAIConnection() async {

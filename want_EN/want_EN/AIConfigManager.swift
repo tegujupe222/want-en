@@ -17,10 +17,10 @@ class AIConfigManager: ObservableObject {
            let config = try? JSONDecoder().decode(AIConfig.self, from: data) {
             self.currentConfig = config
         } else {
-            // Default settings - using Vercel proxy only
+            // Default settings - using Vercel proxy with pre-configured URL
             self.currentConfig = AIConfig(
                 isAIEnabled: true,
-                vercelBaseURL: ""
+                vercelBaseURL: "https://want-en1.vercel.app"
             )
         }
         
@@ -50,7 +50,7 @@ class AIConfigManager: ObservableObject {
     func resetToDefaults() {
         currentConfig = AIConfig(
             isAIEnabled: true,
-            vercelBaseURL: ""
+            vercelBaseURL: "https://want-en1.vercel.app"
         )
         print("🔄 Settings reset to defaults")
     }
