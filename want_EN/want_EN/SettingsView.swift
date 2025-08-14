@@ -13,7 +13,11 @@ struct SettingsView: View {
         NavigationView {
             List {
                 // AI Settings Section
-                Section(header: Text("AI Features")) {
+                Section {
+                    // AI features content
+                } header: {
+                    Text("AI Features")
+                }
                     NavigationLink(destination: AISettingsView()) {
                         HStack {
                             Image(systemName: "brain.head.profile")
@@ -33,7 +37,7 @@ struct SettingsView: View {
                 }
                 
                 // Subscription Section
-                Section(header: Text("Subscription")) {
+                Section {
                     HStack {
                         Image(systemName: "creditcard")
                             .foregroundColor(.green)
@@ -65,11 +69,17 @@ struct SettingsView: View {
                                 .foregroundColor(.primary)
                         }
                     }
+                } header: {
+                    Text("Subscription")
                 }
                 
                 // Developer Settings Section (Debug only)
                 #if DEBUG
-                Section(header: Text("Developer Settings")) {
+                Section {
+                    // Developer settings content
+                } header: {
+                    Text("Developer Settings")
+                }
                     Toggle(isOn: $serverValidationEnabled) {
                         HStack {
                             Image(systemName: "checkmark.shield")
@@ -108,7 +118,11 @@ struct SettingsView: View {
                 #endif
                 
                 // Data Management Section
-                Section(header: Text("Data Management")) {
+                Section {
+                    // Data management content
+                } header: {
+                    Text("Data Management")
+                }
                     Button(action: {
                         showingDataExport = true
                     }) {
@@ -135,7 +149,11 @@ struct SettingsView: View {
                 }
                 
                 // App Information Section
-                Section(header: Text("App Information")) {
+                Section {
+                    // App information content
+                } header: {
+                    Text("App Information")
+                }
                     HStack {
                         Image(systemName: "info.circle")
                             .foregroundColor(.blue)
@@ -168,7 +186,11 @@ struct SettingsView: View {
                 }
                 
                 // Statistics Section
-                Section(header: Text("Statistics")) {
+                Section {
+                    // Statistics content
+                } header: {
+                    Text("Statistics")
+                }
                     HStack {
                         Image(systemName: "person.2")
                             .foregroundColor(.purple)
@@ -205,7 +227,11 @@ struct SettingsView: View {
                 }
                 
                 // Subscription & Legal Information Section
-                Section(header: Text("Legal Information")) {
+                Section {
+                    // Legal information content
+                } header: {
+                    Text("Legal Information")
+                }
                     NavigationLink(destination: CancellationPolicyView()) {
                         HStack {
                             Image(systemName: "doc.text")

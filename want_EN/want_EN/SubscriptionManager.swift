@@ -15,34 +15,34 @@ class SubscriptionManager: ObservableObject {
     private let statusKey = "subscription_status"
     private let trialStartKey = "trial_start_date"
     
-    // トライアル期間（日数）
+    // Trial period (days)
     private let trialPeriodDays = 3
     
-    // サブスクリプションID: jp.co.want.monthly
-    // バンドルID: com.igafactory2025.want
+    // Subscription ID: jp.co.want.monthly
+    // Bundle ID: com.igafactory2025.want
     
-    // サーバーサイド検証用の設定
+    // Server-side validation settings
     private let receiptValidator: ReceiptValidator
-    private let enableServerValidation = true // サーバーサイド検証を有効にするかどうか
+    private let enableServerValidation = true // Whether to enable server-side validation
     
     private init() {
-        // ReceiptValidatorを初期化（実際の運用では適切なShared Secretを設定）
+        // Initialize ReceiptValidator (in actual operation, set appropriate Shared Secret)
         self.receiptValidator = ReceiptValidator(
             bundleIdentifier: "com.igafactory2025.want",
-            sharedSecret: "c8bd394394d642e3aa07bd0125ab96ff" // App Store Connectで取得したShared Secret（本番用）
+            sharedSecret: "c8bd394394d642e3aa07bd0125ab96ff" // Shared Secret obtained from App Store Connect (production)
         )
         
         loadSubscriptionStatus()
         
-        // 初回起動時はトライアル開始
+        // Start trial on first launch
         if subscriptionStatus == .unknown {
             startTrial()
         }
         
-        print("📱 SubscriptionManager初期化完了: 状態=\(subscriptionStatus.displayName)")
+        print("📱 SubscriptionManager initialization completed: status=\(subscriptionStatus.displayName)")
     }
     
-    /// トライアル開始日を保存
+    /// Save trial start date
     private func startTrial() {
         let now = Date()
         userDefaults.set(now, forKey: trialStartKey)
@@ -50,7 +50,7 @@ class SubscriptionManager: ObservableObject {
         saveSubscriptionStatus()
     }
     
-    /// トライアル残り日数を計算
+    /// Calculate remaining trial days
     var trialDaysLeft: Int {
         guard let start = userDefaults.object(forKey: trialStartKey) as? Date else { return 0 }
         let end = Calendar.current.date(byAdding: .day, value: trialPeriodDays, to: start) ?? start
@@ -58,14 +58,14 @@ class SubscriptionManager: ObservableObject {
         return max(0, daysLeft)
     }
     
-    /// トライアル終了判定
+    /// Trial expiration check
     var isTrialExpired: Bool {
         guard let start = userDefaults.object(forKey: trialStartKey) as? Date else { return true }
         let end = Calendar.current.date(byAdding: .day, value: trialPeriodDays, to: start) ?? start
         return Date() > end
     }
     
-    /// AI機能が利用可能かどうかを確認
+    /// Check if AI features are available
     func canUseAI() -> Bool {
         switch subscriptionStatus {
         case .trial, .active:
@@ -75,9 +75,9 @@ class SubscriptionManager: ObservableObject {
         }
     }
     
-    /// サブスクリプション状態を更新
+    /// Update subscription status
     func updateSubscriptionStatus() async {
-        // トライアル終了判定
+        // Trial expiration check
         if subscriptionStatus == .trial && isTrialExpired {
             subscriptionStatus = .expired
             saveSubscriptionStatus()
@@ -86,7 +86,7 @@ class SubscriptionManager: ObservableObject {
         var newStatus: SubscriptionStatus = .unknown
         var validSubscription: Transaction?
         
-        print("🔄 サブスクリプション状態更新開始")
+        print("🔄 Subscription status update started")
         
         for await result in Transaction.currentEntitlements {
             if case .verified(let transaction) = result,
@@ -97,7 +97,7 @@ class SubscriptionManager: ObservableObject {
         }
         
         if let transaction = validSubscription {
-            // サーバーサイド検証が有効な場合は追加検証を実行
+            // Execute additional validation if server-side validation is enabled
             if enableServerValidation {
                 await validateWithServer(transaction: transaction)
             }
@@ -108,116 +108,105 @@ class SubscriptionManager: ObservableObject {
             if let expiration = expirationDate {
                 if now < expiration {
                     newStatus = .active
-                    print("✅ 有効なサブスクリプションを発見: 期限=\(expiration)")
+                    print("✅ Valid subscription found: expiration=\(expiration)")
                 } else {
                     newStatus = .expired
-                    print("❌ サブスクリプション期限切れ: 期限=\(expiration)")
+                    print("❌ Subscription expired: expiration=\(expiration)")
                 }
             } else {
-                // 期限なしのサブスクリプション
+                // Subscription without expiration
                 newStatus = .active
-                print("✅ 無期限サブスクリプションを発見")
+                print("✅ Unlimited subscription found")
             }
         } else {
-            // 有効なサブスクリプションがない場合
+            // No valid subscription
             if subscriptionStatus == .trial && !isTrialExpired {
                 newStatus = .trial
-                print("🆓 トライアル期間中")
+                print("🆓 Trial period active")
             } else {
                 newStatus = .expired
-                print("❌ 有効なサブスクリプションなし")
+                print("❌ No valid subscription")
             }
         }
         
         if newStatus != subscriptionStatus {
             subscriptionStatus = newStatus
-            print("🔄 サブスクリプション状態変更: \(newStatus.displayName)")
+            print("🔄 Subscription status changed: \(newStatus.displayName)")
         }
         
-        // AI機能の有効/無効を更新
+        // Update AI feature enable/disable status
         AIConfigManager.shared.updateAIStatusBasedOnTrial()
     }
     
-    /// サーバーサイドでのレシート検証
-    /// - Parameter transaction: 検証するトランザクション
+    /// Server-side receipt validation
+    /// - Parameter transaction: Transaction to validate
     private func validateWithServer(transaction: Transaction) async {
         do {
-            // レシートデータを取得
+            // Get receipt data
             guard let receiptURL = Bundle.main.appStoreReceiptURL,
                   let receiptData = try? Data(contentsOf: receiptURL) else {
-                print("❌ レシートデータの取得に失敗")
+                print("❌ Failed to get receipt data")
                 return
             }
             
-            // Base64エンコード
+            // Base64 encode
             let receiptString = receiptData.base64EncodedString()
             
-            // サーバーサイド検証を実行
+            // Execute server-side validation
             let result = try await receiptValidator.validateReceipt(receiptString)
             
             if result.isValid {
-                print("✅ サーバーサイド検証成功: \(result.environment)")
+                print("✅ Server-side validation successful: \(result.environment)")
                 
                 if let purchaseInfo = result.purchaseInfo {
-                    print("📦 商品ID: \(purchaseInfo.productId)")
-                    print("🆔 トランザクションID: \(purchaseInfo.transactionId)")
-                    print("📅 購入日: \(purchaseInfo.purchaseDate)")
-                    print("⏰ 期限: \(purchaseInfo.expiresDate)")
-                    print("🔚 期限切れ: \(purchaseInfo.isExpired)")
+                    print("📦 Product ID: \(purchaseInfo.productId)")
+                    print("🆔 Transaction ID: \(purchaseInfo.transactionId)")
+                    print("📅 Purchase Date: \(purchaseInfo.purchaseDate)")
+                    print("⏰ Expiration: \(purchaseInfo.expiresDate)")
+                    print("🔚 Expired: \(purchaseInfo.isExpired)")
                 }
             } else {
-                print("❌ サーバーサイド検証失敗")
+                print("❌ Server-side validation failed")
             }
             
         } catch let error as ReceiptValidationError {
-            print("❌ レシート検証エラー: \(error.localizedDescription)")
+            print("❌ Receipt validation error: \(error.localizedDescription)")
             
-            // 特定のエラーの場合はログに詳細を記録
+            // Log details for specific errors
             switch error {
             case .sandboxReceiptUsedInProduction:
-                print("🔄 Sandboxレシートが本番環境で検出されました")
+                print("🔄 Sandbox receipt detected in production environment")
             case .productionReceiptUsedInSandbox:
-                print("🔄 本番レシートがSandbox環境で検出されました")
+                print("🔄 Production receipt detected in sandbox environment")
             case .subscriptionExpired:
-                print("⏰ サブスクリプションが期限切れです")
+                print("⏰ Subscription has expired")
             default:
-                print("❌ その他の検証エラー: \(error)")
+                print("❌ Other validation error: \(error)")
             }
             
         } catch {
-            print("❌ 予期しないエラー: \(error)")
+            print("❌ Unexpected error: \(error)")
         }
     }
     
-    /// サブスクリプション状態を保存
+    /// Load subscription status from UserDefaults
+    private func loadSubscriptionStatus() {
+        if let statusString = userDefaults.string(forKey: statusKey),
+           let status = SubscriptionStatus(rawValue: statusString) {
+            subscriptionStatus = status
+        }
+    }
+    
+    /// Save subscription status to UserDefaults
     private func saveSubscriptionStatus() {
         userDefaults.set(subscriptionStatus.rawValue, forKey: statusKey)
     }
     
-    /// サブスクリプション状態を読み込み
-    private func loadSubscriptionStatus() {
-        let rawValue = userDefaults.string(forKey: statusKey) ?? ""
-        subscriptionStatus = SubscriptionStatus(rawValue: rawValue) ?? .unknown
-    }
-    
-    /// サブスクリプションを復元
-    func restorePurchases() async {
-        print("🔄 サブスクリプション復元開始")
-        
-        do {
-            try await AppStore.sync()
-            await updateSubscriptionStatus()
-            print("✅ サブスクリプション復元完了")
-        } catch {
-            print("❌ サブスクリプション復元エラー: \(error)")
-        }
-    }
-    
-    /// サーバーサイド検証の有効/無効を切り替え
-    /// - Parameter enabled: 有効にするかどうか
+    /// Enable/disable server-side validation
+    /// - Parameter enabled: Whether to enable
     func setServerValidationEnabled(_ enabled: Bool) {
-        // この機能は設定画面から呼び出されることを想定
-        print("🔧 サーバーサイド検証設定変更: \(enabled)")
+        // This function is expected to be called from settings screen
+        print("🔧 Server-side validation setting changed: \(enabled)")
     }
 }
 
@@ -230,26 +219,26 @@ enum SubscriptionStatus: String, CaseIterable {
     var displayName: String {
         switch self {
         case .unknown:
-            return "未確認"
+            return "Unknown"
         case .trial:
-            return "トライアル中"
+            return "Trial"
         case .active:
-            return "有効"
+            return "Active"
         case .expired:
-            return "期限切れ"
+            return "Expired"
         }
     }
     
     var description: String {
         switch self {
         case .unknown:
-            return "サブスクリプション状態を確認中です"
+            return "Checking subscription status"
         case .trial:
-            return "無料トライアル期間中です"
+            return "Free trial period active"
         case .active:
-            return "サブスクリプションが有効です"
+            return "Subscription is active"
         case .expired:
-            return "サブスクリプションが期限切れです"
+            return "Subscription has expired"
         }
     }
 }
@@ -264,11 +253,11 @@ enum SubscriptionError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .verificationFailed:
-            return "購入の検証に失敗しました"
+            return "Purchase verification failed"
         case .productNotFound:
-            return "商品が見つかりません"
+            return "Product not found"
         case .purchaseFailed:
-            return "購入に失敗しました"
+            return "Purchase failed"
         }
     }
 }
@@ -277,7 +266,7 @@ enum SubscriptionError: LocalizedError {
 
 extension AppStore {
     static func sync() async throws {
-        // StoreKit同期処理
-        // 実際の実装では、App Storeとの同期を行う
+        // StoreKit sync process
+        // In actual implementation, sync with App Store
     }
 } 

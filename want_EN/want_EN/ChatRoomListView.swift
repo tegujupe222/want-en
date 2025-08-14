@@ -300,11 +300,10 @@ struct ChatRoomItemView: View {
     
     private func loadChatInfo() {
         // Load chat info
-        messageCount = chatViewModel.getMessageCount(for: persona)
+        messageCount = 0 // Simplified for now
         
-        if let last = chatViewModel.getLastMessage(for: persona) {
-            lastMessage = String(last.content.prefix(30))
-        }
+        // Simplified for now
+        lastMessage = "No messages yet"
     }
 }
 

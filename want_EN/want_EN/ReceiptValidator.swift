@@ -211,20 +211,20 @@ class ReceiptValidator {
 
 // MARK: - Supporting Types
 
-/// 検証環境
+/// Validation environment
 enum ReceiptValidationEnvironment {
     case production
     case sandbox
 }
 
-/// レシート検証結果
+/// Receipt validation result
 struct ReceiptValidationResult {
     let isValid: Bool
     let environment: String
     let purchaseInfo: PurchaseInfo?
 }
 
-/// 購入情報
+/// Purchase information
 struct PurchaseInfo {
     let productId: String
     let transactionId: String
@@ -233,7 +233,7 @@ struct PurchaseInfo {
     let isExpired: Bool
 }
 
-/// レシート検証エラー
+/// Receipt validation error
 enum ReceiptValidationError: LocalizedError {
     case invalidURL
     case networkError
@@ -254,35 +254,35 @@ enum ReceiptValidationError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidURL:
-            return "無効なURLです"
+            return "Invalid URL"
         case .networkError:
-            return "ネットワークエラーが発生しました"
+            return "Network error occurred"
         case .serverError(let code):
-            return "サーバーエラーが発生しました (コード: \(code))"
+            return "Server error occurred (code: \(code))"
         case .invalidResponse:
-            return "無効なレスポンスです"
+            return "Invalid response"
         case .unknownStatus(let code):
-            return "不明なステータスコード: \(code)"
+            return "Unknown status code: \(code)"
         case .sandboxReceiptUsedInProduction:
-            return "Sandboxレシートが本番環境で使用されました"
+            return "Sandbox receipt used in production"
         case .productionReceiptUsedInSandbox:
-            return "本番レシートがSandbox環境で使用されました"
+            return "Production receipt used in sandbox"
         case .invalidReceipt:
-            return "無効なレシートです"
+            return "Invalid receipt"
         case .unauthorized:
-            return "認証に失敗しました"
+            return "Authentication failed"
         case .serverUnavailable:
-            return "サーバーが利用できません"
+            return "Server is unavailable"
         case .subscriptionExpired:
-            return "サブスクリプションが期限切れです"
+            return "Subscription has expired"
         case .testReceipt:
-            return "テストレシートです"
+            return "Test receipt"
         case .bundleIdMismatch:
-            return "バンドルIDが一致しません"
+            return "Bundle ID mismatch"
         case .noPurchaseInfo:
-            return "購入情報が見つかりません"
+            return "Purchase information not found"
         case .invalidPurchaseInfo:
-            return "無効な購入情報です"
+            return "Invalid purchase information"
         }
     }
     

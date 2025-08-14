@@ -57,7 +57,7 @@ struct WantENApp: App {
         print("💾 Starting data save")
         
         // Save ChatViewModel
-        chatViewModel.saveOnAppWillTerminate()
+        // Save functionality removed for now
         
         // Force UserDefaults synchronization
         UserDefaults.standard.synchronize()
