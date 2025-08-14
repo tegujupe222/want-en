@@ -55,6 +55,20 @@ class AIConfigManager: ObservableObject {
         print("🔄 Settings reset to defaults")
     }
     
+    func forceResetConfiguration() {
+        // Clear UserDefaults completely
+        UserDefaults.standard.removeObject(forKey: configKey)
+        
+        // Reset to default configuration
+        currentConfig = AIConfig(
+            isAIEnabled: true,
+            vercelBaseURL: "https://want-en1.vercel.app"
+        )
+        
+        print("🔄 Configuration force reset completed")
+        print("🤖 Vercel URL: \(currentConfig.vercelBaseURL)")
+    }
+    
     /// Update AI features based on trial status
     @MainActor
     func updateAIStatusBasedOnTrial() {

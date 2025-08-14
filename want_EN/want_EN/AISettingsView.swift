@@ -5,6 +5,7 @@ import SwiftUI
 struct AISettingsView: View {
     @ObservedObject var aiConfigManager = AIConfigManager.shared
     @ObservedObject var subscriptionManager = SubscriptionManager.shared
+    @State private var showingForceResetAlert = false
     
     var body: some View {
         Form {
@@ -32,11 +33,22 @@ struct AISettingsView: View {
                     HStack {
                         Text("Status:")
                         Spacer()
-                        Text("Configured")
-                            .foregroundColor(.green)
+                        Text(aiConfigManager.currentConfig.vercelBaseURL.isEmpty ? "Not configured" : "Configured")
+                            .foregroundColor(aiConfigManager.currentConfig.vercelBaseURL.isEmpty ? .red : .green)
                             .fontWeight(.semibold)
                     }
                     .padding(.top, 4)
+                    
+                    if !aiConfigManager.currentConfig.vercelBaseURL.isEmpty {
+                        HStack {
+                            Text("Vercel URL:")
+                            Spacer()
+                            Text(aiConfigManager.currentConfig.vercelBaseURL)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                        .padding(.top, 2)
+                    }
                 }
                 .padding(.vertical, 4)
             }
@@ -71,10 +83,23 @@ struct AISettingsView: View {
                 Button("Reset Settings") {
                     aiConfigManager.resetToDefaults()
                 }
+                .foregroundColor(.orange)
+                
+                Button("Force Reset Configuration") {
+                    showingForceResetAlert = true
+                }
                 .foregroundColor(.red)
             }
         }
         .navigationTitle("AI Settings")
+        .alert("Force Reset Configuration", isPresented: $showingForceResetAlert) {
+            Button("Cancel", role: .cancel) { }
+            Button("Reset", role: .destructive) {
+                aiConfigManager.forceResetConfiguration()
+            }
+        } message: {
+            Text("This will clear all saved settings and reset to default configuration. This action cannot be undone.")
+        }
     }
     
     private func testAIConnection() async {
