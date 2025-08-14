@@ -1,7 +1,7 @@
 {
-  "name": "want-en-vercel-server",
+  "name": "want-en-vercel",
   "version": "1.0.0",
-  "description": "Vercel server for want-en app with Gemini API integration",
+  "description": "Vercel serverless functions for want EN app",
   "main": "api/gemini-proxy.js",
   "scripts": {
     "dev": "vercel dev",

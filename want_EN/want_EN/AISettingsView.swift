@@ -5,8 +5,8 @@ import SwiftUI
 struct AISettingsView: View {
     @ObservedObject var aiConfigManager = AIConfigManager.shared
     @ObservedObject var subscriptionManager = SubscriptionManager.shared
-    @State private var showingAPIKeyAlert = false
-    @State private var tempAPIKey = ""
+    @State private var showingVercelURLAlert = false
+    @State private var tempVercelURL = ""
     
     var body: some View {
         Form {
@@ -23,11 +23,11 @@ struct AISettingsView: View {
                 }
             }
             
-            Section(header: Text("Gemini 2.5 Flash Lite")) {
+            Section(header: Text("Vercel Proxy Configuration")) {
                 HStack {
-                    Text("API Key")
+                    Text("Vercel Base URL")
                     Spacer()
-                    if aiConfigManager.currentConfig.geminiAPIKey.isEmpty {
+                    if aiConfigManager.currentConfig.vercelBaseURL.isEmpty {
                         Text("Not set")
                             .foregroundColor(.red)
                     } else {
@@ -36,23 +36,23 @@ struct AISettingsView: View {
                     }
                 }
                 
-                Button(aiConfigManager.currentConfig.geminiAPIKey.isEmpty ? "Set API Key" : "Update API Key") {
-                    tempAPIKey = aiConfigManager.currentConfig.geminiAPIKey
-                    showingAPIKeyAlert = true
+                Button(aiConfigManager.currentConfig.vercelBaseURL.isEmpty ? "Set Vercel URL" : "Update Vercel URL") {
+                    tempVercelURL = aiConfigManager.currentConfig.vercelBaseURL
+                    showingVercelURLAlert = true
                 }
                 .foregroundColor(.blue)
                 
-                if !aiConfigManager.currentConfig.geminiAPIKey.isEmpty {
-                    Button("Clear API Key") {
-                        aiConfigManager.updateGeminiAPIKey("")
+                if !aiConfigManager.currentConfig.vercelBaseURL.isEmpty {
+                    Button("Clear Vercel URL") {
+                        aiConfigManager.updateVercelBaseURL("")
                     }
                     .foregroundColor(.red)
                 }
                 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Gemini 2.5 Flash Lite")
+                    Text("Gemini 2.5 Flash Lite via Vercel")
                         .font(.headline)
-                    Text("Fast and efficient AI model for real-time conversations")
+                    Text("Secure AI model access through Vercel proxy")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -93,14 +93,14 @@ struct AISettingsView: View {
             }
         }
         .navigationTitle("AI Settings")
-        .alert("Gemini API Key", isPresented: $showingAPIKeyAlert) {
-            TextField("Enter API Key", text: $tempAPIKey)
+        .alert("Vercel Base URL", isPresented: $showingVercelURLAlert) {
+            TextField("Enter Vercel Base URL", text: $tempVercelURL)
             Button("Cancel", role: .cancel) { }
             Button("Save") {
-                aiConfigManager.updateGeminiAPIKey(tempAPIKey)
+                aiConfigManager.updateVercelBaseURL(tempVercelURL)
             }
         } message: {
-            Text("Enter your Gemini API key to use Gemini 2.5 Flash Lite")
+            Text("Enter your Vercel deployment URL (e.g., https://your-project.vercel.app)")
         }
     }
     

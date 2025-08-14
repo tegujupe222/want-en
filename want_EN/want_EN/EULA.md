@@ -1,64 +1,64 @@
-# 利用規約（EULA）
+# End User License Agreement (EULA)
 
-**最終更新日**: 2025年6月24日
+**Last Updated**: June 24, 2025
 
-## 1. 総則
+## 1. General Provisions
 
-本利用規約（以下「本規約」）は、igafactory（以下「当社」）が提供する「want」アプリケーション（以下「本アプリ」）の利用に関する条件を定めるものです。
+This End User License Agreement (hereinafter "this Agreement") sets forth the terms and conditions for the use of the "want" application (hereinafter "this App") provided by igafactory (hereinafter "we").
 
-## 2. 利用の承諾
+## 2. Acceptance of Terms
 
-本アプリをダウンロード、インストール、または使用することにより、利用者は本規約に同意したものとみなされます。
+By downloading, installing, or using this App, users are deemed to have agreed to this Agreement.
 
-## 3. 利用可能期間
+## 3. Usage Period
 
-本アプリは以下の期間で利用可能です：
-- 無料トライアル期間：初回起動から3日間
-- 有料サブスクリプション期間：月額課金による継続利用
+This App is available for the following periods:
+- Free trial period: 3 days from first launch
+- Paid subscription period: Continuous use through monthly billing
 
-## 4. 利用料金
+## 4. Usage Fees
 
-- 無料トライアル期間中は全ての機能を無料で利用できます
-- トライアル期間終了後は、月額サブスクリプション（価格はApp Storeにて表示）が必要です
-- 課金はApp Storeを通じて行われ、Appleの課金システムに従います
-- サブスクリプションID: jp.co.want.monthly
-- バンドルID: com.igafactory2025.want
+- All features are available free of charge during the free trial period
+- After the trial period ends, a monthly subscription (price displayed on App Store) is required
+- Billing is processed through the App Store and follows Apple's billing system
+- Subscription ID: jp.co.want.monthly
+- Bundle ID: com.igafactory2025.want
 
-## 5. 禁止事項
+## 5. Prohibited Activities
 
-利用者は以下の行為を行ってはなりません：
-- 本アプリの逆コンパイル、逆アセンブル、またはリバースエンジニアリング
-- 本アプリの著作権、商標権、その他の知的財産権の侵害
-- 本アプリを使用した違法行為
-- 他の利用者に迷惑をかける行為
-- 本アプリのサーバーやネットワークに負荷をかける行為
+Users must not engage in the following activities:
+- Reverse compilation, disassembly, or reverse engineering of this App
+- Infringement of copyright, trademark, or other intellectual property rights of this App
+- Illegal activities using this App
+- Actions that cause inconvenience to other users
+- Actions that place load on this App's servers or networks
 
-## 6. プライバシー
+## 6. Privacy
 
-利用者の個人情報の取り扱いについては、別途プライバシーポリシーに従います。
+The handling of users' personal information is subject to a separate Privacy Policy.
 
-## 7. AI機能について
+## 7. AI Features
 
-本アプリはGoogle Gemini APIを使用してAI機能を提供します：
-- AIとの会話内容は適切に管理されます
-- 機密情報や個人情報の入力は避けてください
-- AIの回答は参考情報であり、医療、法律、投資等の重要な判断には使用しないでください
+This App uses Google Gemini API to provide AI features:
+- Conversations with AI are managed appropriately
+- Please avoid entering confidential or personal information
+- AI responses are for reference only and should not be used for important decisions such as medical, legal, or investment matters
 
-## 8. 免責事項
+## 8. Disclaimer
 
-- 当社は本アプリの利用により生じた損害について一切の責任を負いません
-- 本アプリの機能は予告なく変更される場合があります
-- 本アプリの利用により生じた問題について、当社は技術的サポートを提供する場合がありますが、保証するものではありません
+- We assume no responsibility for any damages arising from the use of this App
+- App features may be changed without notice
+- While we may provide technical support for issues arising from App use, we do not guarantee such support
 
-## 9. 規約の変更
+## 9. Agreement Changes
 
-当社は必要に応じて本規約を変更することができます。変更された規約は本アプリ内または当社ウェブサイトで通知されます。
+We may change this Agreement as necessary. Changed terms will be notified within the App or on our website.
 
-## 10. 準拠法・管轄裁判所
+## 10. Governing Law and Jurisdiction
 
-本規約の解釈および適用については、日本法に準拠し、東京地方裁判所を第一審の専属管轄裁判所とします。
+The interpretation and application of this Agreement shall be governed by Japanese law, with the Tokyo District Court as the court of first instance with exclusive jurisdiction.
 
-## お問い合わせ
+## Contact
 
-本規約に関するお問い合わせは以下までお願いします：
-- メール: igafactory2023@gmail.com 
+For inquiries regarding this Agreement, please contact:
+- Email: igafactory2023@gmail.com 

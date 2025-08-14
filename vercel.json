@@ -1,10 +1,17 @@
 {
   "version": 2,
-  "functions": {
-    "api/gemini-proxy.js": {
-      "maxDuration": 30
+  "builds": [
+    {
+      "src": "api/gemini-proxy.js",
+      "use": "@vercel/node"
     }
-  },
+  ],
+  "routes": [
+    {
+      "src": "/api/gemini-proxy",
+      "dest": "/api/gemini-proxy.js"
+    }
+  ],
   "env": {
     "GEMINI_API_KEY": "@gemini-api-key"
   }

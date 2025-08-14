@@ -1,16 +1,18 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export default async function handler(req, res) {
-  // CORS設定
+  // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
+  // Handle preflight requests
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
   }
 
+  // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -18,59 +20,85 @@ export default async function handler(req, res) {
   try {
     const { prompt, persona, conversationHistory } = req.body;
 
+    // Validate required fields
     if (!prompt) {
       return res.status(400).json({ error: 'Prompt is required' });
     }
 
-    // 環境変数からAPIキーを取得
+    // Get API key from environment variable
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      return res.status(500).json({ error: 'Gemini API key not configured' });
+      console.error('GEMINI_API_KEY environment variable is not set');
+      return res.status(500).json({ error: 'API key not configured' });
     }
 
-    // Gemini APIクライアントを初期化
+    // Initialize Gemini API
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
 
-    // ペルソナと会話履歴を含むプロンプトを構築
-    let fullPrompt = '';
+    // Build conversation context
+    let conversationContext = '';
     
     if (persona) {
-      fullPrompt += `Persona: ${persona.name}\n`;
-      fullPrompt += `Relationship: ${persona.relationship}\n`;
-      fullPrompt += `Personality: ${persona.personality}\n`;
-      fullPrompt += `Communication Style: ${persona.communicationStyle}\n`;
-      fullPrompt += `Interests: ${persona.interests}\n`;
-      fullPrompt += `Background: ${persona.background}\n\n`;
+      conversationContext += `Persona Information:\n`;
+      conversationContext += `Name: ${persona.name}\n`;
+      conversationContext += `Relationship: ${persona.relationship}\n`;
+      conversationContext += `Personality: ${persona.personality}\n`;
+      conversationContext += `Speech Style: ${persona.speechStyle}\n`;
+      conversationContext += `\nPlease respond as this persona would, maintaining their personality and speech style.\n\n`;
     }
 
+    // Add conversation history if provided
     if (conversationHistory && conversationHistory.length > 0) {
-      fullPrompt += 'Previous conversation:\n';
-      conversationHistory.forEach(msg => {
-        const role = msg.isFromUser ? 'User' : 'Assistant';
-        fullPrompt += `${role}: ${msg.content}\n`;
+      conversationContext += 'Previous conversation:\n';
+      conversationHistory.forEach((message, index) => {
+        if (index < conversationHistory.length - 10) return; // Keep last 10 messages for context
+        conversationContext += `${message.isUser ? 'User' : 'Assistant'}: ${message.content}\n`;
       });
-      fullPrompt += '\n';
+      conversationContext += '\n';
     }
 
-    fullPrompt += `User: ${prompt}\nAssistant:`;
+    // Create the full prompt
+    const fullPrompt = conversationContext + `Current message: ${prompt}`;
 
-    // Gemini APIにリクエストを送信
+    console.log('🤖 Sending request to Gemini 2.5 Flash Lite');
+    console.log('📝 Prompt length:', fullPrompt.length, 'characters');
+
+    // Generate response
     const result = await model.generateContent(fullPrompt);
     const response = await result.response;
     const text = response.text();
 
+    console.log('✅ Response generated successfully');
+    console.log('📝 Response length:', text.length, 'characters');
+
+    // Return the response
     res.status(200).json({
+      success: true,
       response: text,
-      model: 'gemini-2.0-flash-exp',
-      timestamp: new Date().toISOString()
+      model: 'gemini-2.0-flash-exp'
     });
 
   } catch (error) {
-    console.error('Gemini API Error:', error);
+    console.error('❌ Error in Gemini proxy:', error);
+    
+    // Handle specific Gemini API errors
+    if (error.message.includes('API_KEY_INVALID')) {
+      return res.status(401).json({ error: 'Invalid API key' });
+    }
+    
+    if (error.message.includes('QUOTA_EXCEEDED')) {
+      return res.status(429).json({ error: 'API quota exceeded' });
+    }
+    
+    if (error.message.includes('SAFETY')) {
+      return res.status(400).json({ error: 'Content blocked by safety filters' });
+    }
+
+    // Generic error response
     res.status(500).json({
-      error: 'Failed to generate response',
-      details: error.message
+      error: 'Internal server error',
+      message: error.message
     });
   }
 }

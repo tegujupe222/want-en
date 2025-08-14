@@ -25,13 +25,16 @@ class AIChatService {
             throw AIChatError.subscriptionRequired
         }
         
+        // Check if Vercel base URL is configured
+        guard !config.vercelBaseURL.isEmpty else {
+            throw AIChatError.vercelURLNotSet
+        }
+        
         return try await generateGeminiResponse(
             persona: persona,
             conversationHistory: conversationHistory,
             userMessage: userMessage,
             emotionContext: emotionContext,
-            apiKey: config.geminiAPIKey,
-            useVercelProxy: config.useVercelProxy,
             vercelBaseURL: config.vercelBaseURL
         )
     }
@@ -43,44 +46,17 @@ class AIChatService {
         conversationHistory: [ChatMessage],
         userMessage: String,
         emotionContext: String?,
-        apiKey: String,
-        useVercelProxy: Bool,
         vercelBaseURL: String
     ) async throws -> String {
         
-        if useVercelProxy {
-            // For Vercel proxy, API key is not needed on client side
-            let geminiService = GeminiAPIService(
-                apiKey: "",
-                useVercelProxy: true,
-                vercelBaseURL: vercelBaseURL
-            )
-            
-            return try await geminiService.generateResponse(
-                persona: persona,
-                conversationHistory: conversationHistory,
-                userMessage: userMessage,
-                emotionContext: emotionContext
-            )
-        } else {
-            // Direct API mode
-            guard !apiKey.isEmpty else {
-                throw AIChatError.apiKeyNotSet
-            }
-            
-            let geminiService = GeminiAPIService(
-                apiKey: apiKey,
-                useVercelProxy: false,
-                vercelBaseURL: ""
-            )
-            
-            return try await geminiService.generateResponse(
-                persona: persona,
-                conversationHistory: conversationHistory,
-                userMessage: userMessage,
-                emotionContext: emotionContext
-            )
-        }
+        let geminiService = GeminiAPIService(vercelBaseURL: vercelBaseURL)
+        
+        return try await geminiService.generateResponse(
+            persona: persona,
+            conversationHistory: conversationHistory,
+            userMessage: userMessage,
+            emotionContext: emotionContext
+        )
     }
     
     // MARK: - Configuration Updates
@@ -102,16 +78,39 @@ class AIChatService {
             throw AIChatError.subscriptionRequired
         }
         
-        guard !config.geminiAPIKey.isEmpty else {
-            throw AIChatError.apiKeyNotSet
+        guard !config.vercelBaseURL.isEmpty else {
+            throw AIChatError.vercelURLNotSet
         }
         
-        let geminiService = GeminiAPIService(
-            apiKey: config.geminiAPIKey,
-            useVercelProxy: config.useVercelProxy,
-            vercelBaseURL: config.vercelBaseURL
+        let geminiService = GeminiAPIService(vercelBaseURL: config.vercelBaseURL)
+        
+        // Create a test persona and message
+        let testPersona = UserPersona(
+            name: "Test",
+            relationship: "Test Assistant",
+            personality: ["Friendly", "Helpful"],
+            speechStyle: "Polite and natural",
+            catchphrases: ["Hello!", "How can I help?"],
+            favoriteTopics: ["Technology", "Science"]
         )
-        return try await geminiService.testConnection()
+        
+        let testMessage = "Hello, how are you today?"
+        
+        do {
+            let response = try await geminiService.generateResponse(
+                persona: testPersona,
+                conversationHistory: [],
+                userMessage: testMessage,
+                emotionContext: nil
+            )
+            
+            print("✅ Connection test successful: \(response)")
+            return true
+            
+        } catch {
+            print("❌ Connection test failed: \(error)")
+            throw error
+        }
     }
 }
 
@@ -119,8 +118,8 @@ class AIChatService {
 
 enum AIChatError: LocalizedError {
     case aiNotEnabled
-    case apiKeyNotSet
-    case apiError(Error)
+    case vercelURLNotSet
+    case apiError(String)
     case networkError
     case rateLimitExceeded
     case invalidResponse
@@ -132,10 +131,10 @@ enum AIChatError: LocalizedError {
         switch self {
         case .aiNotEnabled:
             return "AI features are not enabled"
-        case .apiKeyNotSet:
-            return "Gemini API key is not set"
-        case .apiError(let error):
-            return "API connection test failed: \(error.localizedDescription)"
+        case .vercelURLNotSet:
+            return "Vercel base URL is not configured"
+        case .apiError(let message):
+            return "API error: \(message)"
         case .networkError:
             return "Network error occurred"
         case .rateLimitExceeded:

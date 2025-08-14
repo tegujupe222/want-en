@@ -1,32 +1,26 @@
-# Want-EN Vercel Server
+# Want EN - Vercel Server
 
-This is the Vercel server for the Want-EN iOS app, providing a proxy for Gemini API calls.
+This is the Vercel serverless backend for the Want EN iOS app, providing a secure proxy for Google Gemini API calls.
 
 ## Setup
 
-### 1. Install Dependencies
+1. **Deploy to Vercel**
+   ```bash
+   vercel --prod
+   ```
 
-```bash
-npm install
-```
+2. **Set Environment Variables**
+   - Go to your Vercel dashboard
+   - Navigate to Settings > Environment Variables
+   - Add `GEMINI_API_KEY` with your Google Gemini API key
 
-### 2. Environment Variables
+3. **Get Your API Endpoint**
+   - After deployment, you'll get a URL like: `https://your-project.vercel.app`
+   - Your Gemini proxy endpoint will be: `https://your-project.vercel.app/api/gemini-proxy`
 
-Set up the following environment variable in Vercel:
-
-- `GEMINI_API_KEY`: Your Google Gemini API key
-
-### 3. Deploy to Vercel
-
-```bash
-npm run deploy
-```
-
-## API Endpoints
+## API Endpoint
 
 ### POST /api/gemini-proxy
-
-Generates AI responses using Google's Gemini 2.5 Flash Lite model.
 
 **Request Body:**
 ```json
@@ -35,19 +29,17 @@ Generates AI responses using Google's Gemini 2.5 Flash Lite model.
   "persona": {
     "name": "Persona name",
     "relationship": "Relationship to user",
-    "personality": "Personality traits",
-    "communicationStyle": "How they communicate",
-    "interests": "Their interests",
-    "background": "Background information"
+    "personality": "Personality description",
+    "speechStyle": "Speech style"
   },
   "conversationHistory": [
     {
-      "isFromUser": true,
-      "content": "Previous user message"
+      "isUser": true,
+      "content": "User message"
     },
     {
-      "isFromUser": false,
-      "content": "Previous assistant response"
+      "isUser": false,
+      "content": "Assistant response"
     }
   ]
 }
@@ -56,26 +48,30 @@ Generates AI responses using Google's Gemini 2.5 Flash Lite model.
 **Response:**
 ```json
 {
+  "success": true,
   "response": "AI generated response",
-  "model": "gemini-2.0-flash-exp",
-  "timestamp": "2025-01-01T00:00:00.000Z"
+  "model": "gemini-2.0-flash-exp"
 }
 ```
 
-## Environment Variables Setup in Vercel
+## Features
 
-1. Go to your Vercel project dashboard
-2. Navigate to Settings > Environment Variables
-3. Add the following variable:
-   - **Name**: `GEMINI_API_KEY`
-   - **Value**: Your Google Gemini API key
-   - **Environment**: Production, Preview, Development
+- ✅ Secure API key management via environment variables
+- ✅ CORS enabled for cross-origin requests
+- ✅ Persona-based conversation context
+- ✅ Conversation history support
+- ✅ Error handling for API limits and safety filters
+- ✅ Uses Gemini 2.5 Flash Lite model
 
 ## Local Development
 
 ```bash
-npm run dev
+npm install
+vercel dev
 ```
 
-The server will be available at `http://localhost:3000/api/gemini-proxy`
-# Updated at 2025年 8月13日 水曜日 09時08分34秒 JST
+## Deployment
+
+```bash
+vercel --prod
+```
