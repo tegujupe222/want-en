@@ -10,16 +10,16 @@ struct PersonaListView: View {
     @State private var showingEditPersona = false
     
     var body: some View {
-        NavigationStack {
+        NavigationSplitView {
+            // Sidebar
             VStack {
                 if personaManager.personas.isEmpty {
                     emptyStateView
                 } else {
-                    personaListContent
+                    personaListSidebar
                 }
             }
             .navigationTitle("People")
-            .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
@@ -30,7 +30,17 @@ struct PersonaListView: View {
                     }
                 }
             }
+        } detail: {
+            // Detail view
+            if let selected = selectedPersona {
+                personaDetailView(persona: selected)
+            } else {
+                Text("Select a persona from the sidebar")
+                    .foregroundColor(.secondary)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
         }
+        .navigationSplitViewStyle(.balanced)
         .sheet(isPresented: $showingCreatePersona) {
             SetupPersonaView { newPersona in
                 // Select the newly created persona
@@ -43,21 +53,137 @@ struct PersonaListView: View {
             }
         }
         .ignoresSafeArea(.all, edges: .all)
-        .alert("Persona Details", isPresented: $showingPersonaDetail) {
-            Button("Edit") {
-                editingPersona = selectedPersona
-                showingEditPersona = true
-            }
-            Button("Select") {
-                if let persona = selectedPersona {
+    }
+    
+    // MARK: - Sidebar Content
+    
+    private var personaListSidebar: some View {
+        List(personaManager.personas, id: \.id, selection: $selectedPersona) { persona in
+            PersonaSidebarRowView(
+                persona: persona,
+                isSelected: personaLoader.currentPersona?.id == persona.id,
+                onTap: {
+                    selectedPersona = persona
+                },
+                onEdit: {
+                    editingPersona = persona
+                    showingEditPersona = true
+                },
+                onDelete: {
+                    personaManager.deletePersona(persona)
+                    if selectedPersona?.id == persona.id {
+                        selectedPersona = nil
+                    }
+                },
+                onSelect: {
                     personaLoader.setCurrentPersona(persona)
                 }
+            )
+        }
+        .listStyle(SidebarListStyle())
+    }
+    
+    // MARK: - Detail View
+    
+    private func personaDetailView(persona: UserPersona) -> some View {
+        ScrollView {
+            VStack(spacing: 24) {
+                // Avatar and basic info
+                VStack(spacing: 16) {
+                    AvatarView(persona: persona, size: 120)
+                    
+                    VStack(spacing: 8) {
+                        Text(persona.name)
+                            .font(.title)
+                            .fontWeight(.bold)
+                        
+                        Text(persona.relationship)
+                            .font(.headline)
+                            .foregroundColor(.secondary)
+                        
+                        if personaLoader.currentPersona?.id == persona.id {
+                            HStack {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundColor(.accentColor)
+                                Text("Currently Selected")
+                                    .font(.subheadline)
+                                    .foregroundColor(.accentColor)
+                            }
+                        }
+                    }
+                }
+                
+                // Action buttons
+                HStack(spacing: 16) {
+                    Button(action: {
+                        personaLoader.setCurrentPersona(persona)
+                    }) {
+                        HStack {
+                            Image(systemName: "checkmark.circle")
+                            Text("Select")
+                        }
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 24)
+                        .padding(.vertical, 12)
+                        .background(Color.accentColor)
+                        .cornerRadius(25)
+                    }
+                    
+                    Button(action: {
+                        editingPersona = persona
+                        showingEditPersona = true
+                    }) {
+                        HStack {
+                            Image(systemName: "pencil")
+                            Text("Edit")
+                        }
+                        .font(.headline)
+                        .foregroundColor(.accentColor)
+                        .padding(.horizontal, 24)
+                        .padding(.vertical, 12)
+                        .background(Color.accentColor.opacity(0.1))
+                        .cornerRadius(25)
+                    }
+                }
+                
+                // Details sections
+                VStack(spacing: 20) {
+                    detailSection(title: "Personality", items: persona.personality)
+                    detailSection(title: "Speech Style", items: [persona.speechStyle])
+                    detailSection(title: "Catchphrases", items: persona.catchphrases)
+                    detailSection(title: "Favorite Topics", items: persona.favoriteTopics)
+                }
             }
-            Button("Cancel", role: .cancel) { }
-        } message: {
-            if let persona = selectedPersona {
-                Text("\(persona.name)\n\(persona.relationship)\n\(persona.personalityText)")
+            .padding()
+        }
+        .navigationTitle(persona.name)
+        .navigationBarTitleDisplayMode(.large)
+    }
+    
+    private func detailSection(title: String, items: [String]) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(title)
+                .font(.headline)
+                .fontWeight(.semibold)
+            
+            VStack(alignment: .leading, spacing: 8) {
+                ForEach(items, id: \.self) { item in
+                    HStack {
+                        Image(systemName: "circle.fill")
+                            .font(.system(size: 6))
+                            .foregroundColor(.secondary)
+                        
+                        Text(item)
+                            .font(.body)
+                        
+                        Spacer()
+                    }
+                }
             }
+            .padding()
+            .background(Color(.systemGray6))
+            .cornerRadius(12)
         }
     }
     
@@ -101,42 +227,11 @@ struct PersonaListView: View {
         }
         .padding(.horizontal)
     }
-    
-    // MARK: - Persona List Content
-    
-    private var personaListContent: some View {
-        ScrollView {
-            LazyVStack(spacing: 16) {
-                ForEach(personaManager.personas) { persona in
-                    PersonaRowView(
-                        persona: persona,
-                        isSelected: personaLoader.currentPersona?.id == persona.id,
-                        onTap: {
-                            selectedPersona = persona
-                            showingPersonaDetail = true
-                        },
-                        onEdit: {
-                            editingPersona = persona
-                            showingEditPersona = true
-                        },
-                        onDelete: {
-                            personaManager.deletePersona(persona)
-                        },
-                        onSelect: {
-                            personaLoader.setCurrentPersona(persona)
-                        }
-                    )
-                }
-            }
-            .padding(.horizontal)
-            .padding(.top, 16)
-        }
-    }
 }
 
 // MARK: - Supporting Views
 
-struct PersonaRowView: View {
+struct PersonaSidebarRowView: View {
     let persona: UserPersona
     let isSelected: Bool
     let onTap: () -> Void
@@ -145,82 +240,55 @@ struct PersonaRowView: View {
     let onSelect: () -> Void
     
     var body: some View {
-        Button(action: onTap) {
-            HStack(spacing: 16) {
-                // Avatar
-                AvatarView(
-                    persona: persona,  // ✅ Create AvatarView directly from Persona
-                    size: 60
-                )
-                
-                // Information
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack {
-                        Text(persona.name)
-                            .font(.headline)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.primary)
-                        
-                        if isSelected {
-                            Image(systemName: "checkmark.circle.fill")
-                                .foregroundColor(.accentColor)
-                                .font(.title3)
-                        }
-                    }
-                    
-                    Text(persona.relationship)
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                    
-                    Text(persona.personality.prefix(2).joined(separator: " • "))
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+        HStack(spacing: 12) {
+            AvatarView(persona: persona, size: 40)
+            
+            VStack(alignment: .leading, spacing: 2) {
+                HStack {
+                    Text(persona.name)
+                        .font(.body)
+                        .fontWeight(.medium)
                         .lineLimit(1)
                     
-                    HStack {
-                        Text(persona.mood.emoji)
-                        Text(persona.mood.displayName)
+                    if isSelected {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(.accentColor)
                             .font(.caption)
-                            .foregroundColor(.secondary)
                     }
                 }
                 
-                Spacer()
-                
-                // Menu button
-                Menu {
-                    Button("Select") {
-                        onSelect()
-                    }
-                    
-                    Button("View Details") {
-                        onTap()
-                    }
-                    
-                    Button("Edit") {
-                        onEdit()
-                    }
-                    
-                    Button("Delete", role: .destructive) {
-                        onDelete()
-                    }
-                } label: {
-                    Image(systemName: "ellipsis")
-                        .font(.title3)
-                        .foregroundColor(.gray)
-                        .padding(.trailing, 8)
-                }
-                .buttonStyle(PlainButtonStyle())
+                Text(persona.relationship)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .lineLimit(1)
             }
-            .padding()
-            .background(isSelected ? Color.accentColor.opacity(0.1) : Color(.systemGray6))
-            .cornerRadius(12)
-            .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(isSelected ? Color.accentColor : Color.clear, lineWidth: 2)
-            )
+            
+            Spacer()
+            
+            Menu {
+                Button("Select") {
+                    onSelect()
+                }
+                
+                Button("Edit") {
+                    onEdit()
+                }
+                
+                Button("Delete", role: .destructive) {
+                    onDelete()
+                }
+            } label: {
+                Image(systemName: "ellipsis")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+            }
+            .buttonStyle(PlainButtonStyle())
         }
-        .buttonStyle(PlainButtonStyle())
+        .padding(.vertical, 4)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            onTap()
+        }
     }
 }
 

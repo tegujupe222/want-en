@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-struct UserPersona: Identifiable, Codable, Equatable {
+struct UserPersona: Identifiable, Codable, Equatable, Hashable {
     let id: String
     var name: String
     var relationship: String

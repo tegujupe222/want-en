@@ -7,7 +7,8 @@ struct AIView: View {
     @State private var showingPersonaDetail = false
     
     var body: some View {
-        NavigationStack {
+        NavigationSplitView {
+            // Sidebar
             VStack(spacing: 0) {
                 // Header
                 headerView
@@ -17,53 +18,58 @@ struct AIView: View {
                     emptyStateView
                 } else {
                     // Persona selection list
-                    personaListView
+                    personaListSidebar
                 }
                 
                 Spacer()
             }
-            .navigationBarHidden(true)
-        }
-        .fullScreenCover(isPresented: $showingChat) {
-            if let persona = selectedPersona {
-                ChatView(isAIMode: true, persona: persona)
+            .navigationTitle("AI Chat")
+        } detail: {
+            // Detail view
+            if let selected = selectedPersona {
+                NavigationView {
+                    ChatView(isAIMode: true, persona: selected)
+                        .navigationTitle(selected.name)
+                        .navigationBarTitleDisplayMode(.inline)
+                }
+            } else {
+                VStack(spacing: 20) {
+                    Image(systemName: "person.crop.circle.badge.questionmark")
+                        .font(.system(size: 60))
+                        .foregroundColor(.gray)
+                    
+                    Text("Select a persona from the sidebar")
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                    
+                    Text("Choose someone to start an AI chat with")
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
+        .navigationSplitViewStyle(.balanced)
         .sheet(isPresented: $showingPersonaDetail) {
             if let persona = selectedPersona {
                 PersonaDetailView(persona: persona)
-                    }
-        .ignoresSafeArea(.all, edges: .all)
+            }
+        }
     }
-}
     
     // MARK: - Header View
     
     private var headerView: some View {
         VStack(spacing: 16) {
-            // Title
-            HStack {
-                Text("AI Chat")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                
-                Spacer()
-                
-                // Settings button
-                NavigationLink(destination: AISettingsView()) {
-                    Image(systemName: "gearshape.fill")
-                        .font(.title2)
-                        .foregroundColor(.blue)
-                }
-            }
-            
             // Subtitle
             Text("Select a persona to chat with")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
+                .padding(.horizontal)
+                .padding(.top, 16)
         }
-        .padding(.horizontal)
-        .padding(.top, 8)
+        .padding(.bottom, 8)
     }
     
     // MARK: - Empty State View
@@ -87,117 +93,89 @@ struct AIView: View {
                     .multilineTextAlignment(.center)
             }
             
-            // Navigation button to People tab
-            Button(action: {
-                // Need to implement TabView switching to People tab
-                // Currently can't control directly, so just show message
-            }) {
-                HStack {
-                    Image(systemName: "person.fill")
-                    Text("Create Persona")
-                }
-                .font(.headline)
-                .foregroundColor(.white)
-                .padding(.horizontal, 24)
-                .padding(.vertical, 12)
-                .background(Color.blue)
-                .cornerRadius(25)
-            }
-            
             Spacer()
         }
         .padding(.horizontal)
     }
     
-    // MARK: - Persona List View
+    // MARK: - Persona List Sidebar
     
-    private var personaListView: some View {
-        ScrollView {
-            LazyVStack(spacing: 16) {
-                ForEach(personaManager.personas) { persona in
-                    PersonaCardView(
-                        persona: persona,
-                        onTap: {
-                            selectedPersona = persona
-                            showingChat = true
-                        },
-                        onInfo: {
-                            selectedPersona = persona
-                            showingPersonaDetail = true
-                        }
-                    )
+    private var personaListSidebar: some View {
+        List(personaManager.personas, id: \.id, selection: $selectedPersona) { persona in
+            PersonaSidebarCardView(
+                persona: persona,
+                onTap: {
+                    selectedPersona = persona
+                },
+                onInfo: {
+                    selectedPersona = persona
+                    showingPersonaDetail = true
                 }
-            }
-            .padding(.horizontal)
-            .padding(.top, 16)
+            )
         }
+        .listStyle(SidebarListStyle())
+        .navigationBarHidden(true)
     }
 }
 
 // MARK: - Supporting Views
 
-struct PersonaCardView: View {
+struct PersonaSidebarCardView: View {
     let persona: UserPersona
     let onTap: () -> Void
     let onInfo: () -> Void
     
     var body: some View {
-        Button(action: onTap) {
-            HStack(spacing: 16) {
-                // Avatar
-                ZStack {
-                    Circle()
-                        .fill(persona.customization.avatarColor)
-                        .frame(width: 60, height: 60)
-                    
-                    if let emoji = persona.customization.avatarEmoji {
-                        Text(emoji)
-                            .font(.title)
-                    } else {
-                        Text(String(persona.name.prefix(1)))
-                            .font(.title)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.white)
-                    }
-                }
+        HStack(spacing: 12) {
+            // Avatar
+            ZStack {
+                Circle()
+                    .fill(persona.customization.avatarColor)
+                    .frame(width: 40, height: 40)
                 
-                // Information
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(persona.name)
-                        .font(.headline)
+                if let emoji = persona.customization.avatarEmoji {
+                    Text(emoji)
+                        .font(.title3)
+                } else {
+                    Text(String(persona.name.prefix(1)))
+                        .font(.title3)
                         .fontWeight(.semibold)
-                        .foregroundColor(.primary)
-                    
-                    Text(persona.relationship)
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                    
-                    Text(persona.personality.prefix(2).joined(separator: " • "))
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                        .lineLimit(1)
+                        .foregroundColor(.white)
                 }
-                
-                Spacer()
-                
-                // Detail button
-                Button(action: onInfo) {
-                    Image(systemName: "info.circle")
-                        .font(.title2)
-                        .foregroundColor(.blue)
-                }
-                .buttonStyle(PlainButtonStyle())
-                
-                // Chat start icon
-                Image(systemName: "chevron.right")
-                    .font(.body)
-                    .foregroundColor(.gray)
             }
-            .padding()
-            .background(Color(.systemGray6))
-            .cornerRadius(12)
+            
+            // Information
+            VStack(alignment: .leading, spacing: 2) {
+                Text(persona.name)
+                    .font(.body)
+                    .fontWeight(.medium)
+                    .foregroundColor(.primary)
+                
+                Text(persona.relationship)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                
+                Text(persona.personality.prefix(2).joined(separator: " • "))
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+                    .lineLimit(1)
+            }
+            
+            Spacer()
+            
+            // Info button
+            Button(action: onInfo) {
+                Image(systemName: "info.circle")
+                    .font(.caption)
+                    .foregroundColor(.blue)
+            }
+            .buttonStyle(PlainButtonStyle())
         }
-        .buttonStyle(PlainButtonStyle())
+        .padding(.vertical, 4)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            onTap()
+        }
     }
 }
 

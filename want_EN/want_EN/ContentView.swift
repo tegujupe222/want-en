@@ -6,7 +6,6 @@ struct MainTabView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            .ignoresSafeArea(.all, edges: .all)
             // Chat tab - using ChatRoomListView
             ChatRoomListView()
                 .tabItem {

@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-struct PersonaCustomization: Codable {
+struct PersonaCustomization: Codable, Hashable {
     var avatarEmoji: String?
     var avatarImageFileName: String?  // ✅ Added image filename
     var avatarColor: Color

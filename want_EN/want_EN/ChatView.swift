@@ -32,12 +32,10 @@ struct ChatView: View {
                 loadingView
             }
         }
-        .navigationBarHidden(true)
         .onAppear {
             setupChatWithRetry()
         }
         .background(Color(.systemBackground))
-        .ignoresSafeArea(.all, edges: .all)
         .alert("Subscription Required", isPresented: $viewModel.showSubscriptionAlert) {
             Button("Open Settings") {
                 // Open settings screen
@@ -144,19 +142,21 @@ struct ChatView: View {
     
     private var headerView: some View {
         HStack {
-            // Back button
-            Button(action: {
-                print("🔙 Back from chat screen")
-                dismiss()
-            }) {
-                HStack(spacing: 4) {
-                    Image(systemName: "chevron.left")
-                        .font(.title2)
-                        .fontWeight(.medium)
-                    Text("Back")
-                        .font(.body)
+            // Back button (only show on iPhone or when not in NavigationSplitView)
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                Button(action: {
+                    print("🔙 Back from chat screen")
+                    dismiss()
+                }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "chevron.left")
+                            .font(.title2)
+                            .fontWeight(.medium)
+                        Text("Back")
+                            .font(.body)
+                    }
+                    .foregroundColor(.blue)
                 }
-                .foregroundColor(.blue)
             }
             
             Spacer()

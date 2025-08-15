@@ -7,7 +7,7 @@ struct ChatRoomListView: View {
     @State private var searchText = ""
     @State private var selectedPersona: UserPersona?
     @State private var showingSubscriptionView = false
-    @State private var navigationPath = NavigationPath()  // ✅ Added NavigationPath
+    @State private var navigationPath = NavigationPath()
     
     var filteredPersonas: [UserPersona] {
         if searchText.isEmpty {
@@ -21,7 +21,8 @@ struct ChatRoomListView: View {
     }
     
     var body: some View {
-        NavigationStack(path: $navigationPath) {  // ✅ Using NavigationStack
+        NavigationSplitView {
+            // Sidebar
             VStack(spacing: 0) {
                 // Search bar
                 searchBar
@@ -36,15 +37,21 @@ struct ChatRoomListView: View {
                     emptyStateView
                 } else {
                     // Chat list
-                    chatListContent
+                    chatListSidebar
                 }
             }
             .navigationTitle("Chats")
-            .navigationBarTitleDisplayMode(.large)
-            .navigationDestination(for: ChatDestination.self) { destination in  // ✅ Using NavigationDestination
-                ChatView(isAIMode: destination.isAIMode, persona: destination.persona, chatViewModel: chatViewModel)
+        } detail: {
+            // Detail view
+            if let selected = selectedPersona {
+                ChatView(isAIMode: false, persona: selected, chatViewModel: chatViewModel)
+            } else {
+                Text("Select a chat from the sidebar")
+                    .foregroundColor(.secondary)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
+        .navigationSplitViewStyle(.balanced)
         .sheet(isPresented: $showingSubscriptionView) {
             SubscriptionView()
         }
@@ -150,31 +157,18 @@ struct ChatRoomListView: View {
         .padding(.horizontal)
     }
     
-    // MARK: - Chat List Content
+    // MARK: - Chat List Sidebar
     
-    private var chatListContent: some View {
-        ScrollView {
-            LazyVStack(spacing: 0) {
-                ForEach(filteredPersonas) { persona in
-                    ChatRoomItemView(
-                        persona: persona,
-                        chatViewModel: chatViewModel,
-                        onTap: {
-                            // ✅ Reliable navigation using NavigationPath
-                            print("🚀 Starting chat: \(persona.name)")
-                            let destination = ChatDestination(persona: persona, isAIMode: false)
-                            navigationPath.append(destination)
-                        }
-                    )
-                    
-                    if persona.id != filteredPersonas.last?.id {
-                        Divider()
-                            .padding(.leading, 80)
-                    }
+    private var chatListSidebar: some View {
+        List(filteredPersonas, id: \.id, selection: $selectedPersona) { persona in
+            ChatSidebarItemView(
+                persona: persona,
+                onTap: {
+                    selectedPersona = persona
                 }
-            }
-            .padding(.top, 8)
+            )
         }
+        .listStyle(SidebarListStyle())
     }
     
     // MARK: - Computed Properties
@@ -185,26 +179,10 @@ struct ChatRoomListView: View {
     }
 }
 
-// ✅ Data structure for NavigationDestination
-struct ChatDestination: Hashable {
-    let persona: UserPersona
-    let isAIMode: Bool
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(persona.id)
-        hasher.combine(isAIMode)
-    }
-    
-    static func == (lhs: ChatDestination, rhs: ChatDestination) -> Bool {
-        return lhs.persona.id == rhs.persona.id && lhs.isAIMode == rhs.isAIMode
-    }
-}
-
 // MARK: - Supporting Views
 
-struct ChatRoomItemView: View {
+struct ChatSidebarItemView: View {
     let persona: UserPersona
-    let chatViewModel: ChatViewModel
     let onTap: () -> Void
     
     @State private var lastMessage: String = ""
@@ -226,86 +204,53 @@ struct ChatRoomItemView: View {
     }
     
     var body: some View {
-        Button(action: onTap) {
-            let messages = self.messages
-            let lastMessage = messages.last?.content ?? ""
-            let messageCount = messages.count
-            HStack(spacing: 16) {
-                // Avatar
-                AvatarView(
-                    persona: persona,
-                    size: 50
-                )
+        HStack(spacing: 12) {
+            // Avatar
+            AvatarView(persona: persona, size: 40)
+            
+            // Chat info
+            VStack(alignment: .leading, spacing: 2) {
+                HStack {
+                    Text(persona.name)
+                        .font(.body)
+                        .fontWeight(.medium)
+                        .lineLimit(1)
+                    
+                    Spacer()
+                    
+                    if !lastMessage.isEmpty {
+                        Text(formatTime(Date()))
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+                    }
+                }
                 
-                // Chat info
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack {
-                        Text(persona.name)
-                            .font(.headline)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.primary)
-                        
-                        Spacer()
-                        
-                        if !lastMessage.isEmpty {
-                            Text(formatTime(Date()))
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                    }
+                HStack {
+                    Text(lastMessage.isEmpty ? "Start a new conversation" : lastMessage)
+                        .font(.caption)
+                        .foregroundColor(lastMessage.isEmpty ? .secondary : .primary)
+                        .lineLimit(1)
                     
-                    HStack {
-                        Text(lastMessage.isEmpty ? "Start a new conversation" : lastMessage)
-                            .font(.subheadline)
-                            .foregroundColor(lastMessage.isEmpty ? .secondary : .primary)
-                            .lineLimit(1)
-                        
-                        Spacer()
-                        
-                        // Message count badge
-                        if messageCount > 0 {
-                            Text("\(messageCount)")
-                                .font(.caption2)
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 2)
-                                .background(Color.blue)
-                                .cornerRadius(8)
-                        }
-                    }
+                    Spacer()
                     
-                    // Personality and relationship display
-                    HStack {
-                        Text(persona.relationship)
-                            .font(.caption)
-                            .padding(.horizontal, 6)
-                            .padding(.vertical, 2)
-                            .background(Color.blue.opacity(0.1))
-                            .foregroundColor(.blue)
-                            .cornerRadius(4)
-                        
-                        if let firstPersonality = persona.personality.first {
-                            Text(firstPersonality)
-                                .font(.caption)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 2)
-                                .background(Color.green.opacity(0.1))
-                                .foregroundColor(.green)
-                                .cornerRadius(4)
-                        }
-                        
-                        Text(persona.mood.emoji)
-                            .font(.caption)
-                        
-                        Spacer()
+                    // Message count badge
+                    if messageCount > 0 {
+                        Text("\(messageCount)")
+                            .font(.caption2)
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 4)
+                            .padding(.vertical, 1)
+                            .background(Color.blue)
+                            .cornerRadius(6)
                     }
                 }
             }
-            .padding(.horizontal)
-            .padding(.vertical, 12)
-            .contentShape(Rectangle())
         }
-        .buttonStyle(PlainButtonStyle())
+        .padding(.vertical, 4)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            onTap()
+        }
         .onAppear {
             loadChatInfo()
         }
