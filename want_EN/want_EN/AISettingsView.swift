@@ -22,36 +22,7 @@ struct AISettingsView: View {
                 }
             }
             
-            Section(header: Text("AI Configuration")) {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Gemini 2.5 Flash Lite via Vercel")
-                        .font(.headline)
-                    Text("Secure AI model access through Vercel proxy")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    
-                    HStack {
-                        Text("Status:")
-                        Spacer()
-                        Text(aiConfigManager.currentConfig.vercelBaseURL.isEmpty ? "Not configured" : "Configured")
-                            .foregroundColor(aiConfigManager.currentConfig.vercelBaseURL.isEmpty ? .red : .green)
-                            .fontWeight(.semibold)
-                    }
-                    .padding(.top, 4)
-                    
-                    if !aiConfigManager.currentConfig.vercelBaseURL.isEmpty {
-                        HStack {
-                            Text("Vercel URL:")
-                            Spacer()
-                            Text(aiConfigManager.currentConfig.vercelBaseURL)
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                        .padding(.top, 2)
-                    }
-                }
-                .padding(.vertical, 4)
-            }
+
             
             Section(header: Text("Subscription")) {
                 switch subscriptionManager.subscriptionStatus {

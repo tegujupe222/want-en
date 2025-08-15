@@ -43,7 +43,7 @@ struct SubscriptionView: View {
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
                         
-                        Text("Continue with monthly subscription of $2.99 after trial ends")
+                        Text("Continue with monthly subscription of $1.99 after trial ends")
                             .font(.caption)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
@@ -116,7 +116,7 @@ struct SubscriptionView: View {
                             SubscriptionInfoRow(
                                 icon: "dollarsign.circle",
                                 title: "Price",
-                                value: "$2.99 / month"
+                                value: "$1.99 / month"
                             )
                         }
                         
