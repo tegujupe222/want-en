@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Privacy Choices - want</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f7;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #007AFF;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #007AFF;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        .section {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #007AFF;
+        }
+        .choice-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e1e5e9;
+        }
+        .choice-item:hover {
+            border-color: #007AFF;
+            box-shadow: 0 2px 8px rgba(0,122,255,0.1);
+        }
+        .toggle {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background: #ccc;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .toggle.active {
+            background: #007AFF;
+        }
+        .toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+        .toggle.active::after {
+            transform: translateX(26px);
+        }
+        .description {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+            transition: background 0.3s;
+        }
+        .button:hover {
+            background: #0056CC;
+        }
+        .button.secondary {
+            background: #6c757d;
+        }
+        .button.secondary:hover {
+            background: #545b62;
+        }
+        .contact-info {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e1e5e9;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>User Privacy Choices</h1>
+        <p><strong>Last Updated:</strong> June 24, 2025</p>
+        
+        <div class="section">
+            <h2>Data Collection Choices</h2>
+            <p>The want app respects your privacy and allows you to choose how your data is collected and used. You can customize how your data is collected by changing the settings below.</p>
+        </div>
+
+        <div class="section">
+            <h2>Required Data</h2>
+            <p>Data necessary to provide the app's basic features. These cannot be disabled.</p>
+            
+            <div class="choice-item">
+                <div>
+                    <strong>App Function Data</strong>
+                    <div class="description">Persona settings, conversation history, app settings, and other data necessary for basic app functionality</div>
+                </div>
+                <div class="toggle active" style="opacity: 0.5;"></div>
+            </div>
+            
+            <div class="choice-item">
+                <div>
+                    <strong>Subscription Information</strong>
+                    <div class="description">Billing information through App Store (managed by Apple)</div>
+                </div>
+                <div class="toggle active" style="opacity: 0.5;"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Optional Data</h2>
+            <p>Data used to improve services. These can be disabled.</p>
+            
+            <div class="choice-item">
+                <div>
+                    <strong>Usage Statistics Data</strong>
+                    <div class="description">Anonymized statistical information such as app usage frequency and feature usage</div>
+                </div>
+                <div class="toggle active" onclick="toggleChoice(this)"></div>
+            </div>
+            
+            <div class="choice-item">
+                <div>
+                    <strong>Crash Reports</strong>
+                    <div class="description">App crash information (for bug fixes)</div>
+                </div>
+                <div class="toggle active" onclick="toggleChoice(this)"></div>
+            </div>
+            
+            <div class="choice-item">
+                <div>
+                    <strong>Device Information</strong>
+                    <div class="description">Technical information such as OS version and app version</div>
+                </div>
+                <div class="toggle active" onclick="toggleChoice(this)"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Data Management</h2>
+            <p>Options for managing your data.</p>
+            
+            <button class="button" onclick="exportData()">Export Data</button>
+            <button class="button secondary" onclick="deleteData()">Delete Data</button>
+            <button class="button secondary" onclick="resetChoices()">Reset Settings</button>
+        </div>
+
+        <div class="section">
+            <h2>Third-Party Services</h2>
+            <p>This app uses the following third-party services:</p>
+            
+            <div class="choice-item">
+                <div>
+                    <strong>Google Gemini API</strong>
+                    <div class="description">AI feature provision (conversation content is sent)</div>
+                </div>
+                <div class="toggle active" style="opacity: 0.5;"></div>
+            </div>
+            
+            <div class="choice-item">
+                <div>
+                    <strong>Apple App Store</strong>
+                    <div class="description">App distribution and billing (managed by Apple)</div>
+                </div>
+                <div class="toggle active" style="opacity: 0.5;"></div>
+            </div>
+        </div>
+
+        <div class="contact-info">
+            <h2>Contact Us</h2>
+            <p>If you have any questions or requests regarding privacy, please feel free to contact us.</p>
+            <p><strong>Email:</strong> igafactory2023@gmail.com</p>
+            <p><strong>Business Hours:</strong> Weekdays 9:00-18:00 (Japan Time)</p>
+        </div>
+
+        <div class="footer">
+            <p>Related Links:</p>
+            <p><a href="privacy-policy-en.html">Privacy Policy</a> | 
+               <a href="terms-of-service-en.html">Terms of Service</a></p>
+            <p>&copy; 2025 igafactory. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleChoice(element) {
+            element.classList.toggle('active');
+            saveChoices();
+        }
+
+        function saveChoices() {
+            const toggles = document.querySelectorAll('.toggle:not([style*="opacity"])');
+            const choices = {};
+            toggles.forEach((toggle, index) => {
+                choices[`choice_${index}`] = toggle.classList.contains('active');
+            });
+            localStorage.setItem('privacyChoices', JSON.stringify(choices));
+        }
+
+        function loadChoices() {
+            const choices = JSON.parse(localStorage.getItem('privacyChoices') || '{}');
+            const toggles = document.querySelectorAll('.toggle:not([style*="opacity"])');
+            toggles.forEach((toggle, index) => {
+                if (choices[`choice_${index}`] === false) {
+                    toggle.classList.remove('active');
+                }
+            });
+        }
+
+        function exportData() {
+            alert('Please use the data export feature within the app.');
+        }
+
+        function deleteData() {
+            if (confirm('Delete all data? This action cannot be undone.')) {
+                alert('Please use the data deletion feature within the app.');
+            }
+        }
+
+        function resetChoices() {
+            if (confirm('Reset privacy settings to default?')) {
+                const toggles = document.querySelectorAll('.toggle:not([style*="opacity"])');
+                toggles.forEach(toggle => {
+                    toggle.classList.add('active');
+                });
+                saveChoices();
+                alert('Settings have been reset.');
+            }
+        }
+
+        // Restore settings when page loads
+        document.addEventListener('DOMContentLoaded', loadChoices);
+    </script>
+</body>
+</html>
