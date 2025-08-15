@@ -7,7 +7,7 @@ struct AIView: View {
     @State private var showingPersonaDetail = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(spacing: 0) {
                 // Header
                 headerView
@@ -32,9 +32,10 @@ struct AIView: View {
         .sheet(isPresented: $showingPersonaDetail) {
             if let persona = selectedPersona {
                 PersonaDetailView(persona: persona)
-            }
-        }
+                    }
+        .ignoresSafeArea(.all, edges: .all)
     }
+}
     
     // MARK: - Header View
     

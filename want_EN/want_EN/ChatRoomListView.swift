@@ -48,6 +48,7 @@ struct ChatRoomListView: View {
         .sheet(isPresented: $showingSubscriptionView) {
             SubscriptionView()
         }
+        .ignoresSafeArea(.all, edges: .all)
     }
     
     // MARK: - Search Bar

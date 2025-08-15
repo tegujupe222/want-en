@@ -10,7 +10,7 @@ struct PersonaListView: View {
     @State private var showingEditPersona = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 if personaManager.personas.isEmpty {
                     emptyStateView
@@ -19,7 +19,7 @@ struct PersonaListView: View {
                 }
             }
             .navigationTitle("People")
-            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
@@ -42,6 +42,7 @@ struct PersonaListView: View {
                 SetupPersonaView(editingPersona: persona)
             }
         }
+        .ignoresSafeArea(.all, edges: .all)
         .alert("Persona Details", isPresented: $showingPersonaDetail) {
             Button("Edit") {
                 editingPersona = selectedPersona

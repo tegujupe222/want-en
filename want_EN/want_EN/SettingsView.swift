@@ -10,7 +10,7 @@ struct SettingsView: View {
     @State private var serverValidationEnabled = true
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 LazyVStack(spacing: 0) {
                     // AI Settings Section
@@ -210,6 +210,8 @@ struct SettingsView: View {
         .sheet(isPresented: $showingAbout) {
             AboutView()
         }
+        .navigationBarTitleDisplayMode(.large)
+        .ignoresSafeArea(.all, edges: .all)
     }
 }
 
@@ -217,7 +219,7 @@ struct AboutView: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 VStack(spacing: 24) {
                     Image(systemName: "bubble.left.and.bubble.right.fill")

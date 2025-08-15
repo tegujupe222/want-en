@@ -37,6 +37,7 @@ struct ChatView: View {
             setupChatWithRetry()
         }
         .background(Color(.systemBackground))
+        .ignoresSafeArea(.all, edges: .all)
         .alert("Subscription Required", isPresented: $viewModel.showSubscriptionAlert) {
             Button("Open Settings") {
                 // Open settings screen
