@@ -5,7 +5,9 @@ import SwiftUI
 class ChatViewModel: ObservableObject {
     @Published var messages: [ChatMessage] = []
     @Published var selectedPersona: UserPersona?
+    @Published var currentMessage = ""
     @Published var isTyping = false
+    @Published var isLoading = false
     @Published var showSubscriptionAlert = false
     @Published var subscriptionAlertMessage = ""
     
@@ -14,20 +16,24 @@ class ChatViewModel: ObservableObject {
     private let personaManager = PersonaManager.shared
     private let chatRoomManager = ChatRoomManager()
     
+    // MARK: - Persistence Keys
+    private let messagesKey = "chat_messages"
+    private let currentPersonaKey = "current_persona_id"
+    
     // Error handling
     @Published var showError = false
     @Published var errorMessage = ""
     
     init() {
         print("🔄 ChatViewModel initialization completed")
+        loadPersistedData()
     }
     
     // MARK: - Public Methods
     
     func loadChatHistory(for persona: UserPersona) {
         selectedPersona = persona
-        // For now, start with empty messages
-        messages = []
+        loadMessagesForPersona(persona)
         print("💬 Persona conversation loading: \(persona.name)")
         print("✅ Conversation loading completed: \(messages.count) messages")
     }
@@ -43,6 +49,7 @@ class ChatViewModel: ObservableObject {
         )
         
         messages.append(userMessage)
+        saveMessages() // Auto-save when message is added
         
         print("📤 Sending message: \(content)")
         print("📤 Message sending started: \(content)")
@@ -98,6 +105,7 @@ class ChatViewModel: ObservableObject {
             )
             
             messages.append(aiMessage)
+            saveMessages() // Auto-save when AI response is added
             
             print("✅ AI response generated successfully")
             
@@ -197,6 +205,92 @@ class ChatViewModel: ObservableObject {
             print("💬 Subscription status: \(subscriptionManager.subscriptionStatus)")
         }
     }
+    
+    // MARK: - Conversation Management
+    
+    func clearConversation() async {
+        messages = []
+        currentMessage = ""
+        saveMessages()
+        print("🗑️ Conversation cleared")
+    }
+    
+    func loadConversation(for persona: UserPersona) {
+        selectedPersona = persona
+        loadMessagesForPersona(persona)
+        currentMessage = ""
+        print("💬 Conversation loaded for persona: \(persona.name)")
+    }
+    
+    // MARK: - Persistence Methods
+    
+    private func loadPersistedData() {
+        // Load current persona
+        if let personaId = UserDefaults.standard.string(forKey: currentPersonaKey),
+           let persona = personaManager.getPersona(by: personaId) {
+            selectedPersona = persona
+            loadMessagesForPersona(persona)
+            print("📱 Loaded persisted persona: \(persona.name)")
+        }
+    }
+    
+    private func loadMessagesForPersona(_ persona: UserPersona) {
+        let key = "chat_messages_\(persona.id)"
+        if let data = UserDefaults.standard.data(forKey: key) {
+            do {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .secondsSince1970
+                let loadedMessages = try decoder.decode([ChatMessage].self, from: data)
+                messages = loadedMessages
+                print("📱 Loaded \(messages.count) messages for persona: \(persona.name)")
+            } catch {
+                print("❌ Failed to load messages for persona \(persona.name): \(error)")
+                messages = []
+            }
+        } else {
+            messages = []
+            print("📱 No saved messages found for persona: \(persona.name)")
+        }
+    }
+    
+    private func saveMessages() {
+        guard let persona = selectedPersona else { return }
+        
+        let key = "chat_messages_\(persona.id)"
+        do {
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .secondsSince1970
+            let data = try encoder.encode(messages)
+            UserDefaults.standard.set(data, forKey: key)
+            
+            // Save current persona ID
+            UserDefaults.standard.set(persona.id, forKey: currentPersonaKey)
+            
+            print("💾 Saved \(messages.count) messages for persona: \(persona.name)")
+        } catch {
+            print("❌ Failed to save messages for persona \(persona.name): \(error)")
+        }
+    }
+    
+    func saveOnAppWillTerminate() {
+        saveMessages()
+        print("💾 Messages saved on app termination")
+    }
+    
+    func switchToPersona(_ persona: UserPersona) {
+        selectedPersona = persona
+        loadConversation(for: persona)
+        print("🔄 Switched to persona: \(persona.name)")
+    }
+    
+    func loadAIConversation() {
+        // Load AI conversation without specific persona
+        messages = []
+        currentMessage = ""
+        print("🤖 AI conversation loaded")
+    }
+    
+
     
     // MARK: - Error Handling
     

@@ -42,7 +42,7 @@ struct ChatRoomListView: View {
             .navigationTitle("Chats")
             .navigationBarTitleDisplayMode(.large)
             .navigationDestination(for: ChatDestination.self) { destination in  // ✅ Using NavigationDestination
-                ChatView(isAIMode: destination.isAIMode, persona: destination.persona)
+                ChatView(isAIMode: destination.isAIMode, persona: destination.persona, chatViewModel: chatViewModel)
             }
         }
         .sheet(isPresented: $showingSubscriptionView) {
@@ -209,8 +209,26 @@ struct ChatRoomItemView: View {
     @State private var lastMessage: String = ""
     @State private var messageCount: Int = 0
     
+    private var messages: [ChatMessage] {
+        let key = "chat_messages_\(persona.id)"
+        if let data = UserDefaults.standard.data(forKey: key) {
+            do {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .secondsSince1970
+                return try decoder.decode([ChatMessage].self, from: data)
+            } catch {
+                print("❌ Failed to load messages for display: \(error)")
+                return []
+            }
+        }
+        return []
+    }
+    
     var body: some View {
         Button(action: onTap) {
+            let messages = self.messages
+            let lastMessage = messages.last?.content ?? ""
+            let messageCount = messages.count
             HStack(spacing: 16) {
                 // Avatar
                 AvatarView(
@@ -299,11 +317,24 @@ struct ChatRoomItemView: View {
     }
     
     private func loadChatInfo() {
-        // Load chat info
-        messageCount = 0 // Simplified for now
-        
-        // Simplified for now
-        lastMessage = "No messages yet"
+        // Load chat info from UserDefaults
+        let key = "chat_messages_\(persona.id)"
+        if let data = UserDefaults.standard.data(forKey: key) {
+            do {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .secondsSince1970
+                let messages = try decoder.decode([ChatMessage].self, from: data)
+                messageCount = messages.count
+                lastMessage = messages.last?.content ?? "No messages yet"
+            } catch {
+                print("❌ Failed to load chat info: \(error)")
+                messageCount = 0
+                lastMessage = "No messages yet"
+            }
+        } else {
+            messageCount = 0
+            lastMessage = "No messages yet"
+        }
     }
 }
 

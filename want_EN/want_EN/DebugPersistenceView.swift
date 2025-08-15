@@ -82,7 +82,7 @@ struct DebugPersistenceView: View {
                     
                     Button("🗑️ Clear All") {
                         Task { @MainActor in
-                            chatViewModel.clearConversation()
+                            await chatViewModel.clearConversation()
                             addLog("全データクリア")
                         }
                     }
@@ -159,7 +159,9 @@ struct DebugPersistenceView: View {
         // ✅ 修正: currentMessageに設定してからsendMessage()を呼び出し
         let message = "テスト: \(testMessage) (\(Date().formatted(.dateTime.hour().minute().second())))"
         chatViewModel.currentMessage = message
-        chatViewModel.sendMessage()
+        Task {
+            await chatViewModel.sendMessage(message)
+        }
         
         addLog("メッセージ追加: \(testMessage)")
         testMessage = ""

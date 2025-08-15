@@ -59,7 +59,7 @@ want is an app that lets you create custom personas (characters) and enjoy conve
 - iPhone and iPad compatible
 - Requires iOS 18.5 or later
 
-## 🆕 Version 1.0.4 Updates
+## 🆕 Version 1.0.5 Updates
 
 - **Price adjustment**: Reduced from $5.99 to $1.99 for more affordable access
 - **UI improvements**: Optimized subscription screen display

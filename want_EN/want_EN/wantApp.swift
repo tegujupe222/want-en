@@ -56,8 +56,8 @@ struct WantENApp: App {
     private func saveAllData() {
         print("💾 Starting data save")
         
-        // Save ChatViewModel
-        // Save functionality removed for now
+        // Save ChatViewModel data
+        chatViewModel.saveOnAppWillTerminate()
         
         // Force UserDefaults synchronization
         UserDefaults.standard.synchronize()

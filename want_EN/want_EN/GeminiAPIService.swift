@@ -29,7 +29,7 @@ class GeminiAPIService {
         emotionContext: String? = nil
     ) async throws -> String {
         
-        print("🤖 Gemini 2.5 Flash Lite API call started via Vercel proxy")
+        print("🤖 Gemini 2.0 Flash Lite API call started via Vercel proxy")
         
         // Build the prompt with persona context
         let prompt = buildPrompt(persona: persona, conversationHistory: conversationHistory, userMessage: userMessage, emotionContext: emotionContext)

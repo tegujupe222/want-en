@@ -208,6 +208,19 @@ class SubscriptionManager: ObservableObject {
         // This function is expected to be called from settings screen
         print("🔧 Server-side validation setting changed: \(enabled)")
     }
+    
+    /// Restore purchases
+    func restorePurchases() async {
+        print("🔄 Restoring purchases...")
+        
+        do {
+            try await AppStore.sync()
+            await updateSubscriptionStatus()
+            print("✅ Purchases restored successfully")
+        } catch {
+            print("❌ Failed to restore purchases: \(error)")
+        }
+    }
 }
 
 enum SubscriptionStatus: String, CaseIterable {

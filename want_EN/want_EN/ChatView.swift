@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ChatView: View {
-    @StateObject private var viewModel = ChatViewModel()
+    @StateObject private var viewModel: ChatViewModel
     @Environment(\.dismiss) private var dismiss
     
     let isAIMode: Bool
@@ -12,9 +12,10 @@ struct ChatView: View {
     @State private var initializationAttempts = 0  // ✅ Track initialization attempts
     @State private var showError = false  // ✅ Error display flag
     
-    init(isAIMode: Bool = false, persona: UserPersona? = nil) {
+    init(isAIMode: Bool = false, persona: UserPersona? = nil, chatViewModel: ChatViewModel? = nil) {
         self.isAIMode = isAIMode
         self.selectedPersona = persona
+        self._viewModel = StateObject(wrappedValue: chatViewModel ?? ChatViewModel())
         print("🔧 ChatView init - persona: \(persona?.name ?? "nil"), isAIMode: \(isAIMode)")
     }
     
@@ -187,7 +188,9 @@ struct ChatView: View {
                 }
                 
                 Button("Clear Conversation") {
-                    viewModel.clearConversation()
+                    Task {
+                        await viewModel.clearConversation()
+                    }
                 }
                 
                 Button("Debug Info") {
@@ -277,7 +280,7 @@ struct ChatView: View {
                             sendMessage()
                         }
                     }
-                    .onChange(of: viewModel.currentMessage) { oldValue, newValue in
+                    .onChange(of: viewModel.currentMessage) { _, newValue in
                         // Character limit
                         if newValue.count > 500 {
                             viewModel.currentMessage = String(newValue.prefix(500))
@@ -393,7 +396,9 @@ struct ChatView: View {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         
         // Send message
-        viewModel.sendMessage()
+        Task {
+            await viewModel.sendMessage(viewModel.currentMessage)
+        }
     }
 }
 

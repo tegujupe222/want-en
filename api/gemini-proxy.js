@@ -34,7 +34,7 @@ export default async function handler(req, res) {
 
     // Initialize Gemini API
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-lite' });
 
     // Build conversation context
     let conversationContext = '';
@@ -61,7 +61,7 @@ export default async function handler(req, res) {
     // Create the full prompt
     const fullPrompt = conversationContext + `Current message: ${prompt}`;
 
-    console.log('🤖 Sending request to Gemini 2.5 Flash Lite');
+    console.log('🤖 Sending request to Gemini 2.0 Flash Lite');
     console.log('📝 Prompt length:', fullPrompt.length, 'characters');
 
     // Generate response
@@ -76,7 +76,7 @@ export default async function handler(req, res) {
     res.status(200).json({
       success: true,
       response: text,
-      model: 'gemini-2.0-flash-exp'
+      model: 'gemini-2.0-flash-lite'
     });
 
   } catch (error) {
