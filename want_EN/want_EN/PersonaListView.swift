@@ -296,7 +296,7 @@ struct PersonaSidebarRowView: View {
 
 struct CreatePersonaView: View {
     @StateObject private var personaManager = PersonaManager.shared
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) private var dismiss
     
     @State private var name = ""
     @State private var relationship = ""
@@ -309,7 +309,7 @@ struct CreatePersonaView: View {
     @State private var selectedColor = Color.blue
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section(header: Text("Basic Information")) {
                     TextField("Name", text: $name)
@@ -346,7 +346,7 @@ struct CreatePersonaView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") {
-                        presentationMode.wrappedValue.dismiss()
+                        dismiss()
                     }
                 }
                 
@@ -376,7 +376,7 @@ struct CreatePersonaView: View {
         )
         
         personaManager.addPersona(newPersona)
-        presentationMode.wrappedValue.dismiss()
+        dismiss()
     }
 }
 

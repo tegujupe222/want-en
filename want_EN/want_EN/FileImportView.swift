@@ -11,7 +11,7 @@ struct FileImportView: View {
     @State private var dragOver = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(spacing: 24) {
                 if lineAnalyzer.isAnalyzing {
                     analysisProgressView
@@ -314,7 +314,7 @@ struct InstructionsView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     // LINE export instructions

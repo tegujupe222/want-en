@@ -34,7 +34,7 @@ struct ModernImagePicker: View {
 // MARK: - Legacy Image Picker (iOS 15 and below)
 struct LegacyImagePicker: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage?
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) private var dismiss
     
     let onImageSelected: (UIImage) -> Void
     
@@ -68,11 +68,11 @@ struct LegacyImagePicker: UIViewControllerRepresentable {
                 parent.onImageSelected(originalImage)
             }
             
-            parent.presentationMode.wrappedValue.dismiss()
+            parent.dismiss()
         }
         
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            parent.presentationMode.wrappedValue.dismiss()
+            parent.dismiss()
         }
     }
 }

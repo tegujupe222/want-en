@@ -6,7 +6,7 @@ struct DebugPersistenceView: View {
     @State private var logMessages: [String] = []
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(spacing: 16) {
                 Text("Persistence Debug Test")
                     .font(.title)

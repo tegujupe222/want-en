@@ -358,7 +358,7 @@ struct AppSettingsView: View {
     @State private var showingSubscriptionView = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section {
                     VStack(spacing: 0) {
@@ -432,7 +432,7 @@ struct AppSettingsView: View {
                                 .foregroundColor(.blue)
                             Text("Version")
                             Spacer()
-                            Text("1.0.3")
+                            Text("1.0.5")
                                 .foregroundColor(.secondary)
                         }
                     }

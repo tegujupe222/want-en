@@ -1,6 +1,6 @@
 {
   "name": "want_EN",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "English version of the want AI chat app - Create and chat with personalized personas",
   "main": "index.js",
   "scripts": {

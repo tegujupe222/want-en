@@ -4,6 +4,10 @@ struct MainTabView: View {
     @StateObject private var personaManager = PersonaManager.shared
     @State private var selectedTab = 0
     
+    init() {
+        print("🎯 MainTabView init called")
+    }
+    
     var body: some View {
         TabView(selection: $selectedTab) {
             // Chat tab - using ChatRoomListView
@@ -16,6 +20,9 @@ struct MainTabView: View {
             
             // AI tab
             AIView()
+                .onAppear {
+                    print("🎯 AI tab appeared")
+                }
                 .tabItem {
                     Image(systemName: "brain.head.profile")
                     Text("AI")
@@ -39,6 +46,12 @@ struct MainTabView: View {
                 .tag(3)
         }
         .ignoresSafeArea(.all, edges: .all)
+        .onChange(of: selectedTab) { oldValue, newValue in
+            print("🎯 Tab changed to: \(newValue)")
+            if newValue == 1 {
+                print("🎯 AI tab selected")
+            }
+        }
     }
 }
 

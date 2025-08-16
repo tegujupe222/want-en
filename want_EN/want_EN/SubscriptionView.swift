@@ -288,7 +288,7 @@ struct SubscriptionView: View {
         .navigationTitle("Subscription")
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showingLegalView) {
-            NavigationView {
+            NavigationStack {
                 LegalView()
                     .navigationTitle("Legal Documents")
                     .navigationBarTitleDisplayMode(.inline)
@@ -442,7 +442,7 @@ struct SubscriptionInfoRow: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         SubscriptionView()
     }
 } 

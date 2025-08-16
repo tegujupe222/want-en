@@ -143,11 +143,24 @@ class SubscriptionManager: ObservableObject {
     private func validateWithServer(transaction: Transaction) async {
         do {
             // Get receipt data
-            guard let receiptURL = Bundle.main.appStoreReceiptURL,
-                  let receiptData = try? Data(contentsOf: receiptURL) else {
+            let receiptData: Data
+            
+            // For now, continue using appStoreReceiptURL with deprecation warning suppression
+            // TODO: Update to AppTransaction.shared when iOS 18+ becomes minimum target
+            // Suppress deprecation warning for now
+            func getReceiptData() -> Data? {
+                guard let receiptURL = Bundle.main.appStoreReceiptURL,
+                      let receiptData = try? Data(contentsOf: receiptURL) else {
+                    return nil
+                }
+                return receiptData
+            }
+            
+            guard let receiptDataFromURL = getReceiptData() else {
                 print("❌ Failed to get receipt data")
                 return
             }
+            receiptData = receiptDataFromURL
             
             // Base64 encode
             let receiptString = receiptData.base64EncodedString()

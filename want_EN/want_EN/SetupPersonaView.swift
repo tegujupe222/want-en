@@ -86,8 +86,8 @@ struct SetupPersonaView: View {
                 // Don't use NavigationView for edit mode
                 mainContent
             } else {
-                // Use NavigationView only for new creation
-                NavigationView {
+                // Use NavigationStack only for new creation
+                NavigationStack {
                     mainContent
                 }
             }

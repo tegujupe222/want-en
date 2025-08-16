@@ -2,59 +2,175 @@ import SwiftUI
 
 struct AIView: View {
     @StateObject private var personaManager = PersonaManager.shared
-    @State private var selectedPersona: UserPersona?
+    @State private var selectedPersona: UserPersona? {
+        didSet {
+            print("📱 selectedPersona didSet triggered")
+            if let persona = selectedPersona {
+                print("📱 selectedPersona changed to: \(persona.name) (ID: \(persona.id))")
+            } else {
+                print("📱 selectedPersona cleared")
+            }
+            print("📱 selectedPersona didSet completed")
+        }
+    }
+    
+    // Initialize with first persona if available
+    private var initialPersona: UserPersona? {
+        personaManager.personas.first
+    }
     @State private var showingChat = false
     @State private var showingPersonaDetail = false
     
+    init() {
+        print("🎯 AIView init called")
+        print("🎯 AIView init - personas count: \(PersonaManager.shared.personas.count)")
+    }
+    
     var body: some View {
-        NavigationSplitView {
-            // Sidebar
-            VStack(spacing: 0) {
-                // Header
-                headerView
-                
-                if personaManager.personas.isEmpty {
-                    // Empty state
-                    emptyStateView
-                } else {
-                    // Persona selection list
-                    personaListSidebar
+        let isIPad = UIDevice.current.userInterfaceIdiom == .pad
+        
+        Group {
+            if isIPad {
+                // iPad layout - use simpler navigation
+                NavigationStack {
+                HStack(spacing: 0) {
+                    // Sidebar
+                    VStack(spacing: 0) {
+                        headerView
+                        
+                        if personaManager.personas.isEmpty {
+                            emptyStateView
+                        } else {
+                            personaListSidebar
+                        }
+                        
+                        Spacer()
+                    }
+                    .frame(width: 300)
+                    .background(Color(.systemGroupedBackground))
+                    
+                    // Detail view
+                    if let selected = selectedPersona {
+                        ChatView(isAIMode: true, persona: selected)
+                            .navigationTitle(selected.name)
+                            .navigationBarTitleDisplayMode(.inline)
+                    } else {
+                        VStack(spacing: 20) {
+                            Image(systemName: "person.crop.circle.badge.questionmark")
+                                .font(.system(size: 60))
+                                .foregroundColor(.gray)
+                            
+                            Text("Select a persona from the sidebar")
+                                .font(.headline)
+                                .foregroundColor(.primary)
+                            
+                            Text("Choose someone to start an AI chat with")
+                                .font(.body)
+                                .foregroundColor(.secondary)
+                                .multilineTextAlignment(.center)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    }
                 }
-                
-                Spacer()
+                .navigationTitle("AI Chat")
+                .onAppear {
+                    print("🎯 AIView appeared (iPad), personas count: \(personaManager.personas.count)")
+                    if selectedPersona == nil && !personaManager.personas.isEmpty {
+                        selectedPersona = personaManager.personas.first
+                        print("🎯 Auto-selecting first persona (iPad): \(personaManager.personas.first?.name ?? "unknown")")
+                    }
+                }
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                    print("🎯 AIView app became active (iPad)")
+                }
+                .task {
+                    print("🎯 AIView task started (iPad)")
+                }
+                .onChange(of: personaManager.personas) { oldValue, newValue in
+                    print("🎯 Personas changed (iPad), count: \(newValue.count)")
+                    if selectedPersona == nil && !newValue.isEmpty {
+                        selectedPersona = newValue.first
+                        print("🎯 Auto-selecting first persona after change (iPad): \(newValue.first?.name ?? "unknown")")
+                    }
+                }
+                .sheet(isPresented: $showingPersonaDetail) {
+                    if let persona = selectedPersona {
+                        PersonaDetailView(persona: persona)
+                    }
+                }
             }
-            .navigationTitle("AI Chat")
-        } detail: {
-            // Detail view
-            if let selected = selectedPersona {
-                NavigationView {
-                    ChatView(isAIMode: true, persona: selected)
-                        .navigationTitle(selected.name)
-                        .navigationBarTitleDisplayMode(.inline)
-                }
             } else {
-                VStack(spacing: 20) {
-                    Image(systemName: "person.crop.circle.badge.questionmark")
-                        .font(.system(size: 60))
-                        .foregroundColor(.gray)
+                // iPhone layout - use NavigationSplitView
+                NavigationSplitView {
+                // Sidebar
+                VStack(spacing: 0) {
+                    // Header
+                    headerView
                     
-                    Text("Select a persona from the sidebar")
-                        .font(.headline)
-                        .foregroundColor(.primary)
+                    if personaManager.personas.isEmpty {
+                        // Empty state
+                        emptyStateView
+                    } else {
+                        // Persona selection list
+                        personaListSidebar
+                    }
                     
-                    Text("Choose someone to start an AI chat with")
-                        .font(.body)
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
+                    Spacer()
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .navigationTitle("AI Chat")
+            } detail: {
+                // Detail view
+                if let selected = selectedPersona {
+                    NavigationStack {
+                        ChatView(isAIMode: true, persona: selected)
+                            .navigationTitle(selected.name)
+                            .navigationBarTitleDisplayMode(.inline)
+                    }
+                } else {
+                    VStack(spacing: 20) {
+                        Image(systemName: "person.crop.circle.badge.questionmark")
+                            .font(.system(size: 60))
+                            .foregroundColor(.gray)
+                        
+                        Text("Select a persona from the sidebar")
+                            .font(.headline)
+                            .foregroundColor(.primary)
+                        
+                        Text("Choose someone to start an AI chat with")
+                            .font(.body)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+            }
+            .navigationSplitViewStyle(.balanced)
+            .onAppear {
+                print("🎯 AIView appeared, personas count: \(personaManager.personas.count)")
+                if selectedPersona == nil && !personaManager.personas.isEmpty {
+                    selectedPersona = personaManager.personas.first
+                    print("🎯 Auto-selecting first persona: \(personaManager.personas.first?.name ?? "unknown")")
+                }
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                print("🎯 AIView app became active")
+            }
+            .task {
+                print("🎯 AIView task started")
+            }
+            .onChange(of: personaManager.personas) { oldValue, newValue in
+                print("🎯 Personas changed, count: \(newValue.count)")
+                if selectedPersona == nil && !newValue.isEmpty {
+                    selectedPersona = newValue.first
+                    print("🎯 Auto-selecting first persona after change: \(newValue.first?.name ?? "unknown")")
+                }
+            }
+            .sheet(isPresented: $showingPersonaDetail) {
+                if let persona = selectedPersona {
+                    PersonaDetailView(persona: persona)
+                }
             }
         }
-        .navigationSplitViewStyle(.balanced)
-        .sheet(isPresented: $showingPersonaDetail) {
-            if let persona = selectedPersona {
-                PersonaDetailView(persona: persona)
-            }
         }
     }
     
@@ -101,20 +217,30 @@ struct AIView: View {
     // MARK: - Persona List Sidebar
     
     private var personaListSidebar: some View {
-        List(personaManager.personas, id: \.id, selection: $selectedPersona) { persona in
+        List(personaManager.personas, id: \.id) { persona in
             PersonaSidebarCardView(
                 persona: persona,
+                selectedPersona: selectedPersona,
                 onTap: {
+                    print("🎯 Setting selectedPersona to: \(persona.name)")
+                    print("🎯 Previous selectedPersona: \(selectedPersona?.name ?? "nil")")
+                    print("🎯 New persona ID: \(persona.id)")
+                    print("🎯 Previous persona ID: \(selectedPersona?.id ?? "nil")")
                     selectedPersona = persona
+                    print("🎯 selectedPersona updated to: \(selectedPersona?.name ?? "nil")")
                 },
                 onInfo: {
                     selectedPersona = persona
                     showingPersonaDetail = true
                 }
             )
+            .listRowInsets(EdgeInsets())
+            .listRowBackground(Color.clear)
         }
         .listStyle(SidebarListStyle())
-        .navigationBarHidden(true)
+        .onAppear {
+            print("🎯 personaListSidebar appeared, personas count: \(personaManager.personas.count)")
+        }
     }
 }
 
@@ -122,6 +248,7 @@ struct AIView: View {
 
 struct PersonaSidebarCardView: View {
     let persona: UserPersona
+    let selectedPersona: UserPersona?
     let onTap: () -> Void
     let onInfo: () -> Void
     
@@ -164,16 +291,26 @@ struct PersonaSidebarCardView: View {
             Spacer()
             
             // Info button
-            Button(action: onInfo) {
+            Button(action: {
+                print("ℹ️ Info button tapped for: \(persona.name)")
+                onInfo()
+            }) {
                 Image(systemName: "info.circle")
                     .font(.caption)
                     .foregroundColor(.blue)
             }
             .buttonStyle(PlainButtonStyle())
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, 8)
+        .padding(.horizontal, 12)
+        .background(selectedPersona?.id == persona.id ? Color.blue.opacity(0.1) : Color.clear)
+        .cornerRadius(8)
         .contentShape(Rectangle())
         .onTapGesture {
+            print("🔘 Persona tapped: \(persona.name)")
+            print("🔘 Current selectedPersona: \(selectedPersona?.name ?? "nil")")
+            print("🔘 Tapped persona ID: \(persona.id)")
+            print("🔘 Selected persona ID: \(selectedPersona?.id ?? "nil")")
             onTap()
         }
     }
@@ -181,10 +318,10 @@ struct PersonaSidebarCardView: View {
 
 struct PersonaDetailView: View {
     let persona: UserPersona
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
                     // Avatar
@@ -243,7 +380,7 @@ struct PersonaDetailView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(
                 trailing: Button("Done") {
-                    presentationMode.wrappedValue.dismiss()
+                    dismiss()
                 }
             )
         }
